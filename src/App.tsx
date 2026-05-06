@@ -13,6 +13,13 @@ import BlogList from './pages/BlogList';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
 
+// Admin Pages
+import AdminLayout from './layouts/AdminLayout';
+import Dashboard from './pages/admin/Dashboard';
+import BlogManager from './pages/admin/BlogManager';
+import PostEditor from './pages/admin/PostEditor';
+import ProjectManager from './pages/admin/ProjectManager';
+
 function Layout() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -33,6 +40,21 @@ function Layout() {
   }, [location.pathname]);
 
   const isContactPage = location.pathname === '/contact';
+  const isAdminRoute = location.pathname.startsWith('/admin');
+
+  if (isAdminRoute) {
+    return (
+      <Routes location={location}>
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="posts" element={<BlogManager />} />
+          <Route path="posts/new" element={<PostEditor />} />
+          <Route path="posts/edit/:id" element={<PostEditor />} />
+          <Route path="projects" element={<ProjectManager />} />
+        </Route>
+      </Routes>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">

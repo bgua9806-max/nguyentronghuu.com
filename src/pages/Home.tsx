@@ -4,6 +4,7 @@ import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { STAGGER, STAGGER_ITEM, FADE_UP, BLOG_POSTS } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import regeneratedImage from '../assets/images/regenerated_image_1778087112848.png';
 
 export default function Home() {
   const latestPosts = BLOG_POSTS.slice(0, 3);
@@ -80,6 +81,63 @@ export default function Home() {
               <span className="text-zinc-300">•</span>
             </React.Fragment>
           ))}
+        </div>
+      </section>
+
+      <section className="py-24 md:py-32 bg-zinc-50 border-b border-zinc-200 px-6 md:px-12 overflow-hidden">
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial="initial"
+            whileInView="whileInView"
+            variants={FADE_UP}
+            viewport={{ once: true }}
+            className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center"
+          >
+            <div className="lg:col-span-5 order-2 lg:order-1 relative">
+              <div className="aspect-[4/5] overflow-hidden rounded-md bg-zinc-200 shadow-lg">
+                <img 
+                  referrerPolicy="no-referrer"
+                  src={regeneratedImage} 
+                  alt="Nguyễn Trọng Hữu" 
+                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
+                />
+              </div>
+              <div className="absolute -bottom-6 -right-2 lg:-right-6 bg-white/95 backdrop-blur-sm p-4 md:p-5 shadow-lg rounded-sm border border-zinc-100 min-w-[160px]">
+                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Kinh nghiệm</p>
+                <p className="font-serif text-2xl md:text-3xl font-bold text-zinc-900 leading-none">5+ Năm</p>
+              </div>
+            </div>
+            
+            <div className="lg:col-span-7 order-1 lg:order-2">
+              <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-6 lg:mb-8">Nguyễn Trọng Hữu là ai?</h2>
+              
+              <p className="text-2xl md:text-3xl leading-snug text-zinc-900 font-serif font-medium mb-8">
+                Mình là một chuyên gia tư vấn công nghệ, giải pháp số và xây dựng nền tảng.
+              </p>
+              
+              <div className="space-y-6 text-base md:text-lg text-zinc-600 mb-10">
+                <p>
+                  Niềm đam mê của mình là biến những vấn đề phức tạp thành các giải pháp công nghệ đơn giản, tinh tế và mang lại hiệu quả cao nhất cho doanh nghiệp.
+                </p>
+                <p>
+                  Từ việc kiến tạo các hệ thống Web, App toàn diện đến tích hợp AI Automation, mình luôn đặt yếu tố <span className="text-zinc-900 italic font-medium">"Tối ưu hóa"</span> và <span className="text-zinc-900 italic font-medium">"Trải nghiệm người dùng"</span> lên hàng đầu.
+                </p>
+                <p>
+                  Ngoài công việc, mình còn là một người thích chia sẻ kiến thức về Marketing, Quản trị hệ thống và các góc nhìn về Công nghệ qua blog cá nhân này.
+                </p>
+              </div>
+              
+              <div>
+                <Link 
+                  to="/about" 
+                  className="inline-flex items-center space-x-2 border-b-2 border-zinc-900 pb-1 text-sm font-medium text-zinc-900 hover:text-zinc-600 hover:border-zinc-600 transition-colors"
+                >
+                  <span>Biết thêm về mình</span>
+                  <ArrowRight size={16} />
+                </Link>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
