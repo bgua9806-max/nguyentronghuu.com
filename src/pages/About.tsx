@@ -27,10 +27,14 @@ const EXPERIENCES = [
 ];
 
 const SKILLS = [
+  "Triển khai Hệ thống AI Automation",
+  "Xây dựng Web & Mobile App",
+  "Thiết kế Kiến trúc Hệ thống",
+  "Tư vấn Công nghệ Doanh nghiệp",
   "Performance Marketing (Facebook, Google, TikTok)",
   "Search Engine Optimization (SEO & ASO)",
   "Conversion Rate Optimization (CRO)",
-  "Data Analytics & Tracking (GA4, Mixpanel, GTM)",
+  "Data Analytics & Tracking (GA4, Mixpanel)",
   "Marketing Automation & CRM",
   "UI/UX Strategy & User Journey Mapping"
 ];
@@ -46,19 +50,19 @@ export default function About() {
     >
       <SEO 
         title="Giới thiệu" 
-        description="Khám phá câu chuyện, triết lý thiết kế và kinh nghiệm làm việc của Nguyễn Trọng Hữu - Chuyên gia Marketing." 
+        description="Khám phá câu chuyện, triết lý và kinh nghiệm làm việc của Nguyễn Trọng Hữu - Chuyên gia tư vấn Giải pháp Công nghệ & AI Automation." 
       />
 
       {/* Intro Section */}
-      <section className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-6xl mx-auto border-b border-zinc-100">
+      <section className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-7xl mx-auto border-b border-zinc-100">
         <motion.div 
           initial="initial"
           whileInView="whileInView"
           variants={FADE_UP}
-          className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center"
+          className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start"
         >
-          <div className="md:col-span-6 lg:col-span-5">
-             <div className="aspect-[4/5] rounded-sm overflow-hidden bg-zinc-100">
+          <div className="w-full">
+             <div className="aspect-[4/3] md:aspect-[4/5] rounded-sm overflow-hidden bg-zinc-100">
                <img 
                  src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200" 
                  alt="Workspace" 
@@ -66,16 +70,16 @@ export default function About() {
                />
              </div>
           </div>
-          <div className="md:col-span-6 lg:col-span-7 md:pr-12">
+          <div className="w-full lg:pt-8">
             <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-8">Câu chuyện & Triết lý</h2>
             <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8">
-              "Tiếp thị hiệu quả không ồn ào, mà là sự hiện diện đúng chỗ, đúng thời điểm."
+              "Công nghệ chỉ thực sự tỏa sáng khi nó giải quyết đúng nỗi đau của bài toán doanh nghiệp."
             </h3>
             <p className="text-lg text-zinc-600 leading-relaxed mb-6">
-              Với hơn 8 năm kinh nghiệm trong lĩnh vực Digital Marketing, tôi tin rằng sự phát triển bền vững đến từ việc thấu hiểu khách hàng một cách sâu sắc thay vì chỉ dựa vào những con số khô khan. 
+              Với xuất phát điểm kết hợp giữa tư duy hệ thống và thấu hiểu trải nghiệm số, mình tin rằng bất cứ nền tảng ứng dụng hay giải pháp AI nào cũng cần được xây dựng xoay quanh người dùng.
             </p>
             <p className="text-lg text-zinc-600 leading-relaxed">
-              Tôi kết hợp sức mạnh của dữ liệu (Data-driven) với sự tinh tế trong trải nghiệm người dùng (UX) để xây dựng các chiếc lược tối ưu hóa mọi điểm chạm kỹ thuật số. Mục tiêu cuối cùng không chỉ là tăng trưởng chuyển đổi, mà còn là nâng tầm giá trị thương hiệu.
+              Mình tập trung vào việc tư vấn và kiến trúc phần mềm, phát triển các giải pháp Web, Mobile App chất lượng cao cùng các công cụ tự động hóa, trí tuệ nhân tạo (AI Automation) - biến những ý tưởng phức tạp thành những quy trình triển khai đơn giản, mang lại hiệu quả thực tế cho khách hàng.
             </p>
           </div>
         </motion.div>
@@ -83,7 +87,7 @@ export default function About() {
 
       {/* Metrics Section */}
       <section className="py-20 px-6 md:px-12 bg-zinc-50 border-b border-zinc-100">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-7xl mx-auto">
           <motion.div 
             initial="initial"
             whileInView="whileInView"
@@ -106,12 +110,12 @@ export default function About() {
       </section>
 
       {/* Experience Section */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto border-b border-zinc-100">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
-          <div className="md:col-span-4">
+      <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto border-b border-zinc-100">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="lg:col-span-4">
             <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest sticky top-32">Kinh nghiệm</h2>
           </div>
-          <div className="md:col-span-8 md:pl-12">
+          <div className="lg:col-span-8 lg:pl-12">
             <motion.div 
               initial="initial"
               whileInView="whileInView"
@@ -137,12 +141,12 @@ export default function About() {
       </section>
 
       {/* Expertise Section */}
-      <section className="py-24 px-6 md:px-12 max-w-6xl mx-auto">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
-          <div className="md:col-span-4">
+      <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <div className="lg:col-span-4">
             <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest">Chuyên môn</h2>
           </div>
-          <div className="md:col-span-8 md:pl-12">
+          <div className="lg:col-span-8 lg:pl-12">
             <motion.div 
               initial="initial"
               whileInView="whileInView"
@@ -166,7 +170,7 @@ export default function About() {
             >
               <h3 className="text-2xl font-serif text-zinc-900 mb-6">Sẵn sàng nâng tầm thương hiệu của bạn?</h3>
               <p className="text-zinc-600 mb-8 max-w-xl">
-                 Dù bạn cần một chiến lược Digital Marketing toàn diện hay muốn tối ưu hóa một điểm chạm cụ thể, tôi luôn sẵn sàng lắng nghe và đồng hành.
+                 Dù bạn cần một chiến lược Digital Marketing toàn diện hay muốn tối ưu hóa một điểm chạm cụ thể, mình luôn sẵn sàng lắng nghe và đồng hành.
               </p>
               <Link 
                 to="/contact"

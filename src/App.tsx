@@ -93,23 +93,38 @@ function Layout({ children }: { children: React.ReactNode }) {
               transition={{ duration: 0.3 }}
               className="fixed inset-0 z-40 bg-zinc-900 flex flex-col justify-between pt-32 pb-12 px-8 overflow-y-auto md:hidden"
             >
-              <div className="flex flex-col space-y-8 mt-4">
-                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.1 }}>
+              <motion.div 
+                className="flex flex-col space-y-8 mt-4"
+                initial="hidden"
+                animate="visible"
+                exit="hidden"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.1,
+                      delayChildren: 0.1
+                    }
+                  }
+                }}
+              >
+                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
                    <Link to="/" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Trang chủ</Link>
                  </motion.div>
-                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.2 }}>
+                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
                    <Link to="/about" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Giới thiệu</Link>
                  </motion.div>
-                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.3 }}>
+                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
                    <Link to="/projects" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Dự án</Link>
                  </motion.div>
-                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.4 }}>
+                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
                    <Link to="/blog" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Bài viết</Link>
                  </motion.div>
-                 <motion.div initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} transition={{ delay: 0.5 }}>
+                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
                    <Link to="/contact" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Liên hệ</Link>
                  </motion.div>
-              </div>
+              </motion.div>
 
               <motion.div 
                 initial={{ opacity: 0 }} 

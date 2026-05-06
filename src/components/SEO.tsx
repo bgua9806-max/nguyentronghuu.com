@@ -11,7 +11,7 @@ interface SEOProps {
 }
 
 export default function SEO({ title, description, name = 'Nguyễn Trọng Hữu', type = 'website', image, url }: SEOProps) {
-  const fullTitle = `${title} | Nguyễn Trọng Hữu - Chuyên gia Marketing`;
+  const fullTitle = `${title} | Nguyễn Trọng Hữu - Chuyên gia Công nghệ & AI`;
   const defaultImage = "https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png";
 
   return (

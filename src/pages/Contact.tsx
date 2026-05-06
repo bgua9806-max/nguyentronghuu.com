@@ -15,7 +15,7 @@ export default function Contact() {
     >
       <SEO 
         title="Liên hệ" 
-        description="Kết nối với Nguyễn Trọng Hữu để hợp tác, thảo luận về Marketing và xây dựng thương hiệu." 
+        description="Kết nối với Nguyễn Trọng Hữu để hợp tác, thảo luận về giải pháp phần mềm, Web, App và AI Automation cho doanh nghiệp." 
       />
 
       <div className="max-w-6xl mx-auto w-full">

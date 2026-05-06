@@ -17,7 +17,7 @@ export default function Home() {
     >
       <SEO 
         title="Trang chủ" 
-        description="Nguyễn Trọng Hữu - Chuyên gia Marketing và Chiến lược gia thương hiệu." 
+        description="Nguyễn Trọng Hữu - Chuyên gia nền tảng, xây dựng Web, Mobile App và hệ thống AI Automation." 
       />
 
       <section className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-6xl mx-auto">
@@ -29,17 +29,17 @@ export default function Home() {
         >
           <div className="max-w-2xl md:w-2/3">
             <motion.p variants={STAGGER_ITEM} className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">
-              Nguyễn Trọng Hữu &mdash; Chuyên gia Digital Marketing
+              Mình là Nguyễn Trọng Hữu
             </motion.p>
             <motion.h1 
               variants={STAGGER_ITEM} 
-              className="text-5xl md:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-8"
+              className="text-4xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8"
             >
-              Chiến lược tiếp thị <br className="hidden md:block"/>
-              <span className="italic text-zinc-500">tinh tế</span> & có <span className="italic text-zinc-500">trọng tâm.</span>
+              Giải pháp công nghệ <br className="hidden md:block"/>
+              <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>
             </motion.h1>
-            <motion.p variants={STAGGER_ITEM} className="text-lg text-zinc-600 max-w-xl leading-relaxed mb-12">
-              Tôi giúp các thương hiệu hàng đầu xây dựng chiến lược Digital Marketing cân bằng hoàn hảo giữa hiệu quả tăng trưởng và trải nghiệm thương hiệu cao cấp.
+            <motion.p variants={STAGGER_ITEM} className="text-base md:text-lg text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12">
+              Chuyên gia tư vấn & phát triển hệ thống nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.
             </motion.p>
             <motion.div variants={STAGGER_ITEM}>
               <Link 
@@ -68,15 +68,15 @@ export default function Home() {
         <div className="animate-marquee inline-flex space-x-8 md:space-x-12 items-center">
           {[...Array(4)].map((_, i) => (
             <React.Fragment key={i}>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">SEO Strategy</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-400">System Architecture</span>
               <span className="text-zinc-300">•</span>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">Performance Marketing</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-400">Web & App Development</span>
               <span className="text-zinc-300">•</span>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">Conversion Optimization</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-400">AI Automation</span>
               <span className="text-zinc-300">•</span>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">Data Analytics</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-400">Tech Consulting</span>
               <span className="text-zinc-300">•</span>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">UI/UX Strategy</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-400">Marketing Strategy</span>
               <span className="text-zinc-300">•</span>
             </React.Fragment>
           ))}

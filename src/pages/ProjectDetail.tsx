@@ -1,17 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { PROJECTS_DATA, FADE_UP, STAGGER, STAGGER_ITEM } from '../data';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, Share2 } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 
 export default function ProjectDetail() {
   const { id } = useParams();
   const activeProject = PROJECTS_DATA.find(p => p.id === Number(id));
+  const [shareText, setShareText] = useState("Chia sẻ dự án");
 
   if (!activeProject) {
     return <Navigate to="/projects" replace />;
   }
+
+  const handleShare = () => {
+    navigator.clipboard.writeText(window.location.href);
+    setShareText("Đã chép link!");
+    setTimeout(() => setShareText("Chia sẻ dự án"), 2000);
+  };
 
   return (
     <motion.article 
@@ -19,7 +26,7 @@ export default function ProjectDetail() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-4xl mx-auto min-h-screen"
+      className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 lg:px-8 max-w-5xl mx-auto min-h-screen"
     >
       <SEO 
         title={activeProject.title} 
@@ -48,11 +55,11 @@ export default function ProjectDetail() {
             </span>
             <span className="text-sm font-medium text-zinc-400">{activeProject.year}</span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif text-zinc-900 mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-zinc-900 mb-6 md:mb-8 leading-tight">
             {activeProject.title}
           </h1>
           {activeProject.description && (
-             <p className="text-xl text-zinc-600 leading-relaxed max-w-3xl">
+             <p className="text-xl md:text-2xl text-zinc-600 leading-relaxed max-w-3xl">
                {activeProject.description}
              </p>
           )}
@@ -66,8 +73,8 @@ export default function ProjectDetail() {
           />
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12 md:gap-8">
-            <div className="md:col-span-1 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+            <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32 h-fit">
                 {activeProject.client && (
                     <div>
                         <h4 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2">Khách hàng</h4>
@@ -80,7 +87,7 @@ export default function ProjectDetail() {
                 </div>
             </div>
 
-            <div className="md:col-span-2 space-y-12">
+            <div className="lg:col-span-8 space-y-12 md:space-y-16">
                 {activeProject.challenge && (
                     <motion.div variants={STAGGER_ITEM}>
                         <h3 className="text-2xl font-serif text-zinc-900 mb-4">Thách thức</h3>
@@ -110,6 +117,16 @@ export default function ProjectDetail() {
                 )}
             </div>
         </div>
+
+        <motion.div variants={STAGGER_ITEM} className="mt-16 pt-8 border-t border-zinc-200">
+           <button 
+             onClick={handleShare}
+             className="flex items-center space-x-2 px-4 py-2 rounded-full border border-zinc-200 bg-transparent text-zinc-600 hover:bg-zinc-50 hover:text-zinc-900 transition-colors"
+           >
+             <Share2 size={18} />
+             <span className="font-medium">{shareText}</span>
+           </button>
+        </motion.div>
       </motion.div>
     </motion.article>
   );

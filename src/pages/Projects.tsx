@@ -11,11 +11,11 @@ export default function Projects() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="pt-32 pb-24 md:py-32 px-6 md:px-12 max-w-6xl mx-auto min-h-screen"
+      className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 xl:px-8 max-w-7xl mx-auto min-h-screen"
     >
       <SEO 
         title="Dự án" 
-        description="Tuyển tập các dự án nổi bật mà Nguyễn Trọng Hữu đã thực hiện và đóng góp." 
+        description="Tuyển tập các dự án nổi bật về công nghệ, hệ thống phần mềm và truyền thông mà Nguyễn Trọng Hữu đã thực hiện." 
       />
 
       <motion.div
@@ -27,7 +27,7 @@ export default function Projects() {
         <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest">Tuyển tập Dự Án</h2>
       </motion.div>
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-16 md:gap-y-24">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-16 md:gap-y-24">
         {PROJECTS_DATA.map((project, idx) => (
           <motion.div 
             key={project.id || idx}

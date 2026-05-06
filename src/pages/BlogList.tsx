@@ -16,7 +16,7 @@ export default function BlogList() {
     >
       <SEO 
         title="Bài viết" 
-        description="Đọc các bài viết, phân tích, và góc nhìn về Marketing từ Nguyễn Trọng Hữu." 
+        description="Đọc các bài viết, phân tích, và góc nhìn về giải pháp công nghệ, AI Automation và Digital Marketing từ Nguyễn Trọng Hữu." 
       />
 
       <div className="max-w-6xl mx-auto">
