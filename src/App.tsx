@@ -165,10 +165,10 @@ function Layout() {
       {!isContactPage && (
         <footer className="bg-white pt-16 pb-8 border-t border-zinc-200">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
-              <div className="md:col-span-1">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-16">
+              <div className="md:col-span-4">
                 <h3 className="text-xl font-bold mb-4 font-serif tracking-tight text-zinc-900">#NGUYENTRONGHUU</h3>
-                <p className="text-sm text-zinc-600 leading-relaxed mb-6">
+                <p className="text-sm text-zinc-600 leading-relaxed mb-6 pr-4">
                   Mình chuyên tư vấn và triển khai xây dựng hệ thống phần mềm, phát triển Web, App và tự động hóa AI, giúp doanh nghiệp tối ưu hóa quy trình và tăng trưởng bền vững.
                 </p>
                 <div className="flex gap-4">
@@ -184,7 +184,7 @@ function Layout() {
                 </div>
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <h4 className="text-zinc-900 font-bold mb-6 tracking-wide text-sm">GIỚI THIỆU</h4>
                 <ul className="space-y-3 text-sm text-zinc-600">
                   <li><Link to="/about" className="hover:text-zinc-900 transition-colors">Về tôi</Link></li>
@@ -193,7 +193,7 @@ function Layout() {
                 </ul>
               </div>
 
-              <div>
+              <div className="md:col-span-2">
                 <h4 className="text-zinc-900 font-bold mb-6 tracking-wide text-sm">CHÍNH SÁCH</h4>
                 <ul className="space-y-3 text-sm text-zinc-600">
                   <li><a href="#" className="hover:text-zinc-900 transition-colors">Điều khoản – điều kiện</a></li>
@@ -203,7 +203,7 @@ function Layout() {
                 </ul>
               </div>
 
-              <div className="md:col-span-1">
+              <div className="md:col-span-4">
                 <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
                   <input 
                     type="email" 
