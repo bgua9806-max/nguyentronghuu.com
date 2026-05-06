@@ -140,7 +140,7 @@ export default function Home() {
                   <div className="flex items-center space-x-3 mb-3 text-xs font-medium text-zinc-400">
                     <span>{post.date}</span>
                     <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
-                    <span>{post.readTime || '5 min read'}</span>
+                    <span>5 min read</span>
                   </div>
                   <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-3 group-hover:text-zinc-600 transition-colors line-clamp-2">
                     {post.title}

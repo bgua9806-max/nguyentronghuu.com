@@ -62,7 +62,7 @@ export default function BlogPost() {
     >
       <SEO 
         title={activePost.title} 
-        description={activePost.excerpt || `Đọc bài viết về ${activePost.title} trên blog của Nguyễn Trọng Hữu`}
+        description={`Đọc bài viết về ${activePost.title} trên blog của Nguyễn Trọng Hữu`}
         type="article"
         image={activePost.img}
       />
