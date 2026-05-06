@@ -4,10 +4,11 @@ import { PROJECTS_DATA, FADE_UP, STAGGER, STAGGER_ITEM } from '../data';
 import { ArrowLeft, Share2 } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { generateSlug } from '../utils/slugify';
 
 export default function ProjectDetail() {
-  const { id } = useParams();
-  const activeProject = PROJECTS_DATA.find(p => p.id === Number(id));
+  const { slug } = useParams();
+  const activeProject = PROJECTS_DATA.find(p => generateSlug(p.title) === slug || p.id.toString() === slug);
   const [shareText, setShareText] = useState("Chia sẻ dự án");
 
   if (!activeProject) {

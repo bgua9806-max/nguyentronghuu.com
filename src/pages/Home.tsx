@@ -5,6 +5,7 @@ import { STAGGER, STAGGER_ITEM, FADE_UP, BLOG_POSTS } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import regeneratedImage from '../assets/images/regenerated_image_1778087112848.png';
+import { generateSlug } from '../utils/slugify';
 
 export default function Home() {
   const latestPosts = BLOG_POSTS.slice(0, 3);
@@ -184,7 +185,7 @@ export default function Home() {
                   whileInView: { opacity: 1, y: 0, transition: { duration: 0.6, delay: idx * 0.1 } }
                 }}
               >
-                <Link to={`/blog/${post.id}`} className="group block">
+                <Link to={`/blog/${generateSlug(post.title)}`} className="group block">
                   <div className="w-full aspect-[4/3] bg-zinc-100 overflow-hidden mb-6 rounded-sm relative">
                     <img 
                       src={post.img} 

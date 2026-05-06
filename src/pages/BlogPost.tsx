@@ -4,10 +4,11 @@ import { BLOG_POSTS } from '../data';
 import { ArrowLeft, ThumbsUp, Share2, MessageCircle, Send } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { generateSlug } from '../utils/slugify';
 
 export default function BlogPost() {
-  const { id } = useParams();
-  const activePost = BLOG_POSTS.find(post => post.id === Number(id));
+  const { slug } = useParams();
+  const activePost = BLOG_POSTS.find(post => generateSlug(post.title) === slug || post.id.toString() === slug);
   
   const [likes, setLikes] = useState(12);
   const [isLiked, setIsLiked] = useState(false);

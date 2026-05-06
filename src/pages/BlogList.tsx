@@ -4,6 +4,7 @@ import { FADE_UP, BLOG_POSTS } from '../data';
 import { ArrowUpRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { generateSlug } from '../utils/slugify';
 
 export default function BlogList() {
   return (
@@ -47,7 +48,7 @@ export default function BlogList() {
               }}
             >
               <Link 
-                to={`/blog/${post.id}`}
+                to={`/blog/${generateSlug(post.title)}`}
                 className="group w-full text-left flex flex-col md:flex-row md:items-center justify-between py-10 md:py-12 border-b border-zinc-200 transition-colors"
               >
                 <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12 lg:gap-24 w-full">

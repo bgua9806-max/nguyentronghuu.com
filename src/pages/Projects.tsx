@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { FADE_UP, PROJECTS_DATA } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { generateSlug } from '../utils/slugify';
 
 export default function Projects() {
   return (
@@ -39,7 +40,7 @@ export default function Projects() {
               whileInView: { opacity: 1, y: 0, transition: { duration: 0.8, delay: (idx % 2) * 0.2 } }
             }}
           >
-            <Link to={`/projects/${project.id || idx}`} className="group block">
+            <Link to={`/projects/${generateSlug(project.title)}`} className="group block">
               <div className="relative overflow-hidden mb-6 bg-zinc-100 aspect-[4/3] rounded-sm">
                 <img 
                   src={project.img} 
