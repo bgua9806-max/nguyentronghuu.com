@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { FADE_UP, STAGGER, STAGGER_ITEM } from '../data';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 const EXPERIENCES = [
   {
@@ -43,19 +44,31 @@ export default function About() {
       transition={{ duration: 0.5 }}
       className="bg-white min-h-screen pb-32"
     >
+      <SEO 
+        title="Giới thiệu" 
+        description="Khám phá câu chuyện, triết lý thiết kế và kinh nghiệm làm việc của Nguyễn Trọng Hữu - Chuyên gia Marketing." 
+      />
+
       {/* Intro Section */}
       <section className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-6xl mx-auto border-b border-zinc-100">
         <motion.div 
           initial="initial"
           whileInView="whileInView"
           variants={FADE_UP}
-          className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8"
+          className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-16 items-center"
         >
-          <div className="md:col-span-4">
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest">Triết lý thiết kế</h2>
+          <div className="md:col-span-6 lg:col-span-5">
+             <div className="aspect-[4/5] rounded-sm overflow-hidden bg-zinc-100">
+               <img 
+                 src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&q=80&w=1200" 
+                 alt="Workspace" 
+                 className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
+               />
+             </div>
           </div>
-          <div className="md:col-span-8 md:pl-12">
-            <h3 className="text-3xl md:text-5xl font-serif text-zinc-900 leading-tight mb-8">
+          <div className="md:col-span-6 lg:col-span-7 md:pr-12">
+            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-8">Câu chuyện & Triết lý</h2>
+            <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8">
               "Tiếp thị hiệu quả không ồn ào, mà là sự hiện diện đúng chỗ, đúng thời điểm."
             </h3>
             <p className="text-lg text-zinc-600 leading-relaxed mb-6">
@@ -66,6 +79,30 @@ export default function About() {
             </p>
           </div>
         </motion.div>
+      </section>
+
+      {/* Metrics Section */}
+      <section className="py-20 px-6 md:px-12 bg-zinc-50 border-b border-zinc-100">
+        <div className="max-w-6xl mx-auto">
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={STAGGER}
+            className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12"
+          >
+            {[
+              { label: "Năm kinh nghiệm", value: "8+" },
+              { label: "Dự án thành công", value: "50+" },
+              { label: "ROI trung bình", value: "300%" },
+              { label: "Đối tác chiến lược", value: "20+" }
+            ].map((metric, idx) => (
+              <motion.div key={idx} variants={STAGGER_ITEM} className="text-center md:text-left">
+                <div className="text-4xl md:text-5xl lg:text-6xl font-serif text-zinc-900 mb-2">{metric.value}</div>
+                <div className="text-sm font-medium text-zinc-500 uppercase tracking-widest">{metric.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
       </section>
 
       {/* Experience Section */}
@@ -83,8 +120,8 @@ export default function About() {
             >
               {EXPERIENCES.map((exp, idx) => (
                 <motion.div key={idx} variants={STAGGER_ITEM} className="relative pl-8 md:pl-0">
-                  <div className="hidden md:block absolute -left-12 top-2 w-3 h-3 bg-zinc-200 rounded-full"></div>
-                  <div className="hidden md:block absolute -left-10.5 top-5 w-[1px] h-full bg-zinc-100 last:hidden"></div>
+                  <div className="absolute left-0 md:-left-12 top-2 w-3 h-3 bg-zinc-200 rounded-full"></div>
+                  <div className="absolute left-[5px] md:-left-[43px] top-5 w-[1px] h-full bg-zinc-100 last:hidden"></div>
                   
                   <span className="text-sm font-medium text-zinc-400 block mb-2">{exp.period}</span>
                   <h4 className="text-2xl font-serif text-zinc-900 mb-1">{exp.role}</h4>

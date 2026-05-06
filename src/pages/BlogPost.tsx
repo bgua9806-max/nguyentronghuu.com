@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { BLOG_POSTS } from '../data';
 import { ArrowLeft } from 'lucide-react';
 import { Link, useParams, Navigate } from 'react-router-dom';
+import SEO from '../components/SEO';
 
 export default function BlogPost() {
   const { id } = useParams();
@@ -18,11 +19,18 @@ export default function BlogPost() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="pt-24 pb-32 px-6 md:px-12 max-w-3xl mx-auto min-h-screen"
+      className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-3xl mx-auto min-h-screen"
     >
+      <SEO 
+        title={activePost.title} 
+        description={activePost.excerpt || `Đọc bài viết về ${activePost.title} trên blog của Nguyễn Trọng Hữu`}
+        type="article"
+        image={activePost.img}
+      />
+
       <Link 
         to="/blog"
-        className="inline-flex items-center space-x-2 text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors mb-16"
+        className="inline-flex items-center space-x-2 text-sm font-medium text-zinc-500 hover:text-zinc-900 transition-colors mb-12 md:mb-16"
       >
         <ArrowLeft size={16} />
         <span>Trở lại Bài viết</span>

@@ -2,6 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { STAGGER, STAGGER_ITEM } from '../data';
 import { Mail, Facebook, MessageCircle, Phone } from 'lucide-react';
+import SEO from '../components/SEO';
 
 export default function Contact() {
   return (
@@ -10,14 +11,19 @@ export default function Contact() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="py-32 bg-zinc-900 text-white px-6 md:px-12 min-h-[calc(100vh-100px)] flex flex-col justify-center"
+      className="pt-32 pb-24 md:py-32 bg-zinc-900 text-white px-6 md:px-12 min-h-screen flex flex-col justify-center"
     >
+      <SEO 
+        title="Liên hệ" 
+        description="Kết nối với Nguyễn Trọng Hữu để hợp tác, thảo luận về Marketing và xây dựng thương hiệu." 
+      />
+
       <div className="max-w-6xl mx-auto w-full">
         <motion.div
           initial="initial"
           whileInView="whileInView"
           variants={STAGGER}
-          className="grid grid-cols-1 md:grid-cols-2 gap-16"
+          className="grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-24"
         >
           <div className="max-w-md">
             <motion.h2 
@@ -37,10 +43,10 @@ export default function Contact() {
           </div>
 
           <div className="flex flex-col justify-end items-start md:items-end">
-            <motion.div variants={STAGGER_ITEM} className="flex space-x-8">
-              <div className="flex flex-col space-y-2">
+            <motion.div variants={STAGGER_ITEM} className="flex">
+              <div className="flex flex-col space-y-4 md:space-y-2">
                 <span className="text-xs uppercase tracking-widest text-zinc-500">Mạng xã hội & Khác</span>
-                <div className="flex space-x-6 mt-2">
+                <div className="flex flex-col md:flex-row gap-6 md:gap-6 mt-2">
                   <a href="https://www.facebook.com/nguyen.trong.huu.838820/?locale=vi_VN" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-400 text-white transition-colors flex items-center space-x-2">
                     <Facebook size={18} />
                     <span>Facebook</span>

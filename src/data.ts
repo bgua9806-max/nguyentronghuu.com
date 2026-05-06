@@ -27,28 +27,68 @@ export const BLOG_POSTS = [
 
 export const PROJECTS_DATA = [
   {
+    id: 1,
     title: "Chiến dịch Thời trang Mùa Hè",
     category: "E-Commerce / Social Media",
     img: "https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?auto=format&fit=crop&q=80&w=1200",
-    year: "2023"
+    year: "2023",
+    description: "Một chiến dịch ra mắt bộ sưu tập mùa hè tập trung vào khách hàng Gen Z. Tối ưu hóa chuyển đổi qua các nền tảng Social Media như TikTok và Instagram.",
+    client: "Local Fashion Brand",
+    challenge: "Thị trường cạnh tranh khốc liệt vào mùa hè. Ngân sách hạn hẹp nhưng cần độ phủ lớn để đẩy mạnh doanh số trong vòng 2 tháng.",
+    solution: "Sử dụng KOCs làm nòng cốt để tạo viral trên TikTok. Kết hợp với Performance Marketing để bám đuổi (retarget) và tối ưu hóa phễu trên Landing Page.",
+    results: [
+      "Tăng 150% doanh thu trực tuyến so với cùng kỳ năm ngoái.",
+      "ROE đạt mức 3.5x.",
+      "+50,000 lượt theo dõi mới trên Instagram và TikTok."
+    ]
   },
   {
+    id: 2,
     title: "Tăng trưởng Ứng dụng Finance",
     category: "Fintech / Performance Marketing",
     img: "https://images.unsplash.com/photo-1560472354-b33ff0c44a43?auto=format&fit=crop&q=80&w=1200",
-    year: "2023"
+    year: "2023",
+    description: "Tối ưu hóa lượt tải và đăng ký tài khoản (KYC) cho một ứng dụng công nghệ tài chính mới nổi tại Việt Nam.",
+    client: "Startup Fintech (Series A)",
+    challenge: "Chi phí để có được người dùng mới (CAC) trong ngành Fintech rất cao. Cần tìm ra các kênh và thông điệp tối ưu hóa chi phí.",
+    solution: "A/B Testing liên tục hàng chục mẫu quảng cáo và thông điệp khác nhau. Tối ưu hóa hành trình đăng ký trên ứng dụng để giảm tỷ lệ bỏ cuộc ở bước xác thực danh tính.",
+    results: [
+      "Giảm 40% Chi phí trên mỗi lượt cài đặt (CPI).",
+      "Tỷ lệ hoàn thành KYC tăng từ 25% lên 45%.",
+      "Góp phần mang về 100,000 người dùng hàng tháng (MAU)."
+    ]
   },
   {
+    id: 3,
     title: "Ra mắt Nền tảng Đám mây",
     category: "SaaS / B2B Strategy",
     img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=1200",
-    year: "2024"
+    year: "2024",
+    description: "Hoạch định chiến lược go-to-market cho sản phẩm B2B nhắm đến các khách hàng doanh nghiệp vừa và lớn.",
+    client: "Enterprise Tech Company",
+    challenge: "Sản phẩm kỹ thuật phức tạp khó giải thích. Chu kỳ bán hàng dài (3-6 tháng) đòi hỏi duy trì liên lạc và nội dung chất lượng cao liên tục.",
+    solution: "Xây dựng chiến lược Inbound Marketing bằng các Whitepapers và Case Studies chuyên sâu. Tổ chức chuỗi Webinars để thu hút và nuôi dưỡng leads.",
+    results: [
+      "Tạo ra 500+ Qualified Leads (SQL) trong Quý 1.",
+      "Tăng tỷ lệ chuyển đổi từ MQL sang SQL lên 20%.",
+      "Rút ngắn 15% thời gian chốt sale."
+    ]
   },
   {
+    id: 4,
     title: "Tạp chí Kiến trúc Toàn cầu",
     category: "Editorial / Content Marketing",
     img: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&q=80&w=1200",
-    year: "2024"
+    year: "2024",
+    description: "Tái định vị và đẩy mạnh phát hành nội dung số cho một tạp chí kiến trúc danh tiếng.",
+    client: "Architecture Magazine",
+    challenge: "Mất dần độc giả trẻ. Phiên bản in không còn thu hút do sự bùng nổ của nội dung số và các nền tảng mạng xã hội.",
+    solution: "Chuyển dịch sang mô hình 'Digital-First'. Thiết kế lại cấu trúc SEO, khai thác nội dung video ngắn (Reels, Shorts) về không gian sống.",
+    results: [
+      "Lượt truy cập Organic Search tăng 200%.",
+      "Tăng 30% lượng người đăng ký đọc Newsletter hàng tuần.",
+      "Xây dựng thành công cộng đồng hơn 100,000 thành viên yêu kiến trúc."
+    ]
   }
 ];
 
