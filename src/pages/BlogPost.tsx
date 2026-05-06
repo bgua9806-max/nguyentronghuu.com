@@ -66,6 +66,7 @@ export default function BlogPost() {
         description={`Đọc bài viết về ${activePost.title} trên blog của Nguyễn Trọng Hữu`}
         type="article"
         image={activePost.img}
+        url={window.location.href}
       />
 
       <Link 

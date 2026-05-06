@@ -34,6 +34,7 @@ export default function ProjectDetail() {
         description={activeProject.description || `Dự án: ${activeProject.title} của Nguyễn Trọng Hữu`}
         type="article"
         image={activeProject.img}
+        url={window.location.href}
       />
 
       <Link 
