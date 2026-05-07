@@ -12,7 +12,11 @@ interface SEOProps {
 
 export default function SEO({ title, description, name = 'Nguyễn Trọng Hữu', type = 'website', image, url }: SEOProps) {
   const fullTitle = `${title} | Nguyễn Trọng Hữu - Chuyên gia Công nghệ & AI`;
-  const defaultImage = "https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png";
+  // The origin is necessary because og:image requires absolute URL. If window is defined we use the origin.
+  const origin = typeof window !== 'undefined' ? window.location.origin : '';
+  const defaultImage = `${origin}/logo.png`;
+
+  const finalImage = image ? (image.startsWith('http') ? image : `${origin}${image}`) : defaultImage;
 
   return (
     <Helmet>
@@ -25,7 +29,7 @@ export default function SEO({ title, description, name = 'Nguyễn Trọng Hữu
       <meta property='og:type' content={type} />
       <meta property='og:title' content={fullTitle} />
       <meta property='og:description' content={description} />
-      <meta property='og:image' content={image || defaultImage} />
+      <meta property='og:image' content={finalImage} />
       {url && <meta property='og:url' content={url} />}
       {/* End Facebook tags */}
       
@@ -34,7 +38,7 @@ export default function SEO({ title, description, name = 'Nguyễn Trọng Hữu
       <meta name='twitter:card' content={type === 'article' ? 'summary_large_image' : 'summary'} />
       <meta name='twitter:title' content={fullTitle} />
       <meta name='twitter:description' content={description} />
-      <meta name='twitter:image' content={image || defaultImage} />
+      <meta name='twitter:image' content={finalImage} />
       {/* End Twitter tags */}
     </Helmet>
   );
