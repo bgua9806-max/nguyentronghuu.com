@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { STAGGER, STAGGER_ITEM } from '../data';
 import { Mail, Facebook, MessageCircle, Phone } from 'lucide-react';
 import SEO from '../components/SEO';
+import logoUrl from '../assets/images/logo3.png';
 
 export default function Contact() {
   return (
@@ -63,9 +64,12 @@ export default function Contact() {
               </div>
             </motion.div>
             
-            <motion.p variants={STAGGER_ITEM} className="text-zinc-500 text-sm mt-16 md:mt-24">
-              &copy; {new Date().getFullYear()} Trọng Hữu. Mọi quyền được bảo lưu.
-            </motion.p>
+            <motion.div variants={STAGGER_ITEM} className="flex flex-col mt-16 md:mt-24 md:items-end">
+              <img src={logoUrl} alt="Hữu Logo" className="h-8 md:h-10 w-auto object-contain mb-4 origin-left md:origin-right" style={{ filter: 'invert(1) brightness(1.5)', mixBlendMode: 'screen' }} />
+              <p className="text-zinc-500 text-sm">
+                &copy; {new Date().getFullYear()} Trọng Hữu. Mọi quyền được bảo lưu.
+              </p>
+            </motion.div>
           </div>
         </motion.div>
       </div>

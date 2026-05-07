@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react
 import { AnimatePresence, motion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
+import logoUrl from './assets/images/logo3.png';
 
 // Pages
 import Home from './pages/Home';
@@ -65,14 +66,22 @@ function Layout() {
         }`}
       >
         <div 
-          className={`relative z-50 flex justify-between items-center transition-all duration-500 ${
+          className={`relative z-50 flex justify-between items-center transition-all duration-500 h-[51px] ${
             (isScrolled && !isMobileMenuOpen)
-              ? 'bg-white/90 backdrop-blur-md border border-zinc-200/50 shadow-sm rounded-full px-6 md:px-8 py-3 w-full max-w-3xl' 
-              : 'w-full max-w-6xl px-6 md:px-12 py-2 bg-transparent'
+              ? 'bg-white/90 backdrop-blur-md border border-zinc-200/50 shadow-sm rounded-full px-6 md:px-8 w-full max-w-3xl' 
+              : 'w-full max-w-6xl px-6 md:px-12 bg-transparent'
           }`}
         >
-          <Link to="/" className={`font-serif text-xl tracking-tight font-medium ${isMobileMenuOpen || (isContactPage && !isScrolled) ? 'text-white' : 'text-zinc-900'}`}>
-            Hữu<span className={isMobileMenuOpen || (isContactPage && !isScrolled) ? 'text-zinc-500' : 'text-zinc-400'}>.</span>
+          <Link to="/" className="flex items-center z-50 group h-full py-1">
+            <img 
+              src={logoUrl} 
+              alt="Hữu Logo" 
+              className="h-[46px] w-[152px] object-contain transition-transform duration-300 transform group-hover:scale-[1.02] origin-left" 
+              style={{
+                filter: isMobileMenuOpen || (isContactPage && !isScrolled) ? 'invert(1) brightness(1.5)' : 'contrast(1.05)',
+                mixBlendMode: isMobileMenuOpen || (isContactPage && !isScrolled) ? 'screen' : 'multiply'
+              }}
+            />
           </Link>
           <div className={`hidden md:flex space-x-8 text-sm font-medium ${isContactPage && !isScrolled ? 'text-zinc-400' : 'text-zinc-500'}`}>
             <Link to="/about" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/about' ? 'text-zinc-900' : ''}`}>
@@ -189,7 +198,9 @@ function Layout() {
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-16">
               <div className="md:col-span-4">
-                <h3 className="text-xl font-bold mb-4 font-serif tracking-tight text-zinc-900">#NGUYENTRONGHUU</h3>
+                <div className="mb-6 -ml-2">
+                  <img src={logoUrl} alt="Hữu Logo" className="h-10 w-auto object-contain origin-left" style={{ filter: 'contrast(1.05)', mixBlendMode: 'multiply' }} />
+                </div>
                 <p className="text-sm text-zinc-600 leading-relaxed mb-6 pr-4">
                   Mình chuyên tư vấn và triển khai xây dựng hệ thống phần mềm, phát triển Web, App và tự động hóa AI, giúp doanh nghiệp tối ưu hóa quy trình và tăng trưởng bền vững.
                 </p>
