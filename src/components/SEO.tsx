@@ -11,7 +11,7 @@ interface SEOProps {
 }
 
 export default function SEO({ title, description, name = 'Nguyễn Trọng Hữu', type = 'website', image, url }: SEOProps) {
-  const fullTitle = `${title} | Nguyễn Trọng Hữu - Chuyên gia Công nghệ & AI`;
+  const fullTitle = `${title} | Nguyễn Trọng Hữu - Người xây dựng giải pháp Công nghệ & AI`;
   // The origin is necessary because og:image requires absolute URL. If window is defined we use the origin.
   const origin = typeof window !== 'undefined' ? window.location.origin : '';
   const defaultImage = `${origin}/logo.png`;

@@ -19,7 +19,7 @@ export default function Home() {
     >
       <SEO 
         title="Trang chủ" 
-        description="Nguyễn Trọng Hữu - Chuyên gia nền tảng, xây dựng Web, Mobile App và hệ thống AI Automation." 
+        description="Nguyễn Trọng Hữu - Người xây dựng giải pháp nền tảng Web, Mobile App và hệ thống AI Automation." 
       />
 
       <section className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-6xl mx-auto">
@@ -41,7 +41,7 @@ export default function Home() {
               <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>
             </motion.h1>
             <motion.p variants={STAGGER_ITEM} className="text-base md:text-lg text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12">
-              Chuyên gia tư vấn & phát triển hệ thống nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.
+              Người xây dựng giải pháp nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.
             </motion.p>
             <motion.div variants={STAGGER_ITEM}>
               <Link 
@@ -113,7 +113,7 @@ export default function Home() {
               <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-6 lg:mb-8">Nguyễn Trọng Hữu là ai?</h2>
               
               <p className="text-2xl md:text-3xl leading-snug text-zinc-900 font-serif font-medium mb-8">
-                Mình là một chuyên gia tư vấn công nghệ, giải pháp số và xây dựng nền tảng.
+                Mình là một người tư vấn và xây dựng nền tảng công nghệ, giải pháp số và AI.
               </p>
               
               <div className="space-y-6 text-base md:text-lg text-zinc-600 mb-10">
