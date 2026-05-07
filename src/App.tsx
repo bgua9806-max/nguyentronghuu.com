@@ -255,7 +255,7 @@ function Layout() {
             </div>
 
             <div className="pt-8 border-t border-zinc-200 text-xs md:text-sm text-zinc-500">
-              © {new Date().getFullYear()} #NguyenTrongHuu · Build with AI
+              © {new Date().getFullYear()} #NguyenTrongHuu · Build with Nguyen Trong Huu
             </div>
           </div>
         </footer>
