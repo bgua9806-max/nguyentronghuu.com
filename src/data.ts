@@ -129,8 +129,8 @@ export const SOCIAL_LINKS = [
     type: "phone"
   },
   {
-    name: "unicon9091@gmail.com",
-    url: "mailto:unicon9091@gmail.com",
+    name: "nguyentronghuu1905@gmail.com",
+    url: "mailto:nguyentronghuu1905@gmail.com",
     type: "email"
   }
 ];

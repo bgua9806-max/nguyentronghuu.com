@@ -35,11 +35,11 @@ export default function Contact() {
             </motion.h2>
             <motion.a 
               variants={STAGGER_ITEM}
-              href="mailto:unicon9091@gmail.com"
+              href="mailto:nguyentronghuu1905@gmail.com"
               className="inline-flex items-center space-x-2 text-lg border-b border-white/30 pb-1 hover:border-white transition-colors"
             >
               <Mail size={20} />
-              <span>unicon9091@gmail.com</span>
+              <span>nguyentronghuu1905@gmail.com</span>
             </motion.a>
           </div>
 

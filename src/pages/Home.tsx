@@ -142,6 +142,53 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Tech Stack Section */}
+      <section className="py-20 md:py-28 bg-white border-b border-zinc-200 overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 md:px-12 mb-12 md:mb-16">
+          <motion.div
+            initial="initial"
+            whileInView="whileInView"
+            variants={FADE_UP}
+            viewport={{ once: true }}
+            className="flex flex-col md:flex-row md:items-end justify-between gap-6"
+          >
+            <div>
+              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Công nghệ & Nền tảng</h2>
+              <h3 className="text-3xl md:text-4xl font-serif text-zinc-900 leading-tight">
+                Tech Stack cốt lõi
+              </h3>
+            </div>
+            <p className="text-base text-zinc-600 max-w-sm">
+              Bộ công cụ và công nghệ mình thường xuyên sử dụng để xây dựng và tối ưu hệ thống.
+            </p>
+          </motion.div>
+        </div>
+        
+        <div className="relative flex overflow-x-hidden group">
+          <div className="absolute top-0 bottom-0 left-0 w-16 md:w-32 bg-gradient-to-r from-white to-transparent z-10"></div>
+          <div className="absolute top-0 bottom-0 right-0 w-16 md:w-32 bg-gradient-to-l from-white to-transparent z-10"></div>
+          
+          <div className="animate-marquee inline-flex space-x-4 md:space-x-8 items-center py-4 group-hover:[animation-play-state:paused]">
+            {[...Array(2)].map((_, i) => (
+              <React.Fragment key={i}>
+                {[
+                  "React", "Node.js", "Python", "AWS", 
+                  "Docker", "OpenAI", "Next.js", "TypeScript", 
+                  "Tailwind CSS", "PostgreSQL", "Firebase", "Figma"
+                ].map((tech) => (
+                  <div 
+                    key={`${i}-${tech}`} 
+                    className="px-6 md:px-8 py-4 border border-zinc-200 bg-zinc-50 flex items-center justify-center min-w-[140px] md:min-w-[180px] rounded-sm hover:border-zinc-400 hover:bg-zinc-100 transition-colors cursor-default"
+                  >
+                    <span className="text-lg md:text-xl font-medium text-zinc-800 tracking-tight">{tech}</span>
+                  </div>
+                ))}
+              </React.Fragment>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Latest Blog Posts Section */}
       <section className="py-24 md:py-32 bg-white px-6 md:px-12">
         <div className="max-w-6xl mx-auto">

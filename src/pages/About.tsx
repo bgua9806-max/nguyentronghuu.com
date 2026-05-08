@@ -26,17 +26,55 @@ const EXPERIENCES = [
   }
 ];
 
-const SKILLS = [
-  "Triển khai Hệ thống AI Automation",
-  "Xây dựng Web & Mobile App",
-  "Thiết kế Kiến trúc Hệ thống",
-  "Tư vấn Công nghệ Doanh nghiệp",
-  "Performance Marketing (Facebook, Google, TikTok)",
-  "Search Engine Optimization (SEO & ASO)",
-  "Conversion Rate Optimization (CRO)",
-  "Data Analytics & Tracking (GA4, Mixpanel)",
-  "Marketing Automation & CRM",
-  "UI/UX Strategy & User Journey Mapping"
+const EXPERTISE_AREAS = [
+  {
+    category: "Công nghệ & Kỹ thuật",
+    items: [
+      "Triển khai Hệ thống AI Automation",
+      "Xây dựng Web & Mobile App",
+      "Thiết kế Kiến trúc Hệ thống",
+      "Tư vấn Công nghệ & Chuyển đổi số"
+    ]
+  },
+  {
+    category: "Marketing & Tăng trưởng",
+    items: [
+      "Performance Marketing (Đa nền tảng)",
+      "Search Engine Optimization (SEO & ASO)",
+      "Conversion Rate Optimization (CRO)"
+    ]
+  },
+  {
+    category: "Dữ liệu & Chiến lược",
+    items: [
+      "Data Analytics & Tracking (GA4, Mixpanel)",
+      "Marketing Automation & CRM",
+      "UI/UX Strategy & User Journey Mapping"
+    ]
+  }
+];
+
+const WORKING_PROCESS = [
+  {
+    step: "01",
+    title: "Khảo sát nhu cầu",
+    description: "Lắng nghe mục tiêu, khó khăn của doanh nghiệp và thu thập dữ liệu đầu vào cần thiết để có bức tranh tổng thể."
+  },
+  {
+    step: "02",
+    title: "Phân tích & Tư vấn",
+    description: "Lên chiến lược, thiết kế luồng (User Journey) và tư vấn giải pháp/kiến trúc phù hợp nhất với bài toán."
+  },
+  {
+    step: "03",
+    title: "Triển khai & Tối ưu",
+    description: "Thực thi kế hoạch chi tiết, liên tục đo lường và tinh chỉnh dựa trên dữ liệu hiệu suất thực tế."
+  },
+  {
+    step: "04",
+    title: "Bàn giao & Đào tạo",
+    description: "Bàn giao hệ thống, báo cáo và đào tạo đội ngũ nội bộ để doanh nghiệp tự tin làm chủ nền tảng/quy trình."
+  }
 ];
 
 export default function About() {
@@ -140,6 +178,43 @@ export default function About() {
         </div>
       </section>
 
+      {/* Working Process Section */}
+      <section className="py-24 px-6 md:px-12 bg-zinc-50 border-b border-zinc-100">
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={FADE_UP}
+            className="mb-16 md:text-center"
+          >
+            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Cách thức làm việc</h2>
+            <h3 className="text-3xl md:text-4xl font-serif text-zinc-900">Quy trình triển khai</h3>
+          </motion.div>
+          
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={STAGGER}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-x-12 md:gap-y-16 relative"
+          >
+            {/* Connecting line for desktop */}
+            <div className="hidden lg:block absolute top-[28px] left-[10%] right-[10%] h-[1px] bg-zinc-200"></div>
+
+            {WORKING_PROCESS.map((process, idx) => (
+              <motion.div key={idx} variants={STAGGER_ITEM} className="relative z-10 flex flex-col items-start md:items-center md:text-center">
+                <div className="w-14 h-14 rounded-full bg-white border border-zinc-200 flex items-center justify-center mb-6 shadow-sm">
+                  <span className="text-lg font-serif font-semibold text-zinc-900">{process.step}</span>
+                </div>
+                <h4 className="text-xl font-serif text-zinc-900 mb-3">{process.title}</h4>
+                <p className="text-zinc-600 leading-relaxed text-sm">
+                  {process.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
       {/* Expertise Section */}
       <section className="py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
@@ -151,12 +226,23 @@ export default function About() {
               initial="initial"
               whileInView="whileInView"
               variants={STAGGER}
-              className="grid grid-cols-1 sm:grid-cols-2 gap-6"
+              className="space-y-12"
             >
-              {SKILLS.map((skill, idx) => (
-                <motion.div key={idx} variants={STAGGER_ITEM} className="flex items-start space-x-3">
-                  <CheckCircle2 size={20} className="text-zinc-900 shrink-0 mt-0.5" />
-                  <span className="text-lg text-zinc-700">{skill}</span>
+              {EXPERTISE_AREAS.map((group, idx) => (
+                <motion.div key={idx} variants={STAGGER_ITEM} className="flex flex-col sm:flex-row gap-4 sm:gap-12 items-start border-b border-zinc-100 pb-12 last:border-0 last:pb-0">
+                  <div className="sm:w-1/3">
+                    <h4 className="text-xl font-serif text-zinc-900">{group.category}</h4>
+                  </div>
+                  <div className="sm:w-2/3">
+                    <ul className="space-y-4">
+                      {group.items.map((item, itemIdx) => (
+                        <li key={itemIdx} className="flex items-start text-lg text-zinc-600">
+                          <span className="text-zinc-300 mr-4 font-mono text-sm leading-7">{(itemIdx + 1).toString().padStart(2, '0')}</span>
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
