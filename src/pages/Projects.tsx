@@ -1,11 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { FADE_UP, PROJECTS_DATA } from '../data';
+import { FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { generateSlug } from '../utils/slugify';
+import { supabase } from '../lib/supabase';
+import { Loader2 } from 'lucide-react';
 
 export default function Projects() {
+  const [projects, setProjects] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .order('created_at', { ascending: false });
+          
+        if (error) throw error;
+        setProjects(data || []);
+      } catch (error) {
+        console.error('Error fetching projects:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProjects();
+  }, []);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -29,9 +52,15 @@ export default function Projects() {
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-16 md:gap-y-24">
-        {PROJECTS_DATA.map((project, idx) => (
+        {isLoading ? (
+          <div className="col-span-1 md:col-span-2 flex justify-center py-24">
+            <Loader2 className="animate-spin text-amber-500" size={40} />
+          </div>
+        ) : projects.length === 0 ? (
+          <div className="col-span-1 md:col-span-2 py-24 text-center text-zinc-500">Chưa có dự án nào được cập nhật.</div>
+        ) : projects.map((project, idx) => (
           <motion.div 
-            key={project.id || idx}
+            key={project.id}
             initial="initial"
             whileInView="whileInView"
             viewport={{ once: true, margin: "-50px" }}
@@ -40,10 +69,10 @@ export default function Projects() {
               whileInView: { opacity: 1, y: 0, transition: { duration: 0.8, delay: (idx % 2) * 0.2 } }
             }}
           >
-            <Link to={`/projects/${generateSlug(project.title)}`} className="group block">
+            <Link to={`/projects/${project.slug}`} className="group block">
               <div className="relative overflow-hidden mb-6 bg-zinc-100 aspect-[4/3] rounded-sm">
                 <img 
-                  src={project.img} 
+                  src={project.cover_image || 'https://via.placeholder.com/800x600'} 
                   alt={project.title} 
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />

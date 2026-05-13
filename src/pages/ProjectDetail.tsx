@@ -1,17 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { PROJECTS_DATA, FADE_UP, STAGGER, STAGGER_ITEM } from '../data';
-import { ArrowLeft, Share2 } from 'lucide-react';
-import { Link, useParams, Navigate } from 'react-router-dom';
+import { STAGGER, STAGGER_ITEM } from '../data';
+import { ArrowLeft, Share2, Loader2 } from 'lucide-react';
+import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { generateSlug } from '../utils/slugify';
+import { supabase } from '../lib/supabase';
 
 export default function ProjectDetail() {
   const { slug } = useParams();
-  const activeProject = PROJECTS_DATA.find(p => generateSlug(p.title) === slug || p.id.toString() === slug);
+  const navigate = useNavigate();
+  const [project, setProject] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [shareText, setShareText] = useState("Chia sẻ dự án");
 
-  if (!activeProject) {
+  useEffect(() => {
+    const fetchProject = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('projects')
+          .select('*')
+          .eq('slug', slug)
+          .single();
+          
+        if (error) throw error;
+        setProject(data);
+      } catch (error) {
+        console.error('Error fetching project:', error);
+        navigate('/projects');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (slug) fetchProject();
+  }, [slug, navigate]);
+
+  if (isLoading) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen">
+        <Loader2 size={40} className="text-amber-500 animate-spin mb-4" />
+        <p className="text-zinc-500 font-medium">Đang tải dự án...</p>
+      </div>
+    );
+  }
+
+  if (!project) {
     return <Navigate to="/projects" replace />;
   }
 
@@ -30,10 +63,10 @@ export default function ProjectDetail() {
       className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 lg:px-8 max-w-5xl mx-auto min-h-screen"
     >
       <SEO 
-        title={activeProject.title} 
-        description={activeProject.description || `Dự án: ${activeProject.title} của Nguyễn Trọng Hữu`}
+        title={project.seo_title || project.title} 
+        description={project.seo_description || `Dự án: ${project.title} của Nguyễn Trọng Hữu`}
         type="article"
-        image={activeProject.img}
+        image={project.cover_image}
         url={window.location.href}
       />
 
@@ -53,70 +86,52 @@ export default function ProjectDetail() {
         <motion.div variants={STAGGER_ITEM} className="mb-12">
           <div className="flex flex-wrap items-center gap-4 mb-6">
             <span className="text-xs font-bold text-zinc-900 uppercase tracking-widest bg-zinc-100 px-3 py-1 rounded-sm">
-              {activeProject.category}
+              {project.category}
             </span>
-            <span className="text-sm font-medium text-zinc-400">{activeProject.year}</span>
+            <span className="text-sm font-medium text-zinc-400">{project.year}</span>
           </div>
           <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-zinc-900 mb-6 md:mb-8 leading-tight">
-            {activeProject.title}
+            {project.title}
           </h1>
-          {activeProject.description && (
+          {project.seo_description && (
              <p className="text-xl md:text-2xl text-zinc-600 leading-relaxed max-w-3xl">
-               {activeProject.description}
+               {project.seo_description}
              </p>
           )}
         </motion.div>
 
         <motion.div variants={STAGGER_ITEM} className="w-full aspect-[21/9] md:aspect-[16/9] bg-zinc-100 mb-16 md:mb-24 overflow-hidden rounded-sm">
           <img 
-            src={activeProject.img} 
-            alt={activeProject.title} 
+            src={project.cover_image || 'https://via.placeholder.com/1200x600'} 
+            alt={project.title} 
             className="w-full h-full object-cover"
           />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
             <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32 h-fit">
-                {activeProject.client && (
+                {project.client && (
                     <div>
                         <h4 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2">Khách hàng</h4>
-                        <p className="text-zinc-600">{activeProject.client}</p>
+                        <p className="text-zinc-600">{project.client}</p>
                     </div>
                 )}
-                <div>
-                    <h4 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2">Vai trò</h4>
-                    <p className="text-zinc-600">Marketing Strategist</p>
-                </div>
+                {project.link && (
+                    <div>
+                        <h4 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2">Sản phẩm / Link</h4>
+                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-700 underline underline-offset-4">Xem dự án thực tế</a>
+                    </div>
+                )}
             </div>
 
             <div className="lg:col-span-8 space-y-12 md:space-y-16">
-                {activeProject.challenge && (
-                    <motion.div variants={STAGGER_ITEM}>
-                        <h3 className="text-2xl font-serif text-zinc-900 mb-4">Thách thức</h3>
-                        <p className="text-zinc-600 leading-relaxed">{activeProject.challenge}</p>
-                    </motion.div>
-                )}
-                
-                {activeProject.solution && (
-                    <motion.div variants={STAGGER_ITEM}>
-                        <h3 className="text-2xl font-serif text-zinc-900 mb-4">Giải pháp</h3>
-                        <p className="text-zinc-600 leading-relaxed">{activeProject.solution}</p>
-                    </motion.div>
-                )}
-
-                {activeProject.results && (
-                    <motion.div variants={STAGGER_ITEM}>
-                        <h3 className="text-2xl font-serif text-zinc-900 mb-4">Kết quả</h3>
-                        <ul className="space-y-3">
-                            {activeProject.results.map((result, idx) => (
-                                <li key={idx} className="flex items-start">
-                                    <span className="text-zinc-400 mr-3 mt-1">•</span>
-                                    <span className="text-zinc-600 font-medium leading-relaxed">{result}</span>
-                                </li>
-                            ))}
-                        </ul>
-                    </motion.div>
-                )}
+                <motion.div variants={STAGGER_ITEM} className="prose prose-zinc max-w-none text-lg text-zinc-700 leading-relaxed">
+                  {project.content ? (
+                    <div dangerouslySetInnerHTML={{ __html: project.content.replace(/\n/g, '<br/>') }} />
+                  ) : (
+                    <p className="italic text-zinc-400">Đang cập nhật chi tiết dự án...</p>
+                  )}
+                </motion.div>
             </div>
         </div>
 

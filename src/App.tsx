@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { Menu, X } from 'lucide-react';
+import { Toaster } from 'react-hot-toast';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
 import logoUrl from './assets/images/logo3.png';
 
@@ -20,6 +21,10 @@ import Dashboard from './pages/admin/Dashboard';
 import BlogManager from './pages/admin/BlogManager';
 import PostEditor from './pages/admin/PostEditor';
 import ProjectManager from './pages/admin/ProjectManager';
+import ProjectEditor from './pages/admin/ProjectEditor';
+import ContactManager from './pages/admin/ContactManager';
+import EmailSettings from './pages/admin/EmailSettings';
+import Settings from './pages/admin/Settings';
 
 function Layout() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -52,6 +57,11 @@ function Layout() {
           <Route path="posts/new" element={<PostEditor />} />
           <Route path="posts/edit/:id" element={<PostEditor />} />
           <Route path="projects" element={<ProjectManager />} />
+          <Route path="projects/new" element={<ProjectEditor />} />
+          <Route path="projects/edit/:id" element={<ProjectEditor />} />
+          <Route path="contacts" element={<ContactManager />} />
+          <Route path="email" element={<EmailSettings />} />
+          <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>
     );
@@ -267,6 +277,13 @@ function Layout() {
 export default function App() {
   return (
     <Router>
+      <Toaster position="bottom-right" toastOptions={{
+        className: 'text-sm font-medium rounded-sm border border-zinc-200 shadow-xl shadow-black/5',
+        style: {
+          background: '#fff',
+          color: '#09090b',
+        },
+      }} />
       <Layout />
     </Router>
   );

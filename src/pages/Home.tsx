@@ -1,14 +1,37 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight, ArrowRight } from 'lucide-react';
-import { STAGGER, STAGGER_ITEM, FADE_UP, BLOG_POSTS } from '../data';
+import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
+import { STAGGER, STAGGER_ITEM, FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import regeneratedImage from '../assets/images/regenerated_image_1778087112848.png';
-import { generateSlug } from '../utils/slugify';
+import { supabase } from '../lib/supabase';
 
 export default function Home() {
-  const latestPosts = BLOG_POSTS.slice(0, 3);
+  const [latestPosts, setLatestPosts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchLatestPosts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('status', 'published')
+          .order('created_at', { ascending: false })
+          .limit(3);
+          
+        if (error) throw error;
+        setLatestPosts(data || []);
+      } catch (error) {
+        console.error('Error fetching latest posts:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchLatestPosts();
+  }, []);
   
   return (
     <motion.div
@@ -249,7 +272,11 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {latestPosts.map((post, idx) => (
+            {isLoading ? (
+              <div className="col-span-1 md:col-span-3 flex justify-center py-12">
+                <Loader2 className="animate-spin text-amber-500" size={32} />
+              </div>
+            ) : latestPosts.map((post, idx) => (
               <motion.div
                 key={post.id}
                 initial="initial"
@@ -260,10 +287,10 @@ export default function Home() {
                   whileInView: { opacity: 1, y: 0, transition: { duration: 0.6, delay: idx * 0.1 } }
                 }}
               >
-                <Link to={`/blog/${generateSlug(post.title)}`} className="group block">
+                <Link to={`/blog/${post.slug}`} className="group block">
                   <div className="w-full aspect-[4/3] bg-zinc-100 overflow-hidden mb-6 rounded-sm relative">
                     <img 
-                      src={post.img} 
+                      src={post.cover_image || 'https://via.placeholder.com/400x300'} 
                       alt={post.title} 
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" 
                     />
@@ -272,7 +299,7 @@ export default function Home() {
                     </div>
                   </div>
                   <div className="flex items-center space-x-3 mb-3 text-xs font-medium text-zinc-400">
-                    <span>{post.date}</span>
+                    <span>{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
                     <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
                     <span>5 min read</span>
                   </div>

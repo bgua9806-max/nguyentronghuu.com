@@ -1,12 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { FADE_UP, BLOG_POSTS } from '../data';
-import { ArrowUpRight, ArrowRight } from 'lucide-react';
+import { FADE_UP } from '../data';
+import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { generateSlug } from '../utils/slugify';
+import { supabase } from '../lib/supabase';
 
 export default function BlogList() {
+  const [posts, setPosts] = useState<any[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      try {
+        const { data, error } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('status', 'published')
+          .order('created_at', { ascending: false });
+          
+        if (error) throw error;
+        setPosts(data || []);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -36,7 +59,13 @@ export default function BlogList() {
         </div>
 
         <div className="border-t border-zinc-200">
-          {BLOG_POSTS.map((post, idx) => (
+          {isLoading ? (
+            <div className="flex justify-center py-24">
+              <Loader2 className="animate-spin text-amber-500" size={40} />
+            </div>
+          ) : posts.length === 0 ? (
+            <div className="py-24 text-center text-zinc-500">Chưa có bài viết nào được xuất bản.</div>
+          ) : posts.map((post, idx) => (
             <motion.div 
               key={post.id}
               initial="initial"
@@ -48,23 +77,23 @@ export default function BlogList() {
               }}
             >
               <Link 
-                to={`/blog/${generateSlug(post.title)}`}
+                to={`/blog/${post.slug}`}
                 className="group w-full text-left flex flex-col md:flex-row md:items-center justify-between py-10 md:py-12 border-b border-zinc-200 transition-colors"
               >
                 <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12 lg:gap-24 w-full">
                   <div className="md:hidden w-full aspect-[21/9] bg-zinc-100 overflow-hidden rounded-sm mb-2">
-                    <img src={post.img} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={post.cover_image || 'https://via.placeholder.com/800x400'} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   
-                  <span className="hidden md:block w-32 text-sm font-medium text-zinc-400 shrink-0">{post.date}</span>
+                  <span className="hidden md:block w-32 text-sm font-medium text-zinc-400 shrink-0">{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
                   
                   <div className="hidden md:block w-32 aspect-[4/3] bg-zinc-100 shrink-0 overflow-hidden rounded-sm">
-                    <img src={post.img} alt={post.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    <img src={post.cover_image || 'https://via.placeholder.com/400x300'} alt={post.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                   </div>
                   
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-4 md:hidden">
-                       <span className="text-xs font-medium text-zinc-400">{post.date}</span>
+                       <span className="text-xs font-medium text-zinc-400">{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
                        <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
                        <span className="text-xs font-medium text-zinc-500 uppercase tracking-widest">{post.category}</span>
                     </div>
