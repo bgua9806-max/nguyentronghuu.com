@@ -1,10 +1,30 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { PenTool, Library, Settings, LogOut, LayoutDashboard, Search, Bell, Sparkles, Home, Users, Mail } from 'lucide-react';
+import { PenTool, Library, Settings, LogOut, LayoutDashboard, Search, Bell, Sparkles, Home, Users, Mail, CheckCircle2 } from 'lucide-react';
+import { AnimatePresence, motion } from 'motion/react';
 import logoUrl from '../assets/images/logo3.png';
 
 export default function AdminLayout() {
   const location = useLocation();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const notifRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const notifications = [
+    { id: 1, title: 'Liên hệ mới', desc: 'Có yêu cầu tư vấn AI Automation từ anh Tuấn Anh.', time: '5 phút trước', unread: true },
+    { id: 2, title: 'Hệ thống tự động', desc: 'Nodemailer vừa gửi xong 150 email chăm sóc khách hàng tự động.', time: '1 giờ trước', unread: true },
+    { id: 3, title: 'Báo cáo Traffic', desc: 'Website vừa đạt mốc 2.500 lượt xem tự nhiên trong tuần.', time: 'Hôm qua', unread: false },
+  ];
+  const unreadCount = notifications.filter(n => n.unread).length;
 
   const navItems = [
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
@@ -91,10 +111,55 @@ export default function AdminLayout() {
               <h1 className="truncate font-serif text-2xl text-zinc-950 sm:text-3xl">{currentPage}</h1>
             </div>
 
-            <button className="relative flex h-11 w-11 items-center justify-center rounded-sm border border-zinc-200 bg-white shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md active:scale-95" aria-label="Thông báo CRM">
-              <Bell size={18} />
-              <span className="absolute right-2.5 top-2.5 h-2.5 w-2.5 rounded-full bg-amber-500 ring-2 ring-white" />
-            </button>
+            <div className="relative" ref={notifRef}>
+              <button 
+                onClick={() => setShowNotifications(!showNotifications)}
+                className={`relative flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 shadow-sm transition-all hover:shadow-md active:scale-95 ${showNotifications ? 'bg-zinc-100 text-zinc-900' : 'bg-white text-zinc-600'}`} 
+                aria-label="Thông báo CRM"
+              >
+                <Bell size={18} className={showNotifications ? 'fill-zinc-900' : ''} />
+                {unreadCount > 0 && (
+                  <span className="absolute right-2.5 top-2.5 h-2.5 w-2.5 rounded-full bg-red-500 ring-2 ring-white">
+                    <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-red-400 opacity-75"></span>
+                  </span>
+                )}
+              </button>
+
+              <AnimatePresence>
+                {showNotifications && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 mt-3 w-80 sm:w-96 rounded-xl bg-white p-4 shadow-2xl border border-zinc-100 origin-top-right z-50"
+                  >
+                    <div className="flex items-center justify-between mb-4 pb-3 border-b border-zinc-100">
+                      <h3 className="font-serif text-lg text-zinc-900">Thông báo</h3>
+                      <button className="text-xs font-medium text-amber-600 hover:text-amber-700">Đánh dấu đã đọc</button>
+                    </div>
+                    <div className="space-y-4 max-h-[320px] overflow-y-auto pr-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+                      {notifications.map(notif => (
+                        <div key={notif.id} className="flex items-start gap-3 group cursor-pointer">
+                          <div className={`mt-1 flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${notif.unread ? 'bg-amber-100 text-amber-600' : 'bg-zinc-100 text-zinc-400'}`}>
+                            <Bell size={14} className={notif.unread ? 'fill-amber-600/20' : ''} />
+                          </div>
+                          <div className="flex-1">
+                            <p className={`text-sm font-medium ${notif.unread ? 'text-zinc-900' : 'text-zinc-600'}`}>{notif.title}</p>
+                            <p className="text-xs text-zinc-500 mt-0.5 line-clamp-2">{notif.desc}</p>
+                            <p className="text-[10px] text-zinc-400 mt-1">{notif.time}</p>
+                          </div>
+                          {notif.unread && <div className="h-2 w-2 rounded-full bg-amber-500 mt-2 shrink-0 shadow-[0_0_8px_rgba(245,158,11,0.6)]"></div>}
+                        </div>
+                      ))}
+                    </div>
+                    <div className="mt-4 pt-3 border-t border-zinc-100 text-center">
+                      <button className="text-xs font-medium text-zinc-500 hover:text-zinc-900 transition-colors">Xem tất cả thông báo</button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </header>
 
