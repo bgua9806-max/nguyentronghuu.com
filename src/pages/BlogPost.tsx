@@ -231,7 +231,7 @@ export default function BlogPost() {
                 </button>
               </div>
             )}
-            <div className="relative border border-zinc-200 bg-zinc-50 focus-within:bg-white focus-within:border-zinc-300 focus-within:shadow-md transition-all duration-300 rounded-2xl p-2 md:p-3">
+            <div className="relative border border-zinc-200 bg-zinc-50 focus-within:bg-white focus-within:border-zinc-300 focus-within:shadow-md transition-all duration-300 rounded-lg p-2 md:p-3">
               <textarea 
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
@@ -248,7 +248,7 @@ export default function BlogPost() {
                 <button 
                   type="submit"
                   disabled={!commentText.trim()}
-                  className="bg-zinc-900 text-white font-medium px-6 py-2.5 rounded-full hover:bg-zinc-800 disabled:bg-zinc-100 disabled:text-zinc-400 disabled:cursor-not-allowed transition-all flex items-center gap-2 text-sm shadow-sm"
+                  className="bg-zinc-900 text-white font-medium px-6 py-2.5 rounded-md hover:bg-zinc-800 disabled:bg-zinc-100 disabled:text-zinc-400 disabled:cursor-not-allowed transition-all flex items-center gap-2 text-sm shadow-sm"
                 >
                   <Send size={14} className={!commentText.trim() ? "opacity-50" : ""} /> 
                   <span>Gửi bình luận</span>
