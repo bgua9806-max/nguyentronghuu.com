@@ -137,7 +137,7 @@ export default function Home() {
             <div className="lg:col-span-7 order-1 lg:order-2">
               <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-6 lg:mb-8">Nguyễn Trọng Hữu là ai?</h2>
               
-              <p className="text-2xl md:text-3xl leading-snug text-zinc-900 font-serif font-medium mb-8">
+              <p className="text-xl md:text-3xl leading-snug text-zinc-900 font-serif font-medium mb-8">
                 Mình là một người tư vấn và xây dựng nền tảng công nghệ, giải pháp số và AI.
               </p>
               
@@ -179,11 +179,11 @@ export default function Home() {
           >
             <div>
               <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Công nghệ & Nền tảng</h2>
-              <h3 className="text-3xl md:text-4xl font-serif text-zinc-900 leading-tight">
+              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900 leading-tight">
                 Tech Stack cốt lõi
               </h3>
             </div>
-            <p className="text-base text-zinc-600 max-w-sm">
+            <p className="text-sm md:text-base text-zinc-600 max-w-sm">
               Bộ công cụ và công nghệ mình thường xuyên sử dụng để xây dựng và tối ưu hệ thống.
             </p>
           </motion.div>
@@ -253,7 +253,7 @@ export default function Home() {
               className="max-w-xl"
             >
               <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Góc nhìn & Phân tích</h2>
-              <h3 className="text-3xl md:text-4xl font-serif text-zinc-900 leading-tight">
+              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900 leading-tight">
                 Bài viết mới nhất
               </h3>
             </motion.div>
