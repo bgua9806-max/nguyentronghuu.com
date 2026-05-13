@@ -406,57 +406,53 @@ export default function About() {
       </section>
       {/* Recent Blogs Section */}
       {recentBlogs.length > 0 && (
-        <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+        <section className="py-16 md:py-24 px-6 md:px-12 bg-white border-t border-zinc-200">
+          <div className="max-w-7xl mx-auto">
             <motion.div 
               initial="initial"
               whileInView="whileInView"
               variants={FADE_UP}
-              className="lg:col-span-4"
+              className="mb-16 md:text-center"
             >
-              <div className="lg:sticky lg:top-32">
-                <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Bài viết & Chia sẻ</h2>
-                <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Góc nhìn chuyên môn</h3>
-              </div>
+              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Bài viết & Chia sẻ</h2>
+              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Góc nhìn chuyên môn</h3>
             </motion.div>
             
-            <div className="lg:col-span-8">
-              <div className="flex overflow-x-auto md:grid md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-6 px-6 md:mx-0 md:px-0">
-                {recentBlogs.map((post) => (
-                  <Link 
-                    key={post.id} 
-                    to={`/blog/${post.slug}`}
-                    className="group flex flex-col space-y-4 w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
-                  >
-                    <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
-                      <img 
-                        src={post.cover_image || 'https://via.placeholder.com/600x400'} 
-                        alt={post.title} 
-                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                      />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{post.category}</span>
-                      <h4 className="text-lg font-serif text-zinc-900 mt-1 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
-                        {post.title}
-                      </h4>
-                      <p className="text-sm text-zinc-500 line-clamp-2">
-                        {post.excerpt || post.seo_description}
-                      </p>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-              
-              <div className="mt-12 text-left md:text-center lg:text-left">
+            <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-6 md:gap-8 pb-8 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-6 px-6 md:mx-0 md:px-0">
+              {recentBlogs.map((post) => (
                 <Link 
-                  to="/blog"
-                  className="inline-flex items-center space-x-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors"
+                  key={post.id} 
+                  to={`/blog/${post.slug}`}
+                  className="group flex flex-col space-y-4 w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
                 >
-                  <span>Xem tất cả bài viết</span>
-                  <ArrowRight size={16} />
+                  <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
+                    <img 
+                      src={post.cover_image || 'https://via.placeholder.com/600x400'} 
+                      alt={post.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{post.category}</span>
+                    <h4 className="text-lg font-serif text-zinc-900 mt-1 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
+                      {post.title}
+                    </h4>
+                    <p className="text-sm text-zinc-500 line-clamp-2">
+                      {post.excerpt || post.seo_description}
+                    </p>
+                  </div>
                 </Link>
-              </div>
+              ))}
+            </div>
+            
+            <div className="mt-12 text-center">
+              <Link 
+                to="/blog"
+                className="inline-flex items-center space-x-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors"
+              >
+                <span>Xem tất cả bài viết</span>
+                <ArrowRight size={16} />
+              </Link>
             </div>
           </div>
         </section>
