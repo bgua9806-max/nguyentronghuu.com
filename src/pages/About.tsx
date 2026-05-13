@@ -272,10 +272,10 @@ export default function About() {
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5, duration: 0.6 }}
               viewport={{ once: true }}
-              className="mt-16 pt-16 border-t border-zinc-100"
+              className="mt-16 pt-16 border-t border-zinc-100 text-center flex flex-col items-center"
             >
               <h3 className="text-2xl font-serif text-zinc-900 mb-6">Sẵn sàng nâng tầm thương hiệu của bạn?</h3>
-              <p className="text-zinc-600 mb-8 max-w-xl">
+              <p className="text-zinc-600 mb-8 max-w-xl mx-auto">
                  Dù bạn cần một chiến lược Digital Marketing toàn diện hay muốn tối ưu hóa một điểm chạm cụ thể, mình luôn sẵn sàng lắng nghe và đồng hành.
               </p>
               <Link 
