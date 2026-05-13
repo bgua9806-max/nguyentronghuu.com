@@ -210,23 +210,25 @@ export default function About() {
       </section>
 
       {/* Experience Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-b border-zinc-100">
-        <div className="max-w-3xl mx-auto">
+      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={FADE_UP}
-            className="mb-16 md:text-center"
+            className="lg:col-span-4"
           >
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Chặng đường</h2>
-            <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Kinh nghiệm làm việc</h3>
+            <div className="lg:sticky lg:top-32">
+              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Chặng đường</h2>
+              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Kinh nghiệm làm việc</h3>
+            </div>
           </motion.div>
 
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={STAGGER}
-            className="space-y-12 md:space-y-16"
+            className="lg:col-span-8 space-y-12 md:space-y-16"
           >
             {EXPERIENCES.map((exp, idx) => (
               <motion.div key={idx} variants={STAGGER_ITEM} className="relative pl-8 md:pl-10">
@@ -246,23 +248,25 @@ export default function About() {
       </section>
 
       {/* Working Process Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 bg-zinc-50 border-b border-zinc-100">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={FADE_UP}
-            className="mb-16 md:text-center"
+            className="lg:col-span-4"
           >
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Cách thức làm việc</h2>
-            <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Quy trình triển khai</h3>
+            <div className="lg:sticky lg:top-32">
+              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Cách thức làm việc</h2>
+              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Quy trình triển khai</h3>
+            </div>
           </motion.div>
           
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={STAGGER}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-x-12 md:gap-y-16 relative"
+            className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-x-12 md:gap-y-16 relative"
           >
             {/* Connecting line for desktop */}
             <div className="hidden lg:block absolute top-[28px] left-[10%] right-[10%] h-[1px] bg-zinc-200"></div>
@@ -282,23 +286,25 @@ export default function About() {
         </div>
       </section>
       {/* Tech Stack Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 bg-zinc-50 border-b border-zinc-100">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={FADE_UP}
-            className="mb-16 md:text-center"
+            className="lg:col-span-4"
           >
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Công cụ</h2>
-            <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Công nghệ sử dụng</h3>
+            <div className="lg:sticky lg:top-32">
+              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Công cụ</h2>
+              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Công nghệ sử dụng</h3>
+            </div>
           </motion.div>
 
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={STAGGER}
-            className="grid grid-cols-1 md:grid-cols-3 gap-12"
+            className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-12"
           >
             {TECH_STACK.map((group, idx) => (
               <motion.div key={idx} variants={STAGGER_ITEM}>
@@ -320,23 +326,25 @@ export default function About() {
       </section>
 
       {/* Expertise Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 bg-white">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={FADE_UP}
-            className="mb-16 md:text-center"
+            className="lg:col-span-4"
           >
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Năng lực cốt lõi</h2>
-            <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Chuyên môn & Giải pháp</h3>
+            <div className="lg:sticky lg:top-32">
+              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Năng lực cốt lõi</h2>
+              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Chuyên môn & Giải pháp</h3>
+            </div>
           </motion.div>
           
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={STAGGER}
-            className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16"
+            className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-12 lg:gap-16"
           >
             {EXPERTISE_AREAS.map((group, idx) => (
               <motion.div 
@@ -371,23 +379,25 @@ export default function About() {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 bg-zinc-50 border-t border-zinc-100">
-        <div className="max-w-7xl mx-auto">
+      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={FADE_UP}
-            className="mb-16 md:text-center"
+            className="lg:col-span-4"
           >
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Khách hàng nói gì</h2>
-            <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Đánh giá từ đối tác</h3>
+            <div className="lg:sticky lg:top-32">
+              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Khách hàng nói gì</h2>
+              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Đánh giá từ đối tác</h3>
+            </div>
           </motion.div>
           
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={STAGGER}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8"
           >
             {TESTIMONIALS.map((t, idx) => (
               <motion.div 
@@ -439,53 +449,57 @@ export default function About() {
       </section>
       {/* Recent Blogs Section */}
       {recentBlogs.length > 0 && (
-        <section className="py-16 md:py-24 px-6 md:px-12 bg-zinc-50 border-t border-zinc-100">
-          <div className="max-w-7xl mx-auto">
+        <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
             <motion.div 
               initial="initial"
               whileInView="whileInView"
               variants={FADE_UP}
-              className="mb-16 md:text-center"
+              className="lg:col-span-4"
             >
-              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Bài viết & Chia sẻ</h2>
-              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Góc nhìn chuyên môn</h3>
+              <div className="lg:sticky lg:top-32">
+                <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Bài viết & Chia sẻ</h2>
+                <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Góc nhìn chuyên môn</h3>
+              </div>
             </motion.div>
             
-            <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-6 md:gap-8 pb-8 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-6 px-6 md:mx-0 md:px-0">
-              {recentBlogs.map((post) => (
+            <div className="lg:col-span-8">
+              <div className="flex overflow-x-auto md:grid md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-6 px-6 md:mx-0 md:px-0">
+                {recentBlogs.map((post) => (
+                  <Link 
+                    key={post.id} 
+                    to={`/blog/${post.slug}`}
+                    className="group flex flex-col space-y-4 w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
+                  >
+                    <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
+                      <img 
+                        src={post.cover_image || 'https://via.placeholder.com/600x400'} 
+                        alt={post.title} 
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                    </div>
+                    <div>
+                      <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{post.category}</span>
+                      <h4 className="text-lg font-serif text-zinc-900 mt-1 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
+                        {post.title}
+                      </h4>
+                      <p className="text-sm text-zinc-500 line-clamp-2">
+                        {post.excerpt || post.seo_description}
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              
+              <div className="mt-12 text-left md:text-center lg:text-left">
                 <Link 
-                  key={post.id} 
-                  to={`/blog/${post.slug}`}
-                  className="group flex flex-col space-y-4 w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
+                  to="/blog"
+                  className="inline-flex items-center space-x-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors"
                 >
-                  <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
-                    <img 
-                      src={post.cover_image || 'https://via.placeholder.com/600x400'} 
-                      alt={post.title} 
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                  </div>
-                  <div>
-                    <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{post.category}</span>
-                    <h4 className="text-lg font-serif text-zinc-900 mt-1 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
-                      {post.title}
-                    </h4>
-                    <p className="text-sm text-zinc-500 line-clamp-2">
-                      {post.excerpt || post.seo_description}
-                    </p>
-                  </div>
+                  <span>Xem tất cả bài viết</span>
+                  <ArrowRight size={16} />
                 </Link>
-              ))}
-            </div>
-            
-            <div className="mt-12 text-center">
-              <Link 
-                to="/blog"
-                className="inline-flex items-center space-x-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors"
-              >
-                <span>Xem tất cả bài viết</span>
-                <ArrowRight size={16} />
-              </Link>
+              </div>
             </div>
           </div>
         </section>
