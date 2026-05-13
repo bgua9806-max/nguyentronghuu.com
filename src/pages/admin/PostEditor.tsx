@@ -387,7 +387,7 @@ export default function PostEditor() {
   return (
     <div className="w-full max-w-none space-y-8 animate-in fade-in duration-500 pb-28">
       {/* Top Header Actions */}
-      <div className="sticky top-0 z-30 -mx-4 flex items-center justify-between border-b border-white/40 bg-[#f7f4ef]/80 px-4 py-4 backdrop-blur-2xl sm:px-0 sm:mx-0 sm:bg-[#f7f4ef]/90">
+      <div className="sticky top-[76px] z-20 -mx-4 flex items-center justify-between border-b border-white/40 bg-[#f7f4ef]/80 px-4 py-4 backdrop-blur-2xl sm:px-0 sm:mx-0 sm:bg-[#f7f4ef]/90">
         <button 
           onClick={() => navigate('/admin/posts')}
           className="group flex items-center gap-2 text-sm font-semibold text-zinc-500 transition-colors hover:text-zinc-950"
@@ -450,7 +450,7 @@ export default function PostEditor() {
 
             {/* Rich Text Toolbar */}
             <div className="space-y-4">
-              <div className="sticky top-20 z-10 flex items-center gap-1 overflow-x-auto rounded-sm border border-zinc-200 bg-white/80 p-2 backdrop-blur-md shadow-sm">
+              <div className="sticky top-[150px] z-10 flex items-center gap-1 overflow-x-auto rounded-sm border border-zinc-200 bg-white/80 p-2 backdrop-blur-md shadow-sm">
                 <button onClick={() => executeCommand('formatBlock', 'H3')} className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Tiêu đề"><Type size={18} /></button>
                 <div className="mx-1 h-5 w-px bg-zinc-200" />
                 <button onClick={() => executeCommand('bold')} className="rounded-sm p-2 font-bold text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="In đậm"><Bold size={18} /></button>

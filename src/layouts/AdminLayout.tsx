@@ -105,7 +105,7 @@ export default function AdminLayout() {
       </aside>
 
       <main className="min-w-0 flex-1 lg:pl-[292px]">
-        <header className="sticky top-0 z-30 border-b border-white/70 bg-[#f7f4ef]/80 backdrop-blur-2xl">
+        <header className="sticky top-0 z-50 border-b border-white/70 bg-[#f7f4ef]/80 backdrop-blur-2xl">
           <div className="flex min-h-[76px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
             <div className="min-w-0">
               <h1 className="truncate font-serif text-2xl text-zinc-950 sm:text-3xl">{currentPage}</h1>
