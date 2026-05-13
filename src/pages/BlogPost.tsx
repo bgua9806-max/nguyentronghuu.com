@@ -300,12 +300,12 @@ export default function BlogPost() {
       {relatedPosts.length > 0 && (
         <section className="border-t border-zinc-200 pt-16 mt-16">
           <h3 className="text-2xl font-serif text-zinc-900 mb-8">Bài viết gợi ý</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-6 md:gap-8 pb-8 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-6 px-6 md:mx-0 md:px-0">
             {relatedPosts.map((rp) => (
               <Link 
                 key={rp.id} 
                 to={`/blog/${rp.slug}`}
-                className="group flex flex-col space-y-4"
+                className="group flex flex-col space-y-4 min-w-[280px] md:min-w-0 flex-shrink-0 snap-center"
               >
                 <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
                   <img 

@@ -162,12 +162,12 @@ export default function ProjectDetail() {
       {relatedProjects.length > 0 && (
         <section className="border-t border-zinc-200 pt-16 mt-16">
           <h3 className="text-2xl font-serif text-zinc-900 mb-8">Dự án liên quan</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="flex overflow-x-auto md:grid md:grid-cols-2 gap-6 md:gap-8 pb-8 md:pb-0 snap-x snap-mandatory [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] -mx-6 px-6 md:mx-0 md:px-0">
             {relatedProjects.map((rp) => (
               <Link 
                 key={rp.id} 
                 to={`/projects/${rp.slug}`}
-                className="group block"
+                className="group block min-w-[280px] sm:min-w-[320px] md:min-w-0 flex-shrink-0 snap-center"
               >
                 <div className="w-full aspect-[16/9] overflow-hidden rounded-sm bg-zinc-100 mb-6">
                   <img 
