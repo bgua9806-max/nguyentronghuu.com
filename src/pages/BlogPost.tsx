@@ -231,21 +231,27 @@ export default function BlogPost() {
                 </button>
               </div>
             )}
-            <div className="relative border-b border-zinc-200 focus-within:border-zinc-900 transition-colors pb-4">
+            <div className="relative border border-zinc-200 bg-zinc-50 focus-within:bg-white focus-within:border-zinc-300 focus-within:shadow-md transition-all duration-300 rounded-2xl p-2 md:p-3">
               <textarea 
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Để lại bình luận hoặc câu hỏi của bạn..."
-                className="w-full bg-transparent border-none px-0 py-2 min-h-[60px] focus:outline-none focus:ring-0 resize-y text-zinc-900 placeholder:text-zinc-400 text-sm md:text-base transition-colors"
+                placeholder="Viết bình luận của bạn..."
+                className="w-full bg-transparent border-none px-3 py-3 min-h-[80px] focus:outline-none focus:ring-0 resize-y text-zinc-900 placeholder:text-zinc-400 text-sm md:text-base transition-colors"
               />
-              <div className="flex justify-between items-end mt-2">
-                <span className="text-xs text-zinc-400">Gửi ẩn danh</span>
+              <div className="flex justify-between items-center mt-2 border-t border-zinc-100/80 pt-3 px-2 pb-1">
+                <div className="flex items-center space-x-2 text-zinc-400">
+                  <div className="w-6 h-6 rounded-full bg-zinc-200 flex items-center justify-center text-[10px] font-bold text-zinc-500">
+                    ?
+                  </div>
+                  <span className="text-xs font-medium tracking-wide hidden sm:inline-block">Gửi ẩn danh</span>
+                </div>
                 <button 
                   type="submit"
                   disabled={!commentText.trim()}
                   className="bg-zinc-900 text-white font-medium px-6 py-2.5 rounded-full hover:bg-zinc-800 disabled:bg-zinc-100 disabled:text-zinc-400 disabled:cursor-not-allowed transition-all flex items-center gap-2 text-sm shadow-sm"
                 >
-                  <Send size={14} /> <span>Gửi</span>
+                  <Send size={14} className={!commentText.trim() ? "opacity-50" : ""} /> 
+                  <span>Gửi bình luận</span>
                 </button>
               </div>
             </div>
