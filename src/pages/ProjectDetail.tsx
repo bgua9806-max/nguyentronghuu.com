@@ -12,6 +12,7 @@ export default function ProjectDetail() {
   const [project, setProject] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [shareText, setShareText] = useState("Chia sẻ dự án");
+  const [relatedProjects, setRelatedProjects] = useState<any[]>([]);
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -24,6 +25,17 @@ export default function ProjectDetail() {
           
         if (error) throw error;
         setProject(data);
+
+        // Fetch related projects
+        const { data: relatedData } = await supabase
+          .from('projects')
+          .select('*')
+          .eq('status', 'completed')
+          .neq('id', data.id)
+          .limit(2)
+          .order('created_at', { ascending: false });
+          
+        setRelatedProjects(relatedData || []);
       } catch (error) {
         console.error('Error fetching project:', error);
         navigate('/projects');
@@ -145,6 +157,39 @@ export default function ProjectDetail() {
            </button>
         </motion.div>
       </motion.div>
+
+      {/* Related Projects Section */}
+      {relatedProjects.length > 0 && (
+        <section className="border-t border-zinc-200 pt-16 mt-16">
+          <h3 className="text-2xl font-serif text-zinc-900 mb-8">Dự án liên quan</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {relatedProjects.map((rp) => (
+              <Link 
+                key={rp.id} 
+                to={`/projects/${rp.slug}`}
+                className="group block"
+              >
+                <div className="w-full aspect-[16/9] overflow-hidden rounded-sm bg-zinc-100 mb-6">
+                  <img 
+                    src={rp.cover_image || 'https://via.placeholder.com/800x450'} 
+                    alt={rp.title} 
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                </div>
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-[10px] font-bold text-zinc-900 uppercase tracking-widest bg-zinc-100 px-2.5 py-1 rounded-sm">
+                    {rp.category}
+                  </span>
+                  <span className="text-xs font-medium text-zinc-400">{rp.year}</span>
+                </div>
+                <h4 className="text-2xl font-serif text-zinc-900 mb-2 group-hover:text-amber-600 transition-colors">
+                  {rp.title}
+                </h4>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </motion.article>
   );
 }
