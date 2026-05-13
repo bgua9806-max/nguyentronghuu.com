@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { FADE_UP, STAGGER, STAGGER_ITEM } from '../data';
 import { ArrowRight, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import { supabase } from '../lib/supabase';
 
 const EXPERIENCES = [
   {
@@ -78,6 +79,25 @@ const WORKING_PROCESS = [
 ];
 
 export default function About() {
+  const [recentBlogs, setRecentBlogs] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchBlogs = async () => {
+      try {
+        const { data } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('status', 'published')
+          .limit(3)
+          .order('created_at', { ascending: false });
+        setRecentBlogs(data || []);
+      } catch (error) {
+        console.error('Error fetching blogs:', error);
+      }
+    };
+    fetchBlogs();
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -269,6 +289,60 @@ export default function About() {
           </div>
         </div>
       </section>
+
+      {/* Recent Blogs Section */}
+      {recentBlogs.length > 0 && (
+        <section className="py-24 px-6 md:px-12 bg-zinc-50 border-t border-zinc-100">
+          <div className="max-w-7xl mx-auto">
+            <motion.div 
+              initial="initial"
+              whileInView="whileInView"
+              variants={FADE_UP}
+              className="mb-16 md:text-center"
+            >
+              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Bài viết & Chia sẻ</h2>
+              <h3 className="text-3xl md:text-4xl font-serif text-zinc-900">Góc nhìn chuyên môn</h3>
+            </motion.div>
+            
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+              {recentBlogs.map((post) => (
+                <Link 
+                  key={post.id} 
+                  to={`/blog/${post.slug}`}
+                  className="group flex flex-col space-y-4"
+                >
+                  <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
+                    <img 
+                      src={post.cover_image || 'https://via.placeholder.com/600x400'} 
+                      alt={post.title} 
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                    />
+                  </div>
+                  <div>
+                    <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{post.category}</span>
+                    <h4 className="text-lg font-serif text-zinc-900 mt-1 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
+                      {post.title}
+                    </h4>
+                    <p className="text-sm text-zinc-500 line-clamp-2">
+                      {post.excerpt || post.seo_description}
+                    </p>
+                  </div>
+                </Link>
+              ))}
+            </div>
+            
+            <div className="mt-12 text-center">
+              <Link 
+                to="/blog"
+                className="inline-flex items-center space-x-2 text-sm font-medium text-amber-600 hover:text-amber-700 transition-colors"
+              >
+                <span>Xem tất cả bài viết</span>
+                <ArrowRight size={16} />
+              </Link>
+            </div>
+          </div>
+        </section>
+      )}
     </motion.div>
   );
 }
