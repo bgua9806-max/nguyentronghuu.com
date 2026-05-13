@@ -309,7 +309,7 @@ export default function About() {
                 <Link 
                   key={post.id} 
                   to={`/blog/${post.slug}`}
-                  className="group flex flex-col space-y-4 min-w-[280px] md:min-w-0 flex-shrink-0 snap-center"
+                  className="group flex flex-col space-y-4 w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
                 >
                   <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
                     <img 

@@ -167,7 +167,7 @@ export default function ProjectDetail() {
               <Link 
                 key={rp.id} 
                 to={`/projects/${rp.slug}`}
-                className="group block min-w-[280px] sm:min-w-[320px] md:min-w-0 flex-shrink-0 snap-center"
+                className="group block w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
               >
                 <div className="w-full aspect-[16/9] overflow-hidden rounded-sm bg-zinc-100 mb-6">
                   <img 
