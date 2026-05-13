@@ -172,13 +172,13 @@ export default function About() {
           </div>
           <div className="w-full lg:pt-8">
             <span className="inline-block px-3 py-1 bg-zinc-100 text-zinc-600 text-xs font-medium uppercase tracking-widest mb-8 rounded-full border border-zinc-200">Câu chuyện & Triết lý</span>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8">
+            <h1 className="text-2xl md:text-3xl lg:text-4xl font-serif text-zinc-900 leading-tight mb-8">
               "Công nghệ chỉ thực sự tỏa sáng khi nó giải quyết đúng nỗi đau của bài toán doanh nghiệp."
             </h1>
-            <p className="text-lg text-zinc-600 leading-relaxed mb-6">
+            <p className="text-sm md:text-base text-zinc-600 leading-relaxed mb-6">
               Với xuất phát điểm kết hợp giữa tư duy hệ thống và thấu hiểu trải nghiệm số, mình tin rằng bất cứ nền tảng ứng dụng hay giải pháp AI nào cũng cần được xây dựng xoay quanh người dùng.
             </p>
-            <p className="text-lg text-zinc-600 leading-relaxed">
+            <p className="text-sm md:text-base text-zinc-600 leading-relaxed">
               Mình tập trung vào việc tư vấn và kiến trúc phần mềm, phát triển các giải pháp Web, Mobile App chất lượng cao cùng các công cụ tự động hóa, trí tuệ nhân tạo (AI Automation) - biến những ý tưởng phức tạp thành những quy trình triển khai đơn giản, mang lại hiệu quả thực tế cho khách hàng.
             </p>
           </div>
