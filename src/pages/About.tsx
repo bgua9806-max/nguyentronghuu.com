@@ -266,28 +266,28 @@ export default function About() {
                 </motion.div>
               ))}
             </motion.div>
-            
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.6 }}
-              viewport={{ once: true }}
-              className="mt-16 pt-16 border-t border-zinc-100 text-center flex flex-col items-center"
-            >
-              <h3 className="text-2xl font-serif text-zinc-900 mb-6">Sẵn sàng nâng tầm thương hiệu của bạn?</h3>
-              <p className="text-zinc-600 mb-8 max-w-xl mx-auto">
-                 Dù bạn cần một chiến lược Digital Marketing toàn diện hay muốn tối ưu hóa một điểm chạm cụ thể, mình luôn sẵn sàng lắng nghe và đồng hành.
-              </p>
-              <Link 
-                to="/contact"
-                className="inline-flex items-center space-x-3 bg-zinc-900 text-white px-8 py-4 rounded-full text-sm font-medium hover:bg-zinc-800 hover:scale-105 transition-all duration-300"
-              >
-                <span>Kết nối ngay</span>
-                <ArrowRight size={18} />
-              </Link>
-            </motion.div>
           </div>
         </div>
+        
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          viewport={{ once: true }}
+          className="mt-24 pt-16 border-t border-zinc-100 text-center flex flex-col items-center"
+        >
+          <h3 className="text-2xl font-serif text-zinc-900 mb-6">Sẵn sàng nâng tầm thương hiệu của bạn?</h3>
+          <p className="text-zinc-600 mb-8 max-w-xl mx-auto">
+             Dù bạn cần một chiến lược Digital Marketing toàn diện hay muốn tối ưu hóa một điểm chạm cụ thể, mình luôn sẵn sàng lắng nghe và đồng hành.
+          </p>
+          <Link 
+            to="/contact"
+            className="inline-flex items-center space-x-3 bg-zinc-900 text-white px-8 py-4 rounded-full text-sm font-medium hover:bg-zinc-800 hover:scale-105 transition-all duration-300"
+          >
+            <span>Kết nối ngay</span>
+            <ArrowRight size={18} />
+          </Link>
+        </motion.div>
       </section>
 
       {/* Recent Blogs Section */}
