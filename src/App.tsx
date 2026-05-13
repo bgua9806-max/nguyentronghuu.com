@@ -185,9 +185,9 @@ function Layout() {
                   >
                     <Link 
                       to={item.path} 
-                      className="py-6 flex items-baseline justify-between group"
+                      className="py-5 flex items-baseline justify-between group"
                     >
-                      <span className="text-4xl sm:text-5xl font-serif text-white group-hover:text-amber-500 transition-colors">
+                      <span className="text-3xl sm:text-4xl font-serif text-white group-hover:text-amber-500 transition-colors">
                         {item.label}
                       </span>
                       <span className="text-xs sm:text-sm font-mono text-zinc-600 group-hover:text-amber-500/50 transition-colors">
