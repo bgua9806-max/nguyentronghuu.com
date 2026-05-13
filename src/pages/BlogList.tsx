@@ -41,6 +41,12 @@ export default function BlogList() {
       <SEO 
         title="Bài viết" 
         description="Đọc các bài viết, phân tích, và góc nhìn về giải pháp công nghệ, AI Automation và Digital Marketing từ Nguyễn Trọng Hữu." 
+        url="https://nguyentronghuu.com/blog"
+        keywords="blog công nghệ, AI Automation, Digital Marketing, bài viết, phân tích thị trường"
+        breadcrumbs={[
+          { name: 'Trang chủ', url: 'https://nguyentronghuu.com' },
+          { name: 'Bài viết', url: 'https://nguyentronghuu.com/blog' },
+        ]}
       />
 
       <div className="max-w-6xl mx-auto">

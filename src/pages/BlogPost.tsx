@@ -142,7 +142,16 @@ export default function BlogPost() {
         description={post.seo_description || `Đọc bài viết về ${post.title} trên blog của Nguyễn Trọng Hữu`}
         type="article"
         image={post.cover_image}
-        url={window.location.href}
+        url={`https://nguyentronghuu.com/blog/${post.slug}`}
+        keywords={`${post.category}, ${post.title}`}
+        publishedTime={post.created_at}
+        modifiedTime={post.updated_at || post.created_at}
+        articleSection={post.category}
+        breadcrumbs={[
+          { name: 'Trang chủ', url: 'https://nguyentronghuu.com' },
+          { name: 'Bài viết', url: 'https://nguyentronghuu.com/blog' },
+          { name: post.title, url: `https://nguyentronghuu.com/blog/${post.slug}` },
+        ]}
       />
 
       <Link 

@@ -40,6 +40,12 @@ export default function Projects() {
       <SEO 
         title="Dự án" 
         description="Tuyển tập các dự án nổi bật về công nghệ, hệ thống phần mềm và truyền thông mà Nguyễn Trọng Hữu đã thực hiện." 
+        url="https://nguyentronghuu.com/projects"
+        keywords="dự án công nghệ, portfolio, phần mềm, hệ thống AI, Web App"
+        breadcrumbs={[
+          { name: 'Trang chủ', url: 'https://nguyentronghuu.com' },
+          { name: 'Dự án', url: 'https://nguyentronghuu.com/projects' },
+        ]}
       />
 
       <motion.div

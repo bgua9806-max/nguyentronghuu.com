@@ -42,7 +42,9 @@ export default function Home() {
     >
       <SEO 
         title="Trang chủ" 
-        description="Nguyễn Trọng Hữu - Người xây dựng giải pháp nền tảng Web, Mobile App và hệ thống AI Automation." 
+        description="Nguyễn Trọng Hữu - Người xây dựng giải pháp nền tảng Web, Mobile App và hệ thống AI Automation. Tư vấn chuyển đổi số và tối ưu vận hành doanh nghiệp." 
+        url="https://nguyentronghuu.com"
+        keywords="Nguyễn Trọng Hữu, tư vấn công nghệ, AI Automation, Web Developer, Mobile App, chuyển đổi số"
       />
 
       <section className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-6xl mx-auto">

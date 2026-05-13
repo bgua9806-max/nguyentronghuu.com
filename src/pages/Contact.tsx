@@ -75,6 +75,12 @@ export default function Contact() {
       <SEO 
         title="Liên hệ" 
         description="Kết nối với Nguyễn Trọng Hữu để hợp tác, thảo luận về giải pháp phần mềm, Web, App và AI Automation cho doanh nghiệp." 
+        url="https://nguyentronghuu.com/contact"
+        keywords="liên hệ Nguyễn Trọng Hữu, hợp tác, tư vấn công nghệ, giải pháp AI"
+        breadcrumbs={[
+          { name: 'Trang chủ', url: 'https://nguyentronghuu.com' },
+          { name: 'Liên hệ', url: 'https://nguyentronghuu.com/contact' },
+        ]}
       />
 
       <div className="max-w-6xl mx-auto w-full">

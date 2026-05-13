@@ -1,4 +1,17 @@
+# https://www.robotstxt.org/robotstxt.html
 User-agent: *
 Allow: /
 
+# Crawl-delay for politeness
+Crawl-delay: 1
+
+# Block admin panel from search engines
+Disallow: /admin
+Disallow: /admin/*
+
+# Block API endpoints
+Disallow: /api/
+
+# Sitemaps
+Sitemap: https://nguyentronghuu.com/api/sitemap
 Sitemap: https://nguyentronghuu.com/sitemap.xml

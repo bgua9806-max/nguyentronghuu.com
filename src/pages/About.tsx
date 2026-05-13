@@ -109,6 +109,12 @@ export default function About() {
       <SEO 
         title="Giới thiệu" 
         description="Khám phá câu chuyện, triết lý và kinh nghiệm làm việc của Nguyễn Trọng Hữu - Người xây dựng giải pháp Công nghệ & AI Automation." 
+        url="https://nguyentronghuu.com/about"
+        keywords="giới thiệu Nguyễn Trọng Hữu, kinh nghiệm công nghệ, AI Automation, tư vấn chuyển đổi số"
+        breadcrumbs={[
+          { name: 'Trang chủ', url: 'https://nguyentronghuu.com' },
+          { name: 'Giới thiệu', url: 'https://nguyentronghuu.com/about' },
+        ]}
       />
 
       {/* Intro Section */}
