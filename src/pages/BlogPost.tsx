@@ -16,6 +16,7 @@ export default function BlogPost() {
   const [comments, setComments] = useState<any[]>([]);
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [shareText, setShareText] = useState("Chia sẻ");
+  const [relatedPosts, setRelatedPosts] = useState<any[]>([]);
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -37,6 +38,16 @@ export default function BlogPost() {
           .order('created_at', { ascending: false });
           
         setComments(commentsData || []);
+        // Lấy bài viết gợi ý (cùng trạng thái published, loại trừ bài hiện tại)
+        const { data: relatedData } = await supabase
+          .from('posts')
+          .select('*')
+          .eq('status', 'published')
+          .neq('id', data.id)
+          .limit(3)
+          .order('created_at', { ascending: false });
+        
+        setRelatedPosts(relatedData || []);
       } catch (error) {
         console.error('Error fetching post:', error);
         navigate('/blog');
@@ -284,6 +295,39 @@ export default function BlogPost() {
           </div>
         </div>
       </section>
+
+      {/* Related Posts Section */}
+      {relatedPosts.length > 0 && (
+        <section className="border-t border-zinc-200 pt-16 mt-16">
+          <h3 className="text-2xl font-serif text-zinc-900 mb-8">Bài viết gợi ý</h3>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {relatedPosts.map((rp) => (
+              <Link 
+                key={rp.id} 
+                to={`/blog/${rp.slug}`}
+                className="group flex flex-col space-y-4"
+              >
+                <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
+                  <img 
+                    src={rp.cover_image || 'https://via.placeholder.com/600x400'} 
+                    alt={rp.title} 
+                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
+                  />
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">{rp.category}</span>
+                  <h4 className="text-lg font-serif text-zinc-900 mt-1 mb-2 group-hover:text-amber-600 transition-colors line-clamp-2">
+                    {rp.title}
+                  </h4>
+                  <p className="text-sm text-zinc-500 line-clamp-2">
+                    {rp.excerpt || rp.seo_description}
+                  </p>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </motion.article>
   );
 }
