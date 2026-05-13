@@ -415,8 +415,8 @@ export default function About() {
             viewport={{ once: true }}
             className="py-16 md:py-24 border-t border-zinc-100 text-center flex flex-col items-center px-6 md:px-0"
           >
-            <h3 className="text-2xl md:text-3xl font-serif text-zinc-900 mb-6">Sẵn sàng nâng tầm hệ thống của bạn?</h3>
-            <p className="text-zinc-600 mb-8 max-w-xl mx-auto text-lg">
+            <h3 className="text-3xl md:text-4xl font-serif text-zinc-900 mb-6">Sẵn sàng nâng tầm hệ thống của bạn?</h3>
+            <p className="text-sm md:text-base text-zinc-600 mb-8 max-w-xl mx-auto leading-relaxed">
                Dù bạn cần một chiến lược Digital Marketing toàn diện hay muốn xây dựng hệ thống AI tự động hóa, mình luôn sẵn sàng lắng nghe và đồng hành.
             </p>
             <Link 
