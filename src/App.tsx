@@ -48,6 +48,24 @@ function Layout() {
   const isContactPage = location.pathname === '/contact';
   const isAdminRoute = location.pathname.startsWith('/admin');
 
+  useEffect(() => {
+    if (isAdminRoute) return;
+    
+    const isMobile = window.innerWidth <= 768;
+    if (!isMobile) {
+      document.body.style.zoom = "110%";
+      document.documentElement.style.setProperty('--ui-zoom', "1.1");
+    } else {
+      document.body.style.zoom = "100%";
+      document.documentElement.style.setProperty('--ui-zoom', "1");
+    }
+
+    return () => {
+      document.body.style.zoom = "100%";
+      document.documentElement.style.setProperty('--ui-zoom', "1");
+    };
+  }, [isAdminRoute]);
+
   if (isAdminRoute) {
     return (
       <Routes location={location}>
@@ -68,7 +86,7 @@ function Layout() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-[calc(100vh/var(--ui-zoom,1))] flex flex-col">
       {/* Navigation */}
       <nav
         className={`fixed top-0 w-full z-50 transition-all duration-500 flex justify-center ${
