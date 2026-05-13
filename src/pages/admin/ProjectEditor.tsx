@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Save, ArrowLeft, Image as ImageIcon, Bold, Italic, List, Link as LinkIcon, Type, Eye, Globe, Hash, Sparkles, ArrowDownRight, X, ExternalLink, Calendar, Copy, Briefcase, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
@@ -23,6 +23,99 @@ export default function ProjectEditor() {
   
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
+  const [isUploadingImage, setIsUploadingImage] = useState(false);
+
+  const iframeRef = useRef<HTMLIFrameElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const executeCommand = (command: string, value?: string) => {
+    const doc = iframeRef.current?.contentDocument;
+    if (doc) {
+      doc.execCommand(command, false, value);
+      setContent(doc.body.innerHTML);
+      iframeRef.current?.contentWindow?.focus();
+    }
+  };
+
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    try {
+      setIsUploadingImage(true);
+      for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileExt = file.name.split('.').pop();
+        const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}_${i}.${fileExt}`;
+        const { error: uploadError } = await supabase.storage.from('blog-images').upload(fileName, file);
+        if (uploadError) throw uploadError;
+        const { data } = supabase.storage.from('blog-images').getPublicUrl(fileName);
+        executeCommand('insertImage', data.publicUrl);
+      }
+      toast.success(`Đã tải ${files.length} ảnh lên!`);
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast.error('Lỗi khi tải ảnh lên');
+    } finally {
+      setIsUploadingImage(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  // Initialize WYSIWYG iframe
+  useEffect(() => {
+    if (iframeRef.current && !isLoading) {
+      const doc = iframeRef.current.contentDocument;
+      if (doc) {
+        doc.open();
+        doc.write(content || '<p><br></p>');
+        doc.close();
+        doc.designMode = 'on';
+        const style = doc.createElement('style');
+        style.textContent = `
+          body { font-family: ui-sans-serif, system-ui, sans-serif; cursor: text; padding: 16px; margin: 0; color: #3f3f46; font-size: 1.125rem; line-height: 1.75; }
+          img { max-width: 100%; border-radius: 4px; cursor: pointer; transition: outline 0.15s; }
+          img:hover { outline: 2px solid #f59e0b; outline-offset: 2px; }
+          img.selected-img { outline: 3px solid #f59e0b; outline-offset: 3px; }
+          h1,h2,h3 { margin-top: 1.5em; margin-bottom: 0.5em; font-family: ui-serif, Georgia, serif; }
+          p { margin-bottom: 1em; } a { color: #d97706; text-decoration: underline; }
+          ul,ol { padding-left: 20px; margin-bottom: 1em; }
+          .img-toolbar { position:absolute; display:flex; gap:4px; flex-wrap:wrap; max-width:320px; background:#18181b; padding:6px 8px; border-radius:6px; box-shadow:0 4px 12px rgba(0,0,0,.3); z-index:999; }
+          .img-toolbar button { background:transparent; border:1px solid #3f3f46; color:#fff; padding:4px 10px; border-radius:4px; font-size:11px; font-weight:700; cursor:pointer; transition:all .15s; }
+          .img-toolbar button:hover { background:#f59e0b; color:#18181b; border-color:#f59e0b; }
+          .img-toolbar .tb-label { color:#a1a1aa; font-size:9px; font-weight:700; text-transform:uppercase; width:100%; padding:2px 2px 0; }
+          .img-grid { display:flex; gap:8px; margin:16px 0; }
+          .img-grid img { flex:1; min-width:0; margin:0; object-fit:cover; height:auto; }
+        `;
+        doc.head.appendChild(style);
+
+        // Image click toolbar
+        doc.addEventListener('click', (e: any) => {
+          const old = doc.querySelector('.img-toolbar'); if (old) old.remove();
+          doc.querySelectorAll('.selected-img').forEach((i: any) => i.classList.remove('selected-img'));
+          const t = e.target as HTMLElement;
+          if (t.tagName === 'IMG') {
+            t.classList.add('selected-img');
+            const tb = doc.createElement('div'); tb.className = 'img-toolbar'; tb.contentEditable = 'false';
+            const sl = doc.createElement('span'); sl.className = 'tb-label'; sl.textContent = 'Kích thước'; tb.appendChild(sl);
+            ['25%','50%','75%','100%'].forEach(s => { const b = doc.createElement('button'); b.textContent = s; b.addEventListener('click', (ev: any) => { ev.stopPropagation(); (t as HTMLImageElement).style.width = s; (t as HTMLImageElement).style.height = 'auto'; tb.remove(); t.classList.remove('selected-img'); setContent(doc.body.innerHTML); }); tb.appendChild(b); });
+            const ll = doc.createElement('span'); ll.className = 'tb-label'; ll.textContent = 'Bố cục'; tb.appendChild(ll);
+            [2,3,4].forEach(cols => { const b = doc.createElement('button'); b.textContent = `${cols} cột`; b.addEventListener('click', (ev: any) => { ev.stopPropagation(); tb.remove(); /* grid logic */ const parent = t.parentElement!; const imgs: HTMLElement[] = []; let node: any = t; while(node.previousElementSibling) { const p = node.previousElementSibling; if(p.tagName==='IMG'){imgs.unshift(p);node=p;} else break; } imgs.push(t); node=t; while(node.nextElementSibling) { const n = node.nextElementSibling; if(n.tagName==='IMG'){imgs.push(n);node=n;} else break; } const grid = doc.createElement('div'); grid.className='img-grid'; grid.contentEditable='false'; const use = imgs.slice(0,cols); const first = use[0]; parent.insertBefore(grid, first); use.forEach(img => { img.remove(); (img as HTMLImageElement).style.width=''; img.classList.remove('selected-img'); grid.appendChild(img); }); setContent(doc.body.innerHTML); }); tb.appendChild(b); });
+            const db = doc.createElement('button'); db.textContent = 'Xóa'; db.style.borderColor = '#ef4444'; db.style.color = '#fca5a5'; db.addEventListener('click', (ev: any) => { ev.stopPropagation(); t.remove(); tb.remove(); setContent(doc.body.innerHTML); }); tb.appendChild(db);
+            tb.style.top = `${t.offsetTop - 70}px`; tb.style.left = `${t.offsetLeft}px`; t.parentElement?.insertBefore(tb, t);
+          }
+        });
+
+        const handleInput = () => setContent(doc.body.innerHTML);
+        doc.body.addEventListener('input', handleInput);
+        const handleKeydown = (e: KeyboardEvent) => {
+          if (e.ctrlKey && e.key === 'z') { e.preventDefault(); doc.execCommand('undo'); setContent(doc.body.innerHTML); }
+          if (e.ctrlKey && e.key === 'y') { e.preventDefault(); doc.execCommand('redo'); setContent(doc.body.innerHTML); }
+        };
+        doc.addEventListener('keydown', handleKeydown);
+        return () => { doc.body.removeEventListener('input', handleInput); doc.removeEventListener('keydown', handleKeydown); };
+      }
+    }
+  }, [isLoading]);
 
   useEffect(() => {
     if (title && !id && !slug) {
@@ -220,17 +313,20 @@ export default function ProjectEditor() {
 
             <div className="h-px w-full bg-zinc-100" />
 
-            {/* Mock Rich Text Toolbar */}
+            {/* WYSIWYG Toolbar */}
             <div className="space-y-4">
               <div className="sticky top-20 z-10 flex items-center gap-1 overflow-x-auto rounded-sm border border-zinc-200 bg-white/80 p-2 backdrop-blur-md shadow-sm">
-                <button className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Kiểu chữ"><Type size={18} /></button>
+                <button onClick={() => executeCommand('formatBlock', 'H3')} className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Tiêu đề"><Type size={18} /></button>
                 <div className="mx-1 h-5 w-px bg-zinc-200" />
-                <button className="rounded-sm p-2 font-bold text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="In đậm"><Bold size={18} /></button>
-                <button className="rounded-sm p-2 italic text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="In nghiêng"><Italic size={18} /></button>
+                <button onClick={() => executeCommand('bold')} className="rounded-sm p-2 font-bold text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="In đậm"><Bold size={18} /></button>
+                <button onClick={() => executeCommand('italic')} className="rounded-sm p-2 italic text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="In nghiêng"><Italic size={18} /></button>
                 <div className="mx-1 h-5 w-px bg-zinc-200" />
-                <button className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Danh sách"><List size={18} /></button>
-                <button className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Chèn liên kết"><LinkIcon size={18} /></button>
-                <button className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Chèn ảnh"><ImageIcon size={18} /></button>
+                <button onClick={() => executeCommand('insertUnorderedList')} className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Danh sách"><List size={18} /></button>
+                <button onClick={() => { const url = prompt('Nhập link:'); if(url) executeCommand('createLink', url); }} className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Chèn liên kết"><LinkIcon size={18} /></button>
+                <input type="file" ref={fileInputRef} onChange={handleImageUpload} accept="image/*" multiple className="hidden" />
+                <button onClick={() => fileInputRef.current?.click()} disabled={isUploadingImage} className={`rounded-sm p-2 transition-all ${isUploadingImage ? 'text-amber-500 animate-pulse' : 'text-zinc-500 hover:bg-zinc-100 hover:text-zinc-950'}`} title="Tải ảnh lên">
+                  {isUploadingImage ? <Loader2 size={18} className="animate-spin" /> : <ImageIcon size={18} />}
+                </button>
                 <div className="mx-1 h-5 w-px bg-zinc-200" />
                 <button className="flex items-center gap-2 rounded-sm bg-amber-50 px-3 py-2 text-xs font-bold text-amber-600 transition-all hover:bg-amber-100">
                   <Sparkles size={14} />
@@ -238,12 +334,7 @@ export default function ProjectEditor() {
                 </button>
               </div>
               
-              <textarea
-                value={content}
-                onChange={(e) => setContent(e.target.value)}
-                placeholder="Bắt đầu viết nội dung Case Study tại đây... Hỗ trợ Markdown."
-                className="min-h-[400px] w-full resize-none text-lg leading-relaxed text-zinc-700 placeholder:text-zinc-300 focus:outline-none"
-              />
+              <iframe ref={iframeRef} title="Visual Editor" className="min-h-[400px] w-full border border-zinc-200 rounded-sm bg-zinc-50/50" />
             </div>
           </div>
 
@@ -420,7 +511,7 @@ export default function ProjectEditor() {
               </div>
               <div className="prose prose-zinc max-w-none text-lg text-zinc-700 leading-relaxed">
                 {content ? (
-                  <div dangerouslySetInnerHTML={{ __html: content.replace(/\n/g, '<br/>') }} />
+                  <div dangerouslySetInnerHTML={{ __html: content }} />
                 ) : (
                   <p className="text-zinc-400 italic">Nội dung case study hiển thị ở đây...</p>
                 )}
