@@ -220,31 +220,32 @@ export default function BlogPost() {
         <div className="mb-10">
           <h3 className="text-2xl font-serif text-zinc-900 mb-8">Bình luận ({comments.length})</h3>
           
-          <form onSubmit={handleCommentSubmit} className="mb-10 block bg-zinc-50 p-6 rounded-sm border border-zinc-200">
+          <form onSubmit={handleCommentSubmit} className="mb-12 relative group">
             {replyingTo && (
-              <div className="flex items-center justify-between mb-4 bg-zinc-200/50 px-3 py-2 rounded-sm text-sm">
+              <div className="flex items-center justify-between mb-4 bg-zinc-50 border border-zinc-100 px-4 py-3 rounded-sm text-sm">
                 <span className="text-zinc-600">
                   Đang trả lời: <span className="font-medium text-zinc-900">{comments.find(c => c.id === replyingTo)?.name || 'Bình luận'}</span>
                 </span>
-                <button type="button" onClick={() => setReplyingTo(null)} className="text-zinc-500 hover:text-zinc-900">
+                <button type="button" onClick={() => setReplyingTo(null)} className="text-zinc-500 hover:text-zinc-900 text-xs uppercase tracking-widest font-bold">
                   Hủy
                 </button>
               </div>
             )}
-            <div className="relative">
+            <div className="relative border-b border-zinc-200 focus-within:border-zinc-900 transition-colors pb-4">
               <textarea 
                 value={commentText}
                 onChange={(e) => setCommentText(e.target.value)}
-                placeholder="Để lại bình luận của bạn..."
-                className="w-full bg-white border border-zinc-200 rounded-sm px-4 py-4 min-h-[100px] focus:outline-none focus:border-amber-500 resize-y text-zinc-900 placeholder:text-zinc-400 transition-colors"
+                placeholder="Để lại bình luận hoặc câu hỏi của bạn..."
+                className="w-full bg-transparent border-none px-0 py-2 min-h-[60px] focus:outline-none focus:ring-0 resize-y text-zinc-900 placeholder:text-zinc-400 text-sm md:text-base transition-colors"
               />
-              <div className="flex justify-end mt-4">
+              <div className="flex justify-between items-end mt-2">
+                <span className="text-xs text-zinc-400">Gửi ẩn danh</span>
                 <button 
                   type="submit"
                   disabled={!commentText.trim()}
-                  className="bg-amber-500 text-zinc-950 font-bold px-6 py-2.5 rounded-sm hover:bg-amber-600 disabled:bg-zinc-200 disabled:text-zinc-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+                  className="bg-zinc-900 text-white font-medium px-6 py-2.5 rounded-full hover:bg-zinc-800 disabled:bg-zinc-100 disabled:text-zinc-400 disabled:cursor-not-allowed transition-all flex items-center gap-2 text-sm shadow-sm"
                 >
-                  <Send size={16} /> Gửi bình luận
+                  <Send size={14} /> <span>Gửi</span>
                 </button>
               </div>
             </div>
