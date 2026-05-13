@@ -248,25 +248,23 @@ export default function About() {
       </section>
 
       {/* Working Process Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
+      <section className="py-16 md:py-24 px-6 md:px-12 bg-zinc-50/30 border-t border-zinc-200">
+        <div className="max-w-7xl mx-auto">
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={FADE_UP}
-            className="lg:col-span-4"
+            className="mb-16 md:text-center"
           >
-            <div className="lg:sticky lg:top-32">
-              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Cách thức làm việc</h2>
-              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Quy trình triển khai</h3>
-            </div>
+            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Cách thức làm việc</h2>
+            <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Quy trình triển khai</h3>
           </motion.div>
           
           <motion.div 
             initial="initial"
             whileInView="whileInView"
             variants={STAGGER}
-            className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-x-12 md:gap-y-16 relative"
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-x-12 md:gap-y-16 relative"
           >
             {/* Connecting line for desktop */}
             <div className="hidden lg:block absolute top-[28px] left-[10%] right-[10%] h-[1px] bg-zinc-200"></div>
