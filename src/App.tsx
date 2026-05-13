@@ -150,10 +150,10 @@ function Layout() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="fixed inset-0 z-40 bg-zinc-900 flex flex-col justify-between pt-32 pb-12 px-8 overflow-y-auto md:hidden"
+              className="fixed inset-0 z-40 bg-zinc-950/95 backdrop-blur-xl flex flex-col justify-between pt-32 pb-12 px-8 overflow-y-auto md:hidden"
             >
               <motion.div 
-                className="flex flex-col space-y-8 mt-4"
+                className="flex flex-col mt-4"
                 initial="hidden"
                 animate="visible"
                 exit="hidden"
@@ -168,21 +168,34 @@ function Layout() {
                   }
                 }}
               >
-                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
-                   <Link to="/" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Trang chủ</Link>
-                 </motion.div>
-                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
-                   <Link to="/about" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Giới thiệu</Link>
-                 </motion.div>
-                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
-                   <Link to="/projects" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Dự án</Link>
-                 </motion.div>
-                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
-                   <Link to="/blog" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Bài viết</Link>
-                 </motion.div>
-                 <motion.div variants={{ hidden: { y: 20, opacity: 0 }, visible: { y: 0, opacity: 1, transition: { duration: 0.4, ease: "easeOut" } } }}>
-                   <Link to="/contact" className="text-4xl font-serif text-white hover:text-zinc-400 transition-colors">Liên hệ</Link>
-                 </motion.div>
+                {[
+                  { path: '/', label: 'Trang chủ', num: '01' },
+                  { path: '/about', label: 'Giới thiệu', num: '02' },
+                  { path: '/projects', label: 'Dự án', num: '03' },
+                  { path: '/blog', label: 'Bài viết', num: '04' },
+                  { path: '/contact', label: 'Liên hệ', num: '05' },
+                ].map((item) => (
+                  <motion.div 
+                    key={item.num}
+                    variants={{ 
+                      hidden: { x: -30, opacity: 0 }, 
+                      visible: { x: 0, opacity: 1, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } } 
+                    }}
+                    className="border-b border-white/10 last:border-0"
+                  >
+                    <Link 
+                      to={item.path} 
+                      className="py-6 flex items-baseline justify-between group"
+                    >
+                      <span className="text-4xl sm:text-5xl font-serif text-white group-hover:text-amber-500 transition-colors">
+                        {item.label}
+                      </span>
+                      <span className="text-xs sm:text-sm font-mono text-zinc-600 group-hover:text-amber-500/50 transition-colors">
+                        {item.num}
+                      </span>
+                    </Link>
+                  </motion.div>
+                ))}
               </motion.div>
 
               <motion.div 
