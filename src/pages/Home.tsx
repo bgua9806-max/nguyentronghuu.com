@@ -65,7 +65,7 @@ export default function Home() {
               Giải pháp công nghệ <br className="hidden md:block"/>
               <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>
             </motion.h1>
-            <motion.p variants={STAGGER_ITEM} className="text-base md:text-lg text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12">
+            <motion.p variants={STAGGER_ITEM} className="text-sm md:text-base text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12">
               Người xây dựng giải pháp nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.
             </motion.p>
             <motion.div variants={STAGGER_ITEM}>
@@ -141,7 +141,7 @@ export default function Home() {
                 Mình là một người tư vấn và xây dựng nền tảng công nghệ, giải pháp số và AI.
               </p>
               
-              <div className="space-y-6 text-base md:text-lg text-zinc-600 mb-10">
+              <div className="space-y-6 text-sm md:text-base text-zinc-600 mb-10">
                 <p>
                   Niềm đam mê của mình là biến những vấn đề phức tạp thành các giải pháp công nghệ đơn giản, tinh tế và mang lại hiệu quả cao nhất cho doanh nghiệp.
                 </p>

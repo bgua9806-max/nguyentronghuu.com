@@ -137,7 +137,7 @@ export default function ProjectDetail() {
             </div>
 
             <div className="lg:col-span-8 space-y-12 md:space-y-16">
-                <motion.div variants={STAGGER_ITEM} className="prose prose-zinc max-w-none text-lg text-zinc-700 leading-relaxed">
+                <motion.div variants={STAGGER_ITEM} className="prose md:prose-lg prose-zinc max-w-none text-base md:text-lg text-zinc-700 leading-relaxed">
                   {project.content ? (
                     <div dangerouslySetInnerHTML={{ __html: project.content }} />
                   ) : (

@@ -143,7 +143,7 @@ export default function Contact() {
                     required
                     value={formData.name}
                     onChange={(e) => setFormData({...formData, name: e.target.value})}
-                    className="w-full bg-transparent border-b border-zinc-700 focus:border-white rounded-none px-0 py-2 text-white focus:outline-none transition-colors placeholder:text-zinc-700 text-lg"
+                    className="w-full bg-transparent border-b border-zinc-700 focus:border-white rounded-none px-0 py-2 text-white focus:outline-none transition-colors placeholder:text-zinc-700 text-base md:text-lg"
                     placeholder="Nguyễn Văn A"
                   />
                 </div>
@@ -154,7 +154,7 @@ export default function Contact() {
                     required
                     value={formData.email}
                     onChange={(e) => setFormData({...formData, email: e.target.value})}
-                    className="w-full bg-transparent border-b border-zinc-700 focus:border-white rounded-none px-0 py-2 text-white focus:outline-none transition-colors placeholder:text-zinc-700 text-lg"
+                    className="w-full bg-transparent border-b border-zinc-700 focus:border-white rounded-none px-0 py-2 text-white focus:outline-none transition-colors placeholder:text-zinc-700 text-base md:text-lg"
                     placeholder="email@example.com"
                   />
                 </div>
@@ -165,7 +165,7 @@ export default function Contact() {
                   type="tel" 
                   value={formData.phone}
                   onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                  className="w-full bg-transparent border-b border-zinc-700 focus:border-white rounded-none px-0 py-2 text-white focus:outline-none transition-colors placeholder:text-zinc-700 text-lg"
+                  className="w-full bg-transparent border-b border-zinc-700 focus:border-white rounded-none px-0 py-2 text-white focus:outline-none transition-colors placeholder:text-zinc-700 text-base md:text-lg"
                   placeholder="0901234567"
                 />
               </div>
@@ -175,7 +175,7 @@ export default function Contact() {
                   required
                   value={formData.message}
                   onChange={(e) => setFormData({...formData, message: e.target.value})}
-                  className="w-full bg-transparent border-b border-zinc-700 focus:border-white rounded-none px-0 py-2 min-h-[120px] text-white focus:outline-none transition-colors resize-y placeholder:text-zinc-700 text-lg"
+                  className="w-full bg-transparent border-b border-zinc-700 focus:border-white rounded-none px-0 py-2 min-h-[120px] text-white focus:outline-none transition-colors resize-y placeholder:text-zinc-700 text-base md:text-lg"
                   placeholder="Bạn muốn trao đổi về vấn đề gì?"
                 />
               </div>

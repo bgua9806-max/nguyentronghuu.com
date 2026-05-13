@@ -176,7 +176,7 @@ export default function BlogPost() {
         </div>
       </header>
 
-      <div className="text-zinc-700 leading-relaxed text-lg md:text-xl font-serif mb-16 prose prose-lg prose-zinc max-w-none prose-img:rounded-sm prose-img:shadow-md prose-a:text-amber-600">
+      <div className="text-zinc-700 leading-relaxed text-base md:text-xl font-serif mb-16 prose md:prose-lg prose-zinc max-w-none prose-img:rounded-sm prose-img:shadow-md prose-a:text-amber-600">
         {post.content ? (
           <div dangerouslySetInnerHTML={{ __html: post.content }} />
         ) : (
