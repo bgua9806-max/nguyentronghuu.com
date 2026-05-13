@@ -168,7 +168,7 @@ export default function BlogPost() {
           <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
           <span>{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
         </div>
-        <h1 className="text-3xl sm:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8 md:mb-12">
+        <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8 md:mb-12">
           {post.title}
         </h1>
         <div className="w-full aspect-[21/9] md:aspect-[16/9] overflow-hidden bg-zinc-100 rounded-sm">

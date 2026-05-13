@@ -102,11 +102,11 @@ export default function ProjectDetail() {
             </span>
             <span className="text-sm font-medium text-zinc-400">{project.year}</span>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-zinc-900 mb-6 md:mb-8 leading-tight">
+          <h1 className="text-2xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-zinc-900 mb-6 md:mb-8 leading-tight">
             {project.title}
           </h1>
           {project.seo_description && (
-             <p className="text-xl md:text-2xl text-zinc-600 leading-relaxed max-w-3xl">
+             <p className="text-sm md:text-2xl text-zinc-600 leading-relaxed max-w-3xl">
                {project.seo_description}
              </p>
           )}

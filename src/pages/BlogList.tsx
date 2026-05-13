@@ -58,7 +58,7 @@ export default function BlogList() {
             className="max-w-2xl"
           >
             <span className="block text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">Góc nhìn & Phân tích</span>
-            <h1 className="text-3xl md:text-4xl font-serif text-zinc-900 leading-tight">
+            <h1 className="text-2xl md:text-4xl font-serif text-zinc-900 leading-tight">
               Chia sẻ những đúc kết từ thực chiến về Digital Marketing, tăng trưởng và trải nghiệm khách hàng.
             </h1>
           </motion.div>
@@ -104,7 +104,7 @@ export default function BlogList() {
                        <span className="text-xs font-medium text-zinc-500 uppercase tracking-widest">{post.category}</span>
                     </div>
                     
-                    <h4 className="text-2xl md:text-3xl font-serif text-zinc-900 mb-3 group-hover:text-zinc-600 transition-colors">
+                    <h4 className="text-xl md:text-3xl font-serif text-zinc-900 mb-3 group-hover:text-zinc-600 transition-colors">
                       {post.title}
                     </h4>
                     

@@ -85,7 +85,7 @@ export default function Projects() {
               </div>
               <div className="flex justify-between items-start">
                 <div>
-                  <h3 className="text-xl font-medium text-zinc-900 mb-2 group-hover:text-zinc-600 transition-colors">{project.title}</h3>
+                  <h3 className="text-lg md:text-xl font-medium text-zinc-900 mb-2 group-hover:text-zinc-600 transition-colors">{project.title}</h3>
                   <p className="text-sm text-zinc-500">{project.category}</p>
                 </div>
                 <span className="text-xs font-medium text-zinc-400">{project.year}</span>

@@ -60,7 +60,7 @@ export default function Home() {
             </motion.p>
             <motion.h1 
               variants={STAGGER_ITEM} 
-              className="text-4xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8"
+              className="text-3xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8"
             >
               Giải pháp công nghệ <br className="hidden md:block"/>
               <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>

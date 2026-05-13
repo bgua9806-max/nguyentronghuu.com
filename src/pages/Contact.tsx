@@ -94,17 +94,17 @@ export default function Contact() {
             <div>
               <motion.h1 
                 variants={STAGGER_ITEM}
-                className="text-4xl md:text-5xl font-serif leading-tight mb-8"
+                className="text-2xl md:text-5xl font-serif leading-tight mb-8"
               >
                 Bắt đầu thảo luận về dự án của bạn.
               </motion.h1>
-              <motion.p variants={STAGGER_ITEM} className="text-zinc-400 mb-8 max-w-sm">
+              <motion.p variants={STAGGER_ITEM} className="text-sm md:text-base text-zinc-400 mb-8 max-w-sm leading-relaxed">
                 Hãy để lại lời nhắn, hệ thống sẽ tự động phản hồi xác nhận qua email và mình sẽ liên lạc lại với bạn sớm nhất.
               </motion.p>
               <motion.a 
                 variants={STAGGER_ITEM}
                 href="mailto:nguyentronghuu1905@gmail.com"
-                className="inline-flex items-center space-x-2 text-lg border-b border-white/30 pb-1 hover:border-white transition-colors"
+                className="inline-flex items-center space-x-2 text-base md:text-lg border-b border-white/30 pb-1 hover:border-white transition-colors"
               >
                 <Mail size={20} />
                 <span>nguyentronghuu1905@gmail.com</span>
@@ -133,7 +133,7 @@ export default function Contact() {
           </div>
 
           <motion.div variants={STAGGER_ITEM} className="relative">
-            <h3 className="text-3xl font-serif mb-10 text-white">Gửi lời nhắn cho mình</h3>
+            <h3 className="text-2xl md:text-3xl font-serif mb-10 text-white">Gửi lời nhắn cho mình</h3>
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
                 <div className="space-y-2 group">
