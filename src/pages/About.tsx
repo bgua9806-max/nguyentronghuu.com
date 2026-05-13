@@ -211,32 +211,37 @@ export default function About() {
 
       {/* Experience Section */}
       <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-b border-zinc-100">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16">
-          <div className="lg:col-span-4">
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest sticky top-32">Kinh nghiệm</h2>
-          </div>
-          <div className="lg:col-span-8 lg:pl-12">
-            <motion.div 
-              initial="initial"
-              whileInView="whileInView"
-              variants={STAGGER}
-              className="space-y-12 md:space-y-16"
-            >
-              {EXPERIENCES.map((exp, idx) => (
-                <motion.div key={idx} variants={STAGGER_ITEM} className="relative pl-8 md:pl-0">
-                  <div className="absolute left-0 md:-left-12 top-2 w-3 h-3 bg-zinc-200 rounded-full"></div>
-                  <div className="absolute left-[5px] md:-left-[43px] top-5 w-[1px] h-full bg-zinc-100 last:hidden"></div>
-                  
-                  <span className="text-sm font-medium text-zinc-400 block mb-2">{exp.period}</span>
-                  <h4 className="text-2xl font-serif text-zinc-900 mb-1">{exp.role}</h4>
-                  <p className="text-lg font-medium text-zinc-800 mb-4">{exp.company}</p>
-                  <p className="text-zinc-600 leading-relaxed max-w-2xl">
-                    {exp.description}
-                  </p>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+        <div className="max-w-3xl mx-auto">
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={FADE_UP}
+            className="mb-16 md:text-center"
+          >
+            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Chặng đường</h2>
+            <h3 className="text-3xl md:text-4xl font-serif text-zinc-900">Kinh nghiệm làm việc</h3>
+          </motion.div>
+
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={STAGGER}
+            className="space-y-12 md:space-y-16"
+          >
+            {EXPERIENCES.map((exp, idx) => (
+              <motion.div key={idx} variants={STAGGER_ITEM} className="relative pl-8 md:pl-10">
+                <div className="absolute left-0 top-2 w-3 h-3 bg-zinc-200 rounded-full"></div>
+                <div className="absolute left-[5px] top-5 w-[1px] h-full bg-zinc-100 last:hidden"></div>
+                
+                <span className="text-sm font-medium text-zinc-400 block mb-2">{exp.period}</span>
+                <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-2">{exp.role}</h4>
+                <p className="text-base font-medium text-zinc-800 mb-4">{exp.company}</p>
+                <p className="text-zinc-600 leading-relaxed text-sm md:text-base">
+                  {exp.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -267,8 +272,8 @@ export default function About() {
                 <div className="w-14 h-14 rounded-full bg-white border border-zinc-200 flex items-center justify-center mb-6 shadow-sm">
                   <span className="text-lg font-serif font-semibold text-zinc-900">{process.step}</span>
                 </div>
-                <h4 className="text-xl font-serif text-zinc-900 mb-3">{process.title}</h4>
-                <p className="text-zinc-600 leading-relaxed text-sm">
+                <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-3">{process.title}</h4>
+                <p className="text-zinc-600 leading-relaxed text-sm md:text-base">
                   {process.description}
                 </p>
               </motion.div>
@@ -277,35 +282,40 @@ export default function About() {
         </div>
       </section>
       {/* Tech Stack Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-b border-zinc-100">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16">
-          <div className="lg:col-span-4">
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest sticky top-32">Công nghệ sử dụng</h2>
-          </div>
-          <div className="lg:col-span-8 lg:pl-12">
-            <motion.div 
-              initial="initial"
-              whileInView="whileInView"
-              variants={STAGGER}
-              className="space-y-12 md:space-y-16"
-            >
-              {TECH_STACK.map((group, idx) => (
-                <motion.div key={idx} variants={STAGGER_ITEM}>
-                  <h4 className="text-xl font-serif text-zinc-900 mb-6">{group.category}</h4>
-                  <div className="flex flex-wrap gap-3">
-                    {group.technologies.map((tech, techIdx) => (
-                      <span 
-                        key={techIdx} 
-                        className="px-4 py-2 bg-zinc-100 text-zinc-800 text-sm font-medium rounded-full border border-zinc-200 hover:border-zinc-400 hover:bg-zinc-50 transition-colors"
-                      >
-                        {tech}
-                      </span>
-                    ))}
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-          </div>
+      <section className="py-16 md:py-24 px-6 md:px-12 bg-zinc-50 border-b border-zinc-100">
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={FADE_UP}
+            className="mb-16 md:text-center"
+          >
+            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Công cụ</h2>
+            <h3 className="text-3xl md:text-4xl font-serif text-zinc-900">Công nghệ sử dụng</h3>
+          </motion.div>
+
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={STAGGER}
+            className="grid grid-cols-1 md:grid-cols-3 gap-12"
+          >
+            {TECH_STACK.map((group, idx) => (
+              <motion.div key={idx} variants={STAGGER_ITEM}>
+                <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-6">{group.category}</h4>
+                <div className="flex flex-wrap gap-3">
+                  {group.technologies.map((tech, techIdx) => (
+                    <span 
+                      key={techIdx} 
+                      className="px-4 py-2 bg-white text-zinc-800 text-sm font-medium rounded-full border border-zinc-200 hover:border-zinc-400 transition-colors shadow-sm"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </motion.div>
+            ))}
+          </motion.div>
         </div>
       </section>
 
@@ -337,10 +347,10 @@ export default function About() {
                 <div className="w-12 h-12 bg-zinc-50 border border-zinc-200 text-zinc-900 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 group-hover:bg-zinc-900 group-hover:text-white group-hover:border-zinc-900">
                   <span className="font-serif text-xl">0{idx + 1}</span>
                 </div>
-                <h4 className="text-2xl font-serif text-zinc-900 mb-6">{group.category}</h4>
+                <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-6">{group.category}</h4>
                 <ul className="space-y-4">
                   {group.items.map((item, itemIdx) => (
-                    <li key={itemIdx} className="flex items-start text-zinc-600 group-hover:text-zinc-900 transition-colors duration-300">
+                    <li key={itemIdx} className="flex items-start text-zinc-600 group-hover:text-zinc-900 transition-colors duration-300 text-sm md:text-base">
                       <CheckCircle2 className="w-5 h-5 text-amber-600 mr-3 shrink-0 mt-0.5" />
                       <span className="leading-relaxed">{item}</span>
                     </li>
@@ -384,7 +394,7 @@ export default function About() {
                     </svg>
                   ))}
                 </div>
-                <p className="text-zinc-700 italic leading-relaxed mb-6">"{t.content}"</p>
+                <p className="text-zinc-700 italic leading-relaxed mb-6 text-sm md:text-base">"{t.content}"</p>
                 <div>
                   <h4 className="text-lg font-serif text-zinc-900">{t.author}</h4>
                   <p className="text-sm text-zinc-500">{t.role}</p>
