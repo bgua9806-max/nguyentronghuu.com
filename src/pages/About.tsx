@@ -378,50 +378,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Testimonials Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
-          <motion.div 
-            initial="initial"
-            whileInView="whileInView"
-            variants={FADE_UP}
-            className="lg:col-span-4"
-          >
-            <div className="lg:sticky lg:top-32">
-              <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Khách hàng nói gì</h2>
-              <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Đánh giá từ đối tác</h3>
-            </div>
-          </motion.div>
-          
-          <motion.div 
-            initial="initial"
-            whileInView="whileInView"
-            variants={STAGGER}
-            className="lg:col-span-8 grid grid-cols-1 md:grid-cols-2 gap-8"
-          >
-            {TESTIMONIALS.map((t, idx) => (
-              <motion.div 
-                key={idx} 
-                variants={STAGGER_ITEM} 
-                className="bg-white p-8 rounded-xl shadow-sm border border-zinc-100"
-              >
-                <div className="flex text-amber-500 mb-6">
-                  {[...Array(5)].map((_, i) => (
-                    <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 24 24">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-                    </svg>
-                  ))}
-                </div>
-                <p className="text-zinc-700 italic leading-relaxed mb-6 text-sm md:text-base">"{t.content}"</p>
-                <div>
-                  <h4 className="text-lg font-serif text-zinc-900">{t.author}</h4>
-                  <p className="text-sm text-zinc-500">{t.role}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
+
 
       {/* CTA Section */}
       <section className="bg-white">
