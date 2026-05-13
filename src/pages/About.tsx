@@ -158,8 +158,8 @@ export default function About() {
           variants={FADE_UP}
           className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center"
         >
-          <div className="w-full">
-             <div className="aspect-[4/5] rounded-xl overflow-hidden bg-zinc-100 relative shadow-xl">
+          <div className="w-full max-w-[350px] lg:max-w-[400px] mx-auto">
+             <div className="aspect-[3/4] rounded-xl overflow-hidden bg-zinc-100 relative shadow-xl">
                <img 
                  src="https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png" 
                  alt="Nguyễn Trọng Hữu - Chuyên gia Công nghệ & AI Automation" 
@@ -336,26 +336,34 @@ export default function About() {
             initial="initial"
             whileInView="whileInView"
             variants={STAGGER}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+            className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-16"
           >
             {EXPERTISE_AREAS.map((group, idx) => (
               <motion.div 
                 key={idx} 
                 variants={STAGGER_ITEM} 
-                className="bg-white border border-zinc-200 p-8 hover:shadow-lg hover:border-zinc-300 transition-all duration-500 rounded-xl group"
+                className="group relative pt-8"
               >
-                <div className="w-12 h-12 bg-zinc-50 border border-zinc-200 text-zinc-900 rounded-full flex items-center justify-center mb-8 group-hover:scale-110 transition-transform duration-500 group-hover:bg-zinc-900 group-hover:text-white group-hover:border-zinc-900">
-                  <span className="font-serif text-xl">0{idx + 1}</span>
+                {/* Accent top line */}
+                <div className="absolute top-0 left-0 w-full h-[1px] bg-zinc-200 group-hover:bg-zinc-900 transition-colors duration-500"></div>
+                
+                <div className="flex flex-col h-full">
+                  <div className="flex items-baseline space-x-4 mb-8">
+                    <span className="text-3xl md:text-4xl font-serif text-zinc-300 group-hover:text-zinc-900 transition-colors duration-500">
+                      0{idx + 1}.
+                    </span>
+                    <h4 className="text-xl md:text-2xl font-serif text-zinc-900">{group.category}</h4>
+                  </div>
+                  
+                  <ul className="space-y-4">
+                    {group.items.map((item, itemIdx) => (
+                      <li key={itemIdx} className="flex items-start text-zinc-600 group-hover:text-zinc-900 transition-colors duration-300 text-sm md:text-base">
+                        <span className="w-1.5 h-1.5 rounded-full bg-zinc-300 group-hover:bg-amber-500 mt-2 mr-4 flex-shrink-0 transition-colors duration-300"></span>
+                        <span className="leading-relaxed">{item}</span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-                <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-6">{group.category}</h4>
-                <ul className="space-y-4">
-                  {group.items.map((item, itemIdx) => (
-                    <li key={itemIdx} className="flex items-start text-zinc-600 group-hover:text-zinc-900 transition-colors duration-300 text-sm md:text-base">
-                      <CheckCircle2 className="w-5 h-5 text-amber-600 mr-3 shrink-0 mt-0.5" />
-                      <span className="leading-relaxed">{item}</span>
-                    </li>
-                  ))}
-                </ul>
               </motion.div>
             ))}
           </motion.div>
