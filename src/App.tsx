@@ -198,21 +198,6 @@ function Layout() {
                 ))}
               </motion.div>
 
-              <motion.div 
-                initial={{ opacity: 0 }} 
-                animate={{ opacity: 1 }} 
-                transition={{ delay: 0.6 }}
-                className="flex flex-col mt-12 space-y-6"
-              >
-                <div className="w-12 h-[1px] bg-zinc-800"></div>
-                <div className="flex flex-wrap gap-4 text-sm font-medium text-zinc-400">
-                  {SOCIAL_LINKS.map((link, idx) => (
-                    <a key={idx} href={link.url} target={link.type === 'external' ? "_blank" : undefined} rel={link.type === 'external' ? "noopener noreferrer" : undefined} className="hover:text-white transition-colors">
-                      {link.name}
-                    </a>
-                  ))}
-                </div>
-              </motion.div>
             </motion.div>
           )}
         </AnimatePresence>
