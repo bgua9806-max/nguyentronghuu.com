@@ -129,10 +129,10 @@ export default function About() {
              </div>
           </div>
           <div className="w-full lg:pt-8">
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-8">Câu chuyện & Triết lý</h2>
-            <h3 className="text-3xl md:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8">
+            <span className="block text-sm font-medium text-zinc-500 uppercase tracking-widest mb-8">Câu chuyện & Triết lý</span>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8">
               "Công nghệ chỉ thực sự tỏa sáng khi nó giải quyết đúng nỗi đau của bài toán doanh nghiệp."
-            </h3>
+            </h1>
             <p className="text-lg text-zinc-600 leading-relaxed mb-6">
               Với xuất phát điểm kết hợp giữa tư duy hệ thống và thấu hiểu trải nghiệm số, mình tin rằng bất cứ nền tảng ứng dụng hay giải pháp AI nào cũng cần được xây dựng xoay quanh người dùng.
             </p>

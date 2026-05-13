@@ -86,12 +86,12 @@ export default function Contact() {
         >
           <div className="flex flex-col space-y-16">
             <div>
-              <motion.h2 
+              <motion.h1 
                 variants={STAGGER_ITEM}
                 className="text-4xl md:text-5xl font-serif leading-tight mb-8"
               >
                 Bắt đầu thảo luận về dự án của bạn.
-              </motion.h2>
+              </motion.h1>
               <motion.p variants={STAGGER_ITEM} className="text-zinc-400 mb-8 max-w-sm">
                 Hãy để lại lời nhắn, hệ thống sẽ tự động phản hồi xác nhận qua email và mình sẽ liên lạc lại với bạn sớm nhất.
               </motion.p>

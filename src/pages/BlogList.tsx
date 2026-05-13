@@ -51,10 +51,10 @@ export default function BlogList() {
             variants={FADE_UP}
             className="max-w-2xl"
           >
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">Góc nhìn & Phân tích</h2>
-            <h3 className="text-3xl md:text-4xl font-serif text-zinc-900 leading-tight">
+            <span className="block text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">Góc nhìn & Phân tích</span>
+            <h1 className="text-3xl md:text-4xl font-serif text-zinc-900 leading-tight">
               Chia sẻ những đúc kết từ thực chiến về Digital Marketing, tăng trưởng và trải nghiệm khách hàng.
-            </h3>
+            </h1>
           </motion.div>
         </div>
 
