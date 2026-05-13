@@ -247,42 +247,7 @@ export default function About() {
         </div>
       </section>
 
-      {/* Working Process Section */}
-      <section className="py-16 md:py-24 px-6 md:px-12 bg-zinc-50/30 border-t border-zinc-200">
-        <div className="max-w-7xl mx-auto">
-          <motion.div 
-            initial="initial"
-            whileInView="whileInView"
-            variants={FADE_UP}
-            className="mb-16 md:text-center"
-          >
-            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Cách thức làm việc</h2>
-            <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Quy trình triển khai</h3>
-          </motion.div>
-          
-          <motion.div 
-            initial="initial"
-            whileInView="whileInView"
-            variants={STAGGER}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-x-12 md:gap-y-16 relative"
-          >
-            {/* Connecting line for desktop */}
-            <div className="hidden lg:block absolute top-[28px] left-[10%] right-[10%] h-[1px] bg-zinc-200"></div>
 
-            {WORKING_PROCESS.map((process, idx) => (
-              <motion.div key={idx} variants={STAGGER_ITEM} className="relative z-10 flex flex-col items-start md:items-center md:text-center">
-                <div className="w-14 h-14 rounded-full bg-white border border-zinc-200 flex items-center justify-center mb-6 shadow-sm">
-                  <span className="text-lg font-serif font-semibold text-zinc-900">{process.step}</span>
-                </div>
-                <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-3">{process.title}</h4>
-                <p className="text-zinc-600 leading-relaxed text-sm md:text-base">
-                  {process.description}
-                </p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
       {/* Tech Stack Section */}
       <section className="py-16 md:py-24 px-6 md:px-12 max-w-7xl mx-auto border-t border-zinc-200">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24">
@@ -376,7 +341,42 @@ export default function About() {
         </div>
       </section>
 
+      {/* Working Process Section */}
+      <section className="py-16 md:py-24 px-6 md:px-12 bg-zinc-50/30 border-t border-zinc-200">
+        <div className="max-w-7xl mx-auto">
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={FADE_UP}
+            className="mb-16 md:text-center"
+          >
+            <h2 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-4">Cách thức làm việc</h2>
+            <h3 className="text-2xl md:text-4xl font-serif text-zinc-900">Quy trình triển khai</h3>
+          </motion.div>
+          
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            variants={STAGGER}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-x-12 md:gap-y-16 relative"
+          >
+            {/* Connecting line for desktop */}
+            <div className="hidden lg:block absolute top-[28px] left-[10%] right-[10%] h-[1px] bg-zinc-200"></div>
 
+            {WORKING_PROCESS.map((process, idx) => (
+              <motion.div key={idx} variants={STAGGER_ITEM} className="relative z-10 flex flex-col items-start md:items-center md:text-center">
+                <div className="w-14 h-14 rounded-full bg-white border border-zinc-200 flex items-center justify-center mb-6 shadow-sm">
+                  <span className="text-lg font-serif font-semibold text-zinc-900">{process.step}</span>
+                </div>
+                <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-3">{process.title}</h4>
+                <p className="text-zinc-600 leading-relaxed text-sm md:text-base">
+                  {process.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
 
       {/* CTA Section */}
       <section className="bg-white">
