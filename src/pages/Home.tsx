@@ -55,16 +55,16 @@ export default function Home() {
           className="flex flex-col md:flex-row items-center md:items-start justify-between gap-16 md:gap-8"
         >
           <div className="max-w-2xl md:w-2/3">
-            <motion.p variants={STAGGER_ITEM} className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">
+            <motion.h1 variants={STAGGER_ITEM} className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">
               Mình là Nguyễn Trọng Hữu
-            </motion.p>
-            <motion.h1 
+            </motion.h1>
+            <motion.h2 
               variants={STAGGER_ITEM} 
               className="text-3xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8"
             >
               Giải pháp công nghệ <br className="hidden md:block"/>
               <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>
-            </motion.h1>
+            </motion.h2>
             <motion.p variants={STAGGER_ITEM} className="text-sm md:text-base text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12">
               Người xây dựng giải pháp nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.
             </motion.p>
