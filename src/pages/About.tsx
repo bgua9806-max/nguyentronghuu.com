@@ -201,8 +201,8 @@ export default function About() {
               { label: "Đối tác chiến lược", value: "20+" }
             ].map((metric, idx) => (
               <motion.div key={idx} variants={STAGGER_ITEM} className="text-center flex flex-col items-center">
-                <div className="text-4xl md:text-5xl lg:text-6xl font-serif text-zinc-900 mb-2">{metric.value}</div>
-                <div className="text-sm font-medium text-zinc-500 uppercase tracking-widest">{metric.label}</div>
+                <div className="text-3xl md:text-4xl lg:text-5xl font-serif text-zinc-900 mb-2">{metric.value}</div>
+                <div className="text-xs font-medium text-zinc-500 uppercase tracking-widest">{metric.label}</div>
               </motion.div>
             ))}
           </motion.div>
