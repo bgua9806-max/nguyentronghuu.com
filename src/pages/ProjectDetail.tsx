@@ -112,12 +112,8 @@ export default function ProjectDetail() {
           )}
         </motion.div>
 
-        <motion.div variants={STAGGER_ITEM} className="w-full aspect-[21/9] md:aspect-[16/9] bg-zinc-100 mb-16 md:mb-24 overflow-hidden rounded-sm">
-          <img 
-            src={project.cover_image || 'https://via.placeholder.com/1200x600'} 
-            alt={project.title} 
-            className="w-full h-full object-cover"
-          />
+        <motion.div variants={STAGGER_ITEM} className="w-full flex justify-center bg-zinc-50 mb-16 md:mb-24 rounded-sm">
+            <img src={project.cover_image || 'https://via.placeholder.com/1200x600'} alt={project.title} className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
@@ -169,11 +165,11 @@ export default function ProjectDetail() {
                 to={`/projects/${rp.slug}`}
                 className="group block w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
               >
-                <div className="w-full aspect-[16/9] overflow-hidden rounded-sm bg-zinc-100 mb-6">
+                <div className="w-full aspect-video overflow-hidden rounded-sm bg-zinc-100 mb-6">
                   <img 
-                    src={rp.cover_image || 'https://via.placeholder.com/800x450'} 
+                    src={rp.cover_image || 'https://via.placeholder.com/600x400'} 
                     alt={rp.title} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                   />
                 </div>
                 <div className="flex items-center gap-3 mb-3">

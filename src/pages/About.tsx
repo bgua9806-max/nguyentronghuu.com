@@ -423,7 +423,7 @@ export default function About() {
                   to={`/blog/${post.slug}`}
                   className="group flex flex-col space-y-4 w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
                 >
-                  <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
+                  <div className="w-full aspect-video overflow-hidden rounded-sm bg-zinc-100">
                     <img 
                       src={post.cover_image || 'https://via.placeholder.com/600x400'} 
                       alt={post.title} 
