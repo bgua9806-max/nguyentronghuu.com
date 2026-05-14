@@ -144,7 +144,91 @@ export default function ProjectEditor() {
           if (e.ctrlKey && e.key === 'y') { e.preventDefault(); doc.execCommand('redo'); setContent(doc.body.innerHTML); }
         };
         doc.addEventListener('keydown', handleKeydown);
-        return () => { doc.body.removeEventListener('input', handleInput); doc.removeEventListener('keydown', handleKeydown); };
+
+        const handlePaste = (e: ClipboardEvent) => {
+          e.preventDefault();
+          const html = e.clipboardData?.getData('text/html');
+          const text = e.clipboardData?.getData('text/plain');
+
+          if (html) {
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = html.replace(/<!--[\s\S]*?-->/g, '');
+
+            const cleanNode = (node: any) => {
+              if (node.nodeType === 3) return; 
+              if (node.nodeType === 1) {
+                const tag = node.tagName.toLowerCase();
+                
+                const keepAttrs = ['href', 'src', 'alt'];
+                const attrsToKeep: Record<string, string> = {};
+                
+                let isBold = false;
+                let isItalic = false;
+                
+                if (node.style) {
+                   const fw = node.style.fontWeight;
+                   const fs = node.style.fontStyle;
+                   if (fw === 'bold' || fw === '700' || fw === '800' || fw === '900') isBold = true;
+                   if (fs === 'italic') isItalic = true;
+                }
+
+                keepAttrs.forEach(attr => {
+                  if (node.hasAttribute(attr)) {
+                    attrsToKeep[attr] = node.getAttribute(attr);
+                  }
+                });
+
+                while (node.attributes.length > 0) {
+                  node.removeAttribute(node.attributes[0].name);
+                }
+
+                Object.keys(attrsToKeep).forEach(attr => {
+                  node.setAttribute(attr, attrsToKeep[attr]);
+                });
+
+                if (['span', 'meta', 'font', 'style', 'script'].includes(tag)) {
+                   if (['style', 'script', 'meta'].includes(tag)) {
+                      node.remove();
+                      return;
+                   }
+                   if (isBold) {
+                      const strong = document.createElement('strong');
+                      strong.innerHTML = node.innerHTML;
+                      node.replaceWith(strong);
+                      node = strong;
+                   } else if (isItalic) {
+                      const em = document.createElement('em');
+                      em.innerHTML = node.innerHTML;
+                      node.replaceWith(em);
+                      node = em;
+                   } else {
+                      const fragment = document.createDocumentFragment();
+                      while (node.firstChild) {
+                        fragment.appendChild(node.firstChild);
+                      }
+                      node.replaceWith(fragment);
+                      return;
+                   }
+                }
+
+                Array.from(node.childNodes).forEach(cleanNode);
+              }
+            };
+
+            Array.from(tempDiv.childNodes).forEach(cleanNode);
+
+            const emptyP = tempDiv.querySelectorAll('p:empty, h1:empty, h2:empty, h3:empty');
+            emptyP.forEach((el: any) => el.remove());
+
+            doc.execCommand('insertHTML', false, tempDiv.innerHTML);
+          } else if (text) {
+            const paragraphs = text.split('\n').map(p => p.trim()).filter(p => p !== '').map(p => `<p>${p}</p>`).join('');
+            doc.execCommand('insertHTML', false, paragraphs);
+          }
+        };
+        doc.addEventListener('paste', handlePaste);
+
+        return () => { doc.body.removeEventListener('input', handleInput); doc.removeEventListener('keydown', handleKeydown); doc.removeEventListener('paste', handlePaste); };
       }
     }
   }, [isLoading]);
