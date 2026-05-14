@@ -172,7 +172,7 @@ export default function BlogPost() {
           {post.title}
         </h1>
         <div className="w-full flex justify-center bg-zinc-50 rounded-sm mb-12">
-          <img src={post.cover_image || 'https://via.placeholder.com/1200x600'} alt={post.title} className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
+          <img src={post.cover_image || 'https://via.placeholder.com/1200x600'} alt={post.title} width="1200" height="675" className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
         </div>
       </header>
 
@@ -180,7 +180,7 @@ export default function BlogPost() {
         {post.content ? (
           <div dangerouslySetInnerHTML={{ __html: post.content.replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
         ) : (
-          <p className="mb-8 italic text-zinc-400">Nội dung đang được cập nhật...</p>
+          <p className="mb-8 italic text-zinc-500">Nội dung đang được cập nhật...</p>
         )}
       </div>
 
@@ -328,6 +328,8 @@ export default function BlogPost() {
                   <img 
                     src={rp.cover_image || 'https://via.placeholder.com/600x400'} 
                     alt={rp.title} 
+                    width="600" height="338"
+                    loading="lazy"
                     className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                   />
                 </div>

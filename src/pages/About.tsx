@@ -163,6 +163,7 @@ export default function About() {
                <img 
                  src="https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png" 
                  alt="Nguyễn Trọng Hữu - Chuyên gia Công nghệ & AI Automation" 
+                 width="400" height="533"
                  className="w-full h-full object-cover hover:scale-105 transition-all duration-700"
                />
                <div className="absolute bottom-6 right-6">
@@ -235,7 +236,7 @@ export default function About() {
                 <div className="absolute left-0 top-2 w-3 h-3 bg-zinc-200 rounded-full"></div>
                 <div className="absolute left-[5px] top-5 w-[1px] h-full bg-zinc-100 last:hidden"></div>
                 
-                <span className="text-sm font-medium text-zinc-400 block mb-2">{exp.period}</span>
+                <span className="text-sm font-medium text-zinc-500 block mb-2">{exp.period}</span>
                 <h4 className="text-xl md:text-2xl font-serif text-zinc-900 mb-2">{exp.role}</h4>
                 <p className="text-sm md:text-base font-medium text-zinc-800 mb-4">{exp.company}</p>
                 <p className="text-zinc-600 leading-relaxed text-sm md:text-base">
@@ -427,6 +428,8 @@ export default function About() {
                     <img 
                       src={post.cover_image || 'https://via.placeholder.com/600x400'} 
                       alt={post.title} 
+                      width="600" height="338"
+                      loading="lazy"
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
                   </div>

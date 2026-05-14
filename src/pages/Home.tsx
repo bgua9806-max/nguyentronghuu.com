@@ -84,6 +84,7 @@ export default function Home() {
               <img 
                 src="https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png" 
                 alt="Nguyễn Trọng Hữu - Avatar" 
+                width="320" height="427"
                 className="w-full h-full object-cover transition-all duration-700" 
               />
             </div>
@@ -95,15 +96,15 @@ export default function Home() {
         <div className="animate-marquee inline-flex space-x-8 md:space-x-12 items-center">
           {[...Array(4)].map((_, i) => (
             <React.Fragment key={i}>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">System Architecture</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-500">System Architecture</span>
               <span className="text-zinc-300">•</span>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">Web & App Development</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-500">Web & App Development</span>
               <span className="text-zinc-300">•</span>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">AI Automation</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-500">AI Automation</span>
               <span className="text-zinc-300">•</span>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">Tech Consulting</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-500">Tech Consulting</span>
               <span className="text-zinc-300">•</span>
-              <span className="text-lg md:text-2xl font-serif text-zinc-400">Marketing Strategy</span>
+              <span className="text-lg md:text-2xl font-serif text-zinc-500">Marketing Strategy</span>
               <span className="text-zinc-300">•</span>
             </React.Fragment>
           ))}
@@ -125,6 +126,7 @@ export default function Home() {
                   referrerPolicy="no-referrer"
                   src={regeneratedImage} 
                   alt="Nguyễn Trọng Hữu" 
+                  width="600" height="750"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
                 />
               </div>
@@ -135,7 +137,7 @@ export default function Home() {
             </div>
             
             <div className="lg:col-span-7 order-1 lg:order-2">
-              <h2 className="text-xs font-bold text-zinc-400 uppercase tracking-widest mb-6 lg:mb-8">Nguyễn Trọng Hữu là ai?</h2>
+              <h2 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-6 lg:mb-8">Nguyễn Trọng Hữu là ai?</h2>
               
               <p className="text-xl md:text-3xl leading-snug text-zinc-900 font-serif font-medium mb-8">
                 Mình là một người tư vấn và xây dựng nền tảng công nghệ, giải pháp số và AI.
@@ -294,13 +296,15 @@ export default function Home() {
                     <img 
                       src={post.cover_image || 'https://via.placeholder.com/400x300'} 
                       alt={post.title} 
+                      width="400" height="225"
+                      loading="lazy"
                       className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" 
                     />
                     <div className="absolute top-4 left-4 bg-white px-3 py-1 rounded-full text-[10px] font-bold text-zinc-900 uppercase tracking-widest shadow-sm">
                       {post.category}
                     </div>
                   </div>
-                  <div className="flex items-center space-x-3 mb-3 text-xs font-medium text-zinc-400">
+                  <div className="flex items-center space-x-3 mb-3 text-xs font-medium text-zinc-500">
                     <span>{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
                     <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
                     <span>5 min read</span>

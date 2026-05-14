@@ -80,6 +80,8 @@ export default function Projects() {
                 <img 
                   src={project.cover_image || 'https://via.placeholder.com/800x600'} 
                   alt={project.title} 
+                  width="800" height="450"
+                  loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
               </div>
@@ -88,7 +90,7 @@ export default function Projects() {
                   <h3 className="text-lg md:text-xl font-medium text-zinc-900 mb-2 group-hover:text-zinc-600 transition-colors">{project.title}</h3>
                   <p className="text-sm text-zinc-500">{project.category}</p>
                 </div>
-                <span className="text-xs font-medium text-zinc-400">{project.year}</span>
+                <span className="text-xs font-medium text-zinc-500">{project.year}</span>
               </div>
             </Link>
           </motion.div>

@@ -88,18 +88,18 @@ export default function BlogList() {
               >
                 <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12 lg:gap-24 w-full">
                   <div className="md:hidden w-full aspect-video bg-zinc-100 overflow-hidden rounded-sm mb-2">
-                    <img src={post.cover_image || 'https://via.placeholder.com/800x400'} alt={post.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={post.cover_image || 'https://via.placeholder.com/800x400'} alt={post.title} width="800" height="450" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   
-                  <span className="hidden md:block w-32 text-sm font-medium text-zinc-400 shrink-0">{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
+                  <span className="hidden md:block w-32 text-sm font-medium text-zinc-500 shrink-0">{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
                   
                   <div className="hidden md:block w-32 aspect-video bg-zinc-100 shrink-0 overflow-hidden rounded-sm">
-                    <img src={post.cover_image || 'https://via.placeholder.com/400x300'} alt={post.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    <img src={post.cover_image || 'https://via.placeholder.com/400x300'} alt={post.title} width="128" height="72" loading="lazy" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                   </div>
                   
                   <div className="flex-1">
                     <div className="flex items-center space-x-3 mb-4 md:hidden">
-                       <span className="text-xs font-medium text-zinc-400">{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
+                       <span className="text-xs font-medium text-zinc-500">{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
                        <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
                        <span className="text-xs font-medium text-zinc-500 uppercase tracking-widest">{post.category}</span>
                     </div>

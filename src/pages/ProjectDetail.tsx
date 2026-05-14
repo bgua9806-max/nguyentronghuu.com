@@ -100,7 +100,7 @@ export default function ProjectDetail() {
             <span className="text-xs font-bold text-zinc-900 uppercase tracking-widest bg-zinc-100 px-3 py-1 rounded-sm">
               {project.category}
             </span>
-            <span className="text-sm font-medium text-zinc-400">{project.year}</span>
+            <span className="text-sm font-medium text-zinc-500">{project.year}</span>
           </div>
           <h1 className="text-2xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-zinc-900 mb-6 md:mb-8 leading-tight">
             {project.title}
@@ -113,7 +113,7 @@ export default function ProjectDetail() {
         </motion.div>
 
         <motion.div variants={STAGGER_ITEM} className="w-full flex justify-center bg-zinc-50 mb-16 md:mb-24 rounded-sm">
-            <img src={project.cover_image || 'https://via.placeholder.com/1200x600'} alt={project.title} className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
+            <img src={project.cover_image || 'https://via.placeholder.com/1200x600'} alt={project.title} width="1200" height="675" className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
@@ -137,7 +137,7 @@ export default function ProjectDetail() {
                   {project.content ? (
                     <div dangerouslySetInnerHTML={{ __html: project.content.replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
                   ) : (
-                    <p className="italic text-zinc-400">Đang cập nhật chi tiết dự án...</p>
+                    <p className="italic text-zinc-500">Đang cập nhật chi tiết dự án...</p>
                   )}
                 </motion.div>
             </div>
@@ -169,6 +169,8 @@ export default function ProjectDetail() {
                   <img 
                     src={rp.cover_image || 'https://via.placeholder.com/600x400'} 
                     alt={rp.title} 
+                    width="600" height="338"
+                    loading="lazy"
                     className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105"
                   />
                 </div>
@@ -176,7 +178,7 @@ export default function ProjectDetail() {
                   <span className="text-[10px] font-bold text-zinc-900 uppercase tracking-widest bg-zinc-100 px-2.5 py-1 rounded-sm">
                     {rp.category}
                   </span>
-                  <span className="text-xs font-medium text-zinc-400">{rp.year}</span>
+                  <span className="text-xs font-medium text-zinc-500">{rp.year}</span>
                 </div>
                 <h4 className="text-2xl font-serif text-zinc-900 mb-2 group-hover:text-amber-600 transition-colors">
                   {rp.title}
