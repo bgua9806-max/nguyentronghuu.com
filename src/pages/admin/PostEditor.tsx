@@ -365,6 +365,19 @@ export default function PostEditor() {
         throw error;
       }
       
+      // Tự động ping Google Indexing API nếu trạng thái là published
+      if (status === 'published') {
+        try {
+          fetch('/api/request-indexing', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: `https://nguyentronghuu.com/blog/${finalSlug}` })
+          }).catch(err => console.error('Lỗi khi gọi Indexing API:', err));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      
       toast.success(id ? 'Đã cập nhật bài viết' : 'Đã tạo bài viết mới');
       if (!id) navigate('/admin/posts');
     } catch (error: any) {

@@ -198,6 +198,19 @@ export default function ProjectEditor() {
         throw error;
       }
       
+      // Tự động ping Google Indexing API nếu trạng thái là completed
+      if (status === 'completed') {
+        try {
+          fetch('/api/request-indexing', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ url: `https://nguyentronghuu.com/projects/${finalSlug}` })
+          }).catch(err => console.error('Lỗi khi gọi Indexing API:', err));
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      
       toast.success(id ? 'Đã cập nhật dự án' : 'Đã tạo dự án mới');
       if (!id) navigate('/admin/projects');
     } catch (error: any) {
