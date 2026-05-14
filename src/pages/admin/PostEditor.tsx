@@ -329,6 +329,12 @@ export default function PostEditor() {
     }
   };
 
+  const getAutoDescription = () => {
+    if (!content) return '';
+    const plainText = content.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ').replace(/\s+/g, ' ').trim();
+    return plainText.substring(0, 150) + (plainText.length > 150 ? '...' : '');
+  };
+
   const handleSave = async () => {
     if (!title.trim()) {
       toast.error('Vui lòng nhập tiêu đề bài viết');
@@ -342,9 +348,9 @@ export default function PostEditor() {
         title,
         slug: finalSlug,
         content,
-        excerpt: content.substring(0, 150) + (content.length > 150 ? '...' : ''),
+        excerpt: getAutoDescription(),
         seo_title: seoTitle.trim() || title,
-        seo_description: seoDesc.trim() || (content.substring(0, 150) + (content.length > 150 ? '...' : '')),
+        seo_description: seoDesc.trim() || getAutoDescription(),
         category,
         cover_image: coverImage,
         status,
@@ -535,7 +541,7 @@ export default function PostEditor() {
                   rows={3}
                   value={seoDesc}
                   onChange={(e) => setSeoDesc(e.target.value)}
-                  placeholder={content ? content.substring(0, 150) + (content.length > 150 ? '...' : '') : "Mô tả ngắn gọn nội dung bài viết để thu hút click..."}
+                  placeholder={content ? getAutoDescription() : "Mô tả ngắn gọn nội dung bài viết để thu hút click..."}
                   className="w-full resize-none rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10"
                 />
               </div>
@@ -552,7 +558,7 @@ export default function PostEditor() {
                      </div>
                    </div>
                    <h4 className="text-[#1a0dab] text-lg cursor-pointer hover:underline truncate mb-1">{seoTitle || title || 'Tiêu đề hiển thị trên kết quả tìm kiếm'}</h4>
-                   <p className="text-sm text-[#4d5156] line-clamp-2">{seoDesc || (content ? content.substring(0, 150) + (content.length > 150 ? '...' : '') : 'Mô tả ngắn gọn nội dung bài viết để thu hút click từ người dùng...')}</p>
+                   <p className="text-sm text-[#4d5156] line-clamp-2">{seoDesc || (content ? getAutoDescription() : 'Mô tả ngắn gọn nội dung bài viết để thu hút click từ người dùng...')}</p>
                 </div>
               </div>
             </div>
