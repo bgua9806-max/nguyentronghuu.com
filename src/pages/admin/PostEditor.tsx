@@ -22,9 +22,11 @@ export default function PostEditor() {
   const [isLoading, setIsLoading] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
   const [isUploadingImage, setIsUploadingImage] = useState(false);
+  const [isUploadingCover, setIsUploadingCover] = useState(false);
 
   const iframeRef = useRef<HTMLIFrameElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const coverInputRef = useRef<HTMLInputElement>(null);
 
   // WYSIWYG formatting helpers
   const executeCommand = (command: string, value?: string) => {
@@ -69,6 +71,36 @@ export default function PostEditor() {
     } finally {
       setIsUploadingImage(false);
       if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleCoverImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setIsUploadingCover(true);
+      const fileExt = file.name.split('.').pop();
+      const fileName = `${Math.random().toString(36).substring(2, 15)}_${Date.now()}_cover.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from('blog-images')
+        .upload(fileName, file);
+
+      if (uploadError) throw uploadError;
+
+      const { data } = supabase.storage
+        .from('blog-images')
+        .getPublicUrl(fileName);
+
+      setCoverImage(data.publicUrl);
+      toast.success('Đã tải ảnh đại diện lên thành công!');
+    } catch (error) {
+      console.error('Error uploading cover:', error);
+      toast.error('Lỗi khi tải ảnh đại diện lên');
+    } finally {
+      setIsUploadingCover(false);
+      if (coverInputRef.current) coverInputRef.current.value = '';
     }
   };
 
@@ -633,15 +665,26 @@ export default function PostEditor() {
                     <img src={coverImage} alt="Cover" className="absolute inset-0 w-full h-full object-cover" />
                   ) : (
                     <div className="flex flex-col items-center pointer-events-none">
-                      <ImageIcon size={32} strokeWidth={1.5} className="group-focus-within:text-amber-500 transition-colors" />
+                      {isUploadingCover ? <Loader2 size={32} className="animate-spin text-amber-500" /> : <ImageIcon size={32} strokeWidth={1.5} className="group-focus-within:text-amber-500 transition-colors" />}
                     </div>
                   )}
                   <input 
                     type="text"
                     value={coverImage}
                     onChange={(e) => setCoverImage(e.target.value)}
-                    placeholder="Dán URL ảnh vào đây..."
+                    placeholder="Dán URL ảnh hoặc click upload..."
                     className="absolute bottom-4 w-10/12 text-center rounded-sm border border-zinc-200 bg-white/90 backdrop-blur px-3 py-2 text-xs text-zinc-900 focus:outline-none focus:ring-2 focus:ring-amber-500 shadow-sm z-10"
+                  />
+                  <input 
+                    type="file" 
+                    ref={coverInputRef} 
+                    onChange={handleCoverImageUpload} 
+                    accept="image/*" 
+                    className="hidden" 
+                  />
+                  <div 
+                    className="absolute inset-0 z-0 cursor-pointer" 
+                    onClick={() => coverInputRef.current?.click()}
                   />
                 </div>
               </div>
