@@ -257,8 +257,6 @@ function Layout() {
                 <ul className="space-y-3 text-sm text-zinc-600">
                   <li><a href="#" className="hover:text-zinc-900 transition-colors">Điều khoản – điều kiện</a></li>
                   <li><a href="#" className="hover:text-zinc-900 transition-colors">Chính sách bảo mật</a></li>
-                  <li><a href="#" className="hover:text-zinc-900 transition-colors">Chính sách Affiliate</a></li>
-                  <li><a href="#" className="hover:text-zinc-900 transition-colors">Hướng dẫn vào học</a></li>
                 </ul>
               </div>
 
@@ -281,7 +279,7 @@ function Layout() {
             </div>
 
             <div className="pt-8 border-t border-zinc-200 text-xs md:text-sm text-zinc-500 text-center">
-              © {new Date().getFullYear()} #NguyenTrongHuu · Build with Nguyen Trong Huu
+              © {new Date().getFullYear()} Nguyen Trong Huu
             </div>
           </div>
         </footer>
