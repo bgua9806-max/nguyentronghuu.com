@@ -85,6 +85,7 @@ export default function Home() {
                 src="https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png" 
                 alt="Nguyễn Trọng Hữu - Avatar" 
                 width="320" height="427"
+                fetchPriority="high"
                 className="w-full h-full object-cover transition-all duration-700" 
               />
             </div>
@@ -127,6 +128,7 @@ export default function Home() {
                   src={regeneratedImage} 
                   alt="Nguyễn Trọng Hữu" 
                   width="600" height="750"
+                  fetchPriority="high"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
                 />
               </div>
