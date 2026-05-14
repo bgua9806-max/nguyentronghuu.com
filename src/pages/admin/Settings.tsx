@@ -47,7 +47,7 @@ export default function Settings() {
              <div className="flex flex-col sm:flex-row gap-8">
                 <div className="flex flex-col items-center gap-4">
                   <div className="h-24 w-24 overflow-hidden rounded-full border-4 border-white bg-zinc-100 shadow-xl shadow-black/5 ring-1 ring-zinc-200 relative group cursor-pointer">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?fit=crop&w=200&h=200" alt="Avatar" className="h-full w-full object-cover transition-transform group-hover:scale-110" />
+                    <img src="https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png" alt="Avatar Nguyễn Trọng Hữu" width="96" height="96" className="h-full w-full object-cover transition-transform group-hover:scale-110" />
                     <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-white text-xs font-bold">
                        Đổi ảnh
                     </div>
