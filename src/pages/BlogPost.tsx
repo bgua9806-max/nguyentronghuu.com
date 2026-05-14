@@ -171,8 +171,8 @@ export default function BlogPost() {
         <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8 md:mb-12">
           {post.title}
         </h1>
-        <div className="w-full aspect-[21/9] md:aspect-[16/9] overflow-hidden bg-zinc-100 rounded-sm">
-          <img src={post.cover_image || 'https://via.placeholder.com/1200x600'} alt={post.title} className="w-full h-full object-cover" />
+        <div className="w-full flex justify-center bg-zinc-50 rounded-sm mb-12">
+          <img src={post.cover_image || 'https://via.placeholder.com/1200x600'} alt={post.title} className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
         </div>
       </header>
 
@@ -324,7 +324,7 @@ export default function BlogPost() {
                 to={`/blog/${rp.slug}`}
                 className="group flex flex-col space-y-4 w-[300px] sm:w-[320px] md:w-auto flex-shrink-0 snap-center"
               >
-                <div className="w-full aspect-[16/10] overflow-hidden rounded-sm bg-zinc-100">
+                <div className="w-full aspect-video overflow-hidden rounded-sm bg-zinc-100">
                   <img 
                     src={rp.cover_image || 'https://via.placeholder.com/600x400'} 
                     alt={rp.title} 
