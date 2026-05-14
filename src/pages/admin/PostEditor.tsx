@@ -588,7 +588,8 @@ export default function PostEditor() {
             {/* Rich Text Toolbar */}
             <div className="space-y-4">
               <div className="sticky top-[150px] z-10 flex items-center gap-1 overflow-x-auto rounded-sm border border-zinc-200 bg-white/80 p-2 backdrop-blur-md shadow-sm">
-                <button onClick={() => executeCommand('formatBlock', 'H3')} className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Tiêu đề"><Type size={18} /></button>
+                <button onClick={() => executeCommand('formatBlock', 'P')} className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="Chữ thường"><Type size={18} strokeWidth={1.5} /></button>
+                <button onClick={() => executeCommand('formatBlock', 'H3')} className="rounded-sm p-2 text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950 font-bold" title="Tiêu đề"><Type size={18} strokeWidth={2.5} /></button>
                 <div className="mx-1 h-5 w-px bg-zinc-200" />
                 <button onClick={() => executeCommand('bold')} className="rounded-sm p-2 font-bold text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="In đậm"><Bold size={18} /></button>
                 <button onClick={() => executeCommand('italic')} className="rounded-sm p-2 italic text-zinc-500 transition-all hover:bg-zinc-100 hover:text-zinc-950" title="In nghiêng"><Italic size={18} /></button>
