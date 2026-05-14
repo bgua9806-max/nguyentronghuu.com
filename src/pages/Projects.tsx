@@ -76,7 +76,7 @@ export default function Projects() {
             }}
           >
             <Link to={`/projects/${project.slug}`} className="group block">
-              <div className="relative overflow-hidden mb-6 bg-zinc-100 aspect-[4/3] rounded-sm">
+              <div className="relative overflow-hidden mb-6 bg-zinc-100 aspect-video rounded-sm">
                 <img 
                   src={project.cover_image || 'https://via.placeholder.com/800x600'} 
                   alt={project.title} 

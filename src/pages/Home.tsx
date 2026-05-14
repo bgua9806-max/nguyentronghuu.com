@@ -290,7 +290,7 @@ export default function Home() {
                 }}
               >
                 <Link to={`/blog/${post.slug}`} className="group block">
-                  <div className="w-full aspect-[4/3] bg-zinc-100 overflow-hidden mb-6 rounded-sm relative">
+                  <div className="w-full aspect-video bg-zinc-100 overflow-hidden mb-6 rounded-sm relative">
                     <img 
                       src={post.cover_image || 'https://via.placeholder.com/400x300'} 
                       alt={post.title} 
