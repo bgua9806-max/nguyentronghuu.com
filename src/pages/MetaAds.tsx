@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import { Download, Users, ArrowRight } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -10,6 +10,16 @@ const FADE_UP = {
 };
 
 export default function MetaAds() {
+  const [email, setEmail] = useState('');
+
+  const handleDownload = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (email.trim() === '') {
+      alert("Vui lòng nhập email của bạn trước khi tải!");
+      return;
+    }
+    window.open("https://drive.google.com/file/d/1Q6OCYV7iyUtL6FDdJQo7twndpJ2tYWBl/view?usp=sharing", "_blank");
+  };
   const workflowSteps = [
     "Đọc số liệu",
     "Audit camp",
@@ -96,21 +106,36 @@ export default function MetaAds() {
               </p>
             </motion.div>
 
-            {/* Buttons */}
-            <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4">
+            {/* Download Form & Buttons */}
+            <motion.div variants={FADE_UP} className="flex flex-col gap-6">
+              <form onSubmit={handleDownload} className="flex flex-col gap-3">
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Nhập địa chỉ email của bạn..." 
+                    className="flex-1 px-4 py-4 bg-zinc-50 border border-zinc-200 focus:border-zinc-900 text-zinc-900 focus:outline-none rounded-sm text-sm transition-colors"
+                    required
+                  />
+                  <button 
+                    type="submit" 
+                    className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-zinc-900 text-white px-8 py-4 rounded-sm text-sm font-medium transition-colors hover:bg-zinc-800"
+                  >
+                    <Download size={18} />
+                    <span>Tải Skill Meta Ads Analyzer</span>
+                  </button>
+                </div>
+              </form>
+              
               <a 
-                href="#download" 
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-zinc-900 text-white px-8 py-4 rounded-sm text-sm font-medium transition-colors hover:bg-zinc-800"
-              >
-                <Download size={18} />
-                <span>Tải Skill Meta Ads Analyzer</span>
-              </a>
-              <a 
-                href="#join-group" 
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 border border-zinc-200 text-zinc-900 px-8 py-4 rounded-sm text-sm font-medium transition-colors hover:border-zinc-900 hover:bg-zinc-50 bg-white"
+                href="https://zalo.me/g/bguamkuy0hcgjpvf9kyp" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full flex items-center justify-center space-x-2 border border-zinc-200 text-zinc-900 px-8 py-4 rounded-sm text-sm font-medium transition-colors hover:border-zinc-900 hover:bg-zinc-50 bg-white"
               >
                 <Users size={18} />
-                <span>Tham gia nhóm tài nguyên AI</span>
+                <span>Tham gia nhóm tài nguyên AI (Zalo)</span>
               </a>
             </motion.div>
           </motion.div>
