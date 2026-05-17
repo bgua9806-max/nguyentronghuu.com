@@ -1,10 +1,16 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Download, Users, CheckCircle2, ArrowRight } from 'lucide-react';
+import { Download, Users, ArrowRight } from 'lucide-react';
 import SEO from '../components/SEO';
+import { Link } from 'react-router-dom';
+
+const FADE_UP = {
+  initial: { opacity: 0, y: 20 },
+  whileInView: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+};
 
 export default function MetaAds() {
-  const features = [
+  const workflowSteps = [
     "Đọc số liệu",
     "Audit camp",
     "Soi ad set",
@@ -21,7 +27,7 @@ export default function MetaAds() {
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.5 }}
-      className="min-h-screen bg-zinc-50 pt-32 pb-24"
+      className="min-h-screen bg-white"
     >
       <SEO 
         title="Meta Ads Analyzer - AI Workflow Skill"
@@ -29,89 +35,86 @@ export default function MetaAds() {
         url="https://nguyentronghuu.com/meta_ads"
       />
 
-      <div className="max-w-4xl mx-auto px-6 md:px-12">
-        <div className="bg-white rounded-3xl shadow-xl overflow-hidden border border-zinc-100">
-          <div className="bg-gradient-to-br from-indigo-900 via-blue-800 to-blue-600 p-10 md:p-16 text-white relative overflow-hidden">
-            {/* Background Decorations */}
-            <div className="absolute top-0 right-0 -mt-20 -mr-20 w-80 h-80 bg-blue-400 opacity-20 rounded-full blur-3xl"></div>
-            <div className="absolute bottom-0 left-0 -mb-20 -ml-20 w-64 h-64 bg-indigo-400 opacity-20 rounded-full blur-3xl"></div>
-            
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.2 }}
-              className="relative z-10"
-            >
-              <div className="inline-block px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-xs font-semibold tracking-wider uppercase mb-6 border border-white/20">
-                Premium AI Skill
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-bold mb-6 leading-tight text-white">
+      <div className="flex flex-col min-h-screen">
+        {/* Header - Simple Logo or Name */}
+        <div className="py-6 px-6 md:px-12 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white/90 backdrop-blur-sm z-10">
+          <Link to="/" className="text-xl font-serif font-medium text-zinc-900 tracking-tight">
+            NTH<span className="text-zinc-400">.</span>
+          </Link>
+          <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+            AI Resources
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <main className="flex-1 max-w-3xl w-full mx-auto px-6 py-12 md:py-24">
+          <motion.div
+            initial="initial"
+            animate="whileInView"
+            variants={{
+              initial: { opacity: 0 },
+              whileInView: { opacity: 1, transition: { staggerChildren: 0.1 } }
+            }}
+          >
+            {/* Title Section */}
+            <motion.div variants={FADE_UP} className="mb-12">
+              <h2 className="text-[10px] md:text-xs font-bold text-zinc-500 uppercase tracking-widest mb-4">Premium AI Skill</h2>
+              <h1 className="text-4xl md:text-6xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6">
                 Meta Ads Analyzer
               </h1>
-              <p className="text-lg md:text-xl text-blue-100 max-w-2xl font-light leading-relaxed">
-                Biến ChatGPT thành một trợ lý Media Buyer thực thụ. Hơn 40 file <code className="bg-black/20 px-1.5 py-0.5 rounded text-sm">.md</code> được đóng gói hoàn chỉnh, kéo vào là dùng được ngay.
+              <p className="text-[15px] md:text-lg text-zinc-600 leading-relaxed font-light">
+                Mình vừa đóng gói xong bộ skill <strong className="font-medium text-zinc-900">Meta Ads Analyzer</strong>. Hơn 40 file <code className="bg-zinc-100 px-1.5 py-0.5 rounded text-[13px] md:text-sm text-zinc-800 font-mono">.md</code> được gom thành một skill hoàn chỉnh, kéo vào ChatGPT là dùng được ngay.
               </p>
             </motion.div>
-          </div>
 
-          <div className="p-8 md:p-16">
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3 }}
-              className="prose prose-lg max-w-none text-zinc-600 mb-12"
-            >
-              <div className="text-xl text-zinc-800 font-medium mb-10 leading-relaxed border-l-4 border-blue-500 pl-6">
-                Mình vừa đóng gói xong bộ skill <strong className="text-blue-700">Meta Ads Analyzer</strong>. Không còn dùng ChatGPT kiểu hỏi đáp rời rạc nữa, mình đã biến nó thành một workflow Meta Ads có hệ thống.
-              </div>
+            {/* Workflow Section */}
+            <motion.div variants={FADE_UP} className="mb-12">
+              <h3 className="text-xl md:text-2xl font-serif text-zinc-900 mb-6 leading-snug">
+                Bộ này giúp AI làm việc như một trợ lý media buyer:
+              </h3>
               
-              <div className="bg-zinc-50 border border-zinc-200 rounded-2xl p-8 mb-10">
-                <h3 className="text-lg font-bold text-zinc-900 mb-6 flex items-center">
-                  <span className="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
-                    <CheckCircle2 size={18} />
-                  </span>
-                  Bộ skill này giúp AI làm việc như một Media Buyer:
-                </h3>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 gap-x-6">
-                  {features.map((feature, idx) => (
-                    <div key={idx} className="flex items-center space-x-3 bg-white p-3 rounded-xl border border-zinc-100 shadow-sm">
-                      <div className="w-6 h-6 rounded-full bg-blue-50 flex items-center justify-center flex-shrink-0">
-                        <ArrowRight size={14} className="text-blue-600" />
-                      </div>
-                      <span className="text-zinc-700 font-medium text-sm md:text-base">{feature}</span>
-                    </div>
+              <div className="bg-zinc-50 border border-zinc-200 p-6 md:p-8 rounded-sm">
+                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-6">
+                  {workflowSteps.map((step, index) => (
+                    <li key={index} className="flex items-start text-zinc-700">
+                      <ArrowRight size={16} className="text-zinc-400 mt-[3px] mr-3 flex-shrink-0" />
+                      <span className="text-[14px] md:text-[15px] leading-relaxed font-medium text-zinc-800">{step}</span>
+                    </li>
                   ))}
-                </div>
-              </div>
-              
-              <div className="bg-blue-50 text-blue-800 p-6 rounded-2xl text-center italic font-medium">
-                Ai muốn nhận bộ skill này thì comment bên dưới hoặc click tải ngay nhé!
+                </ul>
               </div>
             </motion.div>
 
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.4 }}
-              className="flex flex-col sm:flex-row items-center justify-center gap-4"
-            >
+            {/* Conclusion & CTA */}
+            <motion.div variants={FADE_UP} className="mb-12">
+              <p className="text-[14px] md:text-[15px] text-zinc-600 leading-relaxed mb-4">
+                Không còn dùng ChatGPT kiểu hỏi đáp rời rạc nữa.<br/>
+                Mình biến nó thành một workflow Meta Ads có hệ thống.
+              </p>
+              <p className="text-[14px] md:text-[15px] text-zinc-900 font-medium italic border-l-2 border-zinc-900 pl-4 py-1">
+                Ai muốn nhận bộ skill này thì comment bên dưới nhé.
+              </p>
+            </motion.div>
+
+            {/* Buttons */}
+            <motion.div variants={FADE_UP} className="flex flex-col sm:flex-row gap-4">
               <a 
                 href="#download" 
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-zinc-900 hover:bg-zinc-800 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-lg hover:shadow-xl hover:-translate-y-1"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-zinc-900 text-white px-8 py-4 rounded-sm text-sm font-medium transition-colors hover:bg-zinc-800"
               >
-                <Download size={20} />
+                <Download size={18} />
                 <span>Tải Skill Meta Ads Analyzer</span>
               </a>
               <a 
                 href="#join-group" 
-                className="w-full sm:w-auto flex items-center justify-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-xl font-medium transition-all shadow-lg hover:shadow-xl hover:-translate-y-1 shadow-blue-600/30"
+                className="w-full sm:w-auto flex items-center justify-center space-x-2 border border-zinc-200 text-zinc-900 px-8 py-4 rounded-sm text-sm font-medium transition-colors hover:border-zinc-900 hover:bg-zinc-50 bg-white"
               >
-                <Users size={20} />
+                <Users size={18} />
                 <span>Tham gia nhóm tài nguyên AI</span>
               </a>
             </motion.div>
-          </div>
-        </div>
+          </motion.div>
+        </main>
       </div>
     </motion.div>
   );

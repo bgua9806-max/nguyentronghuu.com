@@ -46,6 +46,7 @@ function Layout() {
   }, [location.pathname]);
 
   const isContactPage = location.pathname === '/contact';
+  const isMetaAdsPage = location.pathname === '/meta_ads';
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   useEffect(() => {
@@ -88,7 +89,8 @@ function Layout() {
   return (
     <div className="min-h-[calc(100vh/var(--ui-zoom,1))] flex flex-col">
       {/* Navigation */}
-      <nav
+      {!isMetaAdsPage && (
+        <nav
         className={`fixed top-0 w-full z-50 transition-all duration-500 flex justify-center ${
           isScrolled ? 'pt-4 px-4' : 'pt-6 px-0'
         }`}
@@ -202,6 +204,7 @@ function Layout() {
           )}
         </AnimatePresence>
       </nav>
+      )}
 
       <main className="flex-1">
         <AnimatePresence mode="wait">
@@ -220,7 +223,7 @@ function Layout() {
         </AnimatePresence>
       </main>
 
-      {!isContactPage && (
+      {!isContactPage && !isMetaAdsPage && (
         <footer className="bg-white pt-16 pb-8 border-t border-zinc-200">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-16">
