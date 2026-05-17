@@ -14,7 +14,7 @@ import ProjectDetail from './pages/ProjectDetail';
 import BlogList from './pages/BlogList';
 import BlogPost from './pages/BlogPost';
 import Contact from './pages/Contact';
-
+import MetaAds from './pages/MetaAds';
 // Admin Pages
 import AdminLayout from './layouts/AdminLayout';
 import Dashboard from './pages/admin/Dashboard';
@@ -214,6 +214,7 @@ function Layout() {
               <Route path="/blog" element={<BlogList />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/meta_ads" element={<MetaAds />} />
             </Routes>
           </motion.div>
         </AnimatePresence>
