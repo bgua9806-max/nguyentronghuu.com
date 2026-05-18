@@ -4,7 +4,7 @@ import { FADE_UP } from '../data';
 import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { supabase } from '../lib/supabase';
+import { supabase, optimizeImageUrl } from '../lib/supabase';
 
 export default function BlogList() {
   const [posts, setPosts] = useState<any[]>([]);
@@ -88,13 +88,13 @@ export default function BlogList() {
               >
                 <div className="flex flex-col md:flex-row md:items-center gap-6 md:gap-12 lg:gap-24 w-full">
                   <div className="md:hidden w-full aspect-video bg-zinc-100 overflow-hidden rounded-sm mb-2">
-                    <img src={post.cover_image || 'https://via.placeholder.com/800x400'} alt={post.title} width="800" height="450" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+                    <img src={optimizeImageUrl(post.cover_image || '', 800)} alt={post.title} width="800" height="450" loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                   </div>
                   
                   <span className="hidden md:block w-32 text-sm font-medium text-zinc-500 shrink-0">{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
                   
                   <div className="hidden md:block w-32 aspect-video bg-zinc-100 shrink-0 overflow-hidden rounded-sm">
-                    <img src={post.cover_image || 'https://via.placeholder.com/400x300'} alt={post.title} width="128" height="72" loading="lazy" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
+                    <img src={optimizeImageUrl(post.cover_image || '', 200)} alt={post.title} width="128" height="72" loading="lazy" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500" />
                   </div>
                   
                   <div className="flex-1">

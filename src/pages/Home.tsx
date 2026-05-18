@@ -5,7 +5,7 @@ import { STAGGER, STAGGER_ITEM, FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import regeneratedImage from '../assets/images/regenerated_image.webp';
-import { supabase } from '../lib/supabase';
+import { supabase, optimizeImageUrl } from '../lib/supabase';
 
 export default function Home() {
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
@@ -82,22 +82,17 @@ export default function Home() {
             </motion.div>
           </div>
           
-          <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.6, delay: 0.15 }}
-            className="w-full max-w-[280px] md:max-w-[320px] md:w-1/3"
-          >
+          <div className="w-full max-w-[280px] md:max-w-[320px] md:w-1/3">
             <div className="aspect-[3/4] overflow-hidden bg-zinc-100 rounded-tr-[4rem] rounded-bl-[4rem]">
               <img 
                 src="https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png" 
                 alt="Nguyễn Trọng Hữu - Avatar" 
                 width="320" height="427"
                 fetchPriority="high"
-                className="w-full h-full object-cover transition-all duration-700" 
+                className="w-full h-full object-cover" 
               />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 
@@ -231,7 +226,7 @@ export default function Home() {
                 <Link to={`/blog/${post.slug}`} className="group block">
                   <div className="w-full aspect-video bg-zinc-100 overflow-hidden mb-6 rounded-sm relative">
                     <img 
-                      src={post.cover_image || 'https://via.placeholder.com/400x300'} 
+                      src={optimizeImageUrl(post.cover_image || '', 400)} 
                       alt={post.title} 
                       width="400" height="225"
                       loading="lazy"

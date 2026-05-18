@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { supabase } from '../lib/supabase';
+import { supabase, optimizeImageUrl } from '../lib/supabase';
 import { Loader2 } from 'lucide-react';
 
 export default function Projects() {
@@ -87,7 +87,7 @@ export default function Projects() {
             <Link to={`/projects/${project.slug}`} className="group block">
               <div className="relative overflow-hidden mb-6 bg-zinc-100 aspect-video rounded-sm">
                 <img 
-                  src={project.cover_image || 'https://via.placeholder.com/800x600'} 
+                  src={optimizeImageUrl(project.cover_image || '', 600)} 
                   alt={project.title} 
                   width="800" height="450"
                   loading="lazy"

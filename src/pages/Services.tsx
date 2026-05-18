@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle2, Code2, Bot, LineChart, Cpu, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { supabase } from '../lib/supabase';
+import { supabase, optimizeImageUrl } from '../lib/supabase';
 import { FADE_UP, STAGGER, STAGGER_ITEM } from '../data';
 
 const iconMap: Record<string, any> = {
@@ -166,7 +166,7 @@ export default function Services() {
                 <Link to={`/services/${service.slug}`} className="group flex flex-col h-full block">
                 {service.cover_image ? (
                   <div className="w-full aspect-[16/10] rounded-sm bg-zinc-100 mb-8 overflow-hidden group-hover:shadow-xl transition-all relative">
-                    <img src={service.cover_image} alt={service.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                    <img src={optimizeImageUrl(service.cover_image, 600)} alt={service.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
                   </div>
                 ) : (
                   <div className="mb-6 md:mb-8 w-14 h-14 md:w-20 md:h-20 rounded-full bg-zinc-100 flex items-center justify-center group-hover:bg-amber-100 group-hover:scale-110 transition-all duration-500 ease-out shrink-0">
