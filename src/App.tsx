@@ -9,6 +9,8 @@ import logoUrl from './assets/images/logo3.png';
 // Pages
 import Home from './pages/Home';
 import About from './pages/About';
+import Services from './pages/Services';
+import ServiceDetail from './pages/ServiceDetail';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
 import BlogList from './pages/BlogList';
@@ -22,6 +24,8 @@ import BlogManager from './pages/admin/BlogManager';
 import PostEditor from './pages/admin/PostEditor';
 import ProjectManager from './pages/admin/ProjectManager';
 import ProjectEditor from './pages/admin/ProjectEditor';
+import ServiceManager from './pages/admin/ServiceManager';
+import ServiceEditor from './pages/admin/ServiceEditor';
 import ContactManager from './pages/admin/ContactManager';
 import EmailSettings from './pages/admin/EmailSettings';
 import Settings from './pages/admin/Settings';
@@ -78,6 +82,9 @@ function Layout() {
           <Route path="projects" element={<ProjectManager />} />
           <Route path="projects/new" element={<ProjectEditor />} />
           <Route path="projects/edit/:id" element={<ProjectEditor />} />
+          <Route path="services" element={<ServiceManager />} />
+          <Route path="services/new" element={<ServiceEditor />} />
+          <Route path="services/edit/:id" element={<ServiceEditor />} />
           <Route path="contacts" element={<ContactManager />} />
           <Route path="email" element={<EmailSettings />} />
           <Route path="settings" element={<Settings />} />
@@ -117,6 +124,10 @@ function Layout() {
             <Link to="/about" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/about' ? 'text-zinc-900' : ''}`}>
               <span>Giới thiệu</span>
               <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname === '/about' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+            </Link>
+            <Link to="/services" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/services' ? 'text-zinc-900' : ''}`}>
+              <span>Dịch vụ</span>
+              <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname === '/services' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
             <Link to="/projects" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/projects' ? 'text-zinc-900' : ''}`}>
               <span>Dự án</span>
@@ -173,9 +184,10 @@ function Layout() {
                 {[
                   { path: '/', label: 'Trang chủ', num: '01' },
                   { path: '/about', label: 'Giới thiệu', num: '02' },
-                  { path: '/projects', label: 'Dự án', num: '03' },
-                  { path: '/blog', label: 'Bài viết', num: '04' },
-                  { path: '/contact', label: 'Liên hệ', num: '05' },
+                  { path: '/services', label: 'Dịch vụ', num: '03' },
+                  { path: '/projects', label: 'Dự án', num: '04' },
+                  { path: '/blog', label: 'Bài viết', num: '05' },
+                  { path: '/contact', label: 'Liên hệ', num: '06' },
                 ].map((item) => (
                   <motion.div 
                     key={item.num}
@@ -212,6 +224,8 @@ function Layout() {
             <Routes location={location}>
               <Route path="/" element={<Home />} />
               <Route path="/about" element={<About />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/services/:slug" element={<ServiceDetail />} />
               <Route path="/projects" element={<Projects />} />
               <Route path="/projects/:slug" element={<ProjectDetail />} />
               <Route path="/blog" element={<BlogList />} />
@@ -251,6 +265,7 @@ function Layout() {
                 <h4 className="text-zinc-900 font-bold mb-6 tracking-wide text-sm">GIỚI THIỆU</h4>
                 <ul className="space-y-3 text-sm text-zinc-600">
                   <li><Link to="/about" className="hover:text-zinc-900 transition-colors">Về tôi</Link></li>
+                  <li><Link to="/services" className="hover:text-zinc-900 transition-colors">Dịch vụ</Link></li>
                   <li><Link to="/projects" className="hover:text-zinc-900 transition-colors">Dự án</Link></li>
                   <li><Link to="/blog" className="hover:text-zinc-900 transition-colors">Bài viết</Link></li>
                 </ul>

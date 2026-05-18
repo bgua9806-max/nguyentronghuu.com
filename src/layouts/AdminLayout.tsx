@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { PenTool, Library, Settings, LogOut, LayoutDashboard, Search, Bell, Sparkles, Home, Users, Mail, CheckCircle2 } from 'lucide-react';
+import { PenTool, Library, Settings, LogOut, LayoutDashboard, Search, Bell, Sparkles, Home, Users, Mail, CheckCircle2, Cpu } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import logoUrl from '../assets/images/logo3.png';
 
@@ -30,6 +30,7 @@ export default function AdminLayout() {
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
     { name: 'Bài viết', path: '/admin/posts', icon: PenTool },
     { name: 'Dự án', path: '/admin/projects', icon: Library },
+    { name: 'Dịch vụ', path: '/admin/services', icon: Cpu },
     { name: 'Khách hàng', path: '/admin/contacts', icon: Users },
     { name: 'Cấu hình Email', path: '/admin/email', icon: Mail },
     { name: 'Cài đặt', path: '/admin/settings', icon: Settings },
