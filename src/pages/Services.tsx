@@ -161,13 +161,11 @@ export default function Services() {
                 whileInView="whileInView"
                 variants={FADE_UP}
                 viewport={{ once: true, margin: "-100px" }}
-                className="group flex flex-col h-full"
+                className="h-full"
               >
+                <Link to={`/services/${service.slug}`} className="group flex flex-col h-full block">
                 {service.cover_image ? (
                   <div className="w-full aspect-[16/10] rounded-sm bg-zinc-100 mb-8 overflow-hidden group-hover:shadow-xl transition-all relative">
-                    <div className="absolute top-4 left-4 z-10 w-10 h-10 bg-white/90 backdrop-blur rounded-full flex items-center justify-center shadow-sm">
-                      <IconComponent size={20} className="text-zinc-900" strokeWidth={1.5} />
-                    </div>
                     <img src={service.cover_image} alt={service.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
                   </div>
                 ) : (
@@ -191,15 +189,7 @@ export default function Services() {
                     ))}
                   </ul>
                 )}
-                <div className="pt-6 border-t border-zinc-100 mt-auto">
-                  <Link 
-                    to={`/services/${service.slug}`} 
-                    className="inline-flex items-center space-x-2 py-2 text-sm font-bold text-zinc-900 hover:text-amber-600 active:scale-95 transition-all group/link"
-                  >
-                    <span>Xem chi tiết</span>
-                    <ArrowRight size={16} className="transform group-hover/link:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
+                </Link>
               </motion.div>
             )})}
           </div>

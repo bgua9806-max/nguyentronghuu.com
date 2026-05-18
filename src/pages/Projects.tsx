@@ -52,9 +52,18 @@ export default function Projects() {
         initial="initial"
         whileInView="whileInView"
         variants={FADE_UP}
-        className="mb-16 md:mb-24"
+        className="mb-16 md:mb-24 max-w-4xl"
       >
-        <h1 className="text-sm font-medium text-zinc-500 uppercase tracking-widest">Tuyển tập Dự Án</h1>
+        <h1 className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest mb-6 md:mb-8">
+          Tuyển tập Dự án
+        </h1>
+        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8">
+          Sản phẩm thực, <br className="hidden md:block" />
+          <span className="italic text-zinc-500 font-light">giá trị thực.</span>
+        </h2>
+        <p className="text-base sm:text-lg md:text-xl text-zinc-600 max-w-2xl leading-relaxed">
+          Khám phá các dự án tiêu biểu mình đã triển khai, từ hệ thống Web/App phức tạp đến các chiến dịch tự động hóa mang lại hiệu quả đo lường được.
+        </p>
       </motion.div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-16 md:gap-y-24">

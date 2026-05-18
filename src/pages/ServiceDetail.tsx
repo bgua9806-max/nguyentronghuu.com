@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { STAGGER, STAGGER_ITEM } from '../data';
-import { ArrowLeft, Share2, Loader2, Code2, Bot, Cpu, LineChart } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Share2, Loader2, Code2, Bot, Cpu, LineChart } from 'lucide-react';
 import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
@@ -79,33 +79,32 @@ export default function ServiceDetail() {
         url={window.location.href}
       />
 
-      <Link 
-        to="/services"
-        className="inline-flex items-center space-x-2 py-2 text-sm font-bold text-zinc-500 hover:text-zinc-900 active:scale-95 transition-all mb-8 md:mb-16"
-      >
-        <ArrowLeft size={16} />
-        <span>Trở lại Dịch vụ</span>
-      </Link>
+      <header className="mb-8 md:mb-12 flex items-center">
+        <Link 
+          to="/services"
+          className="group inline-flex items-center space-x-3 text-sm font-bold text-zinc-500 hover:text-zinc-900 active:scale-95 transition-all"
+        >
+          <span className="w-10 h-10 flex items-center justify-center rounded-full border border-zinc-200 bg-zinc-50 group-hover:bg-zinc-100 group-hover:border-zinc-300 transition-all shrink-0">
+            <ArrowLeft size={16} />
+          </span>
+          <span>Trở lại Dịch vụ</span>
+        </Link>
+      </header>
 
       <motion.div
         variants={STAGGER}
         initial="initial"
         animate="whileInView"
       >
-        <motion.div variants={STAGGER_ITEM} className="mb-10 md:mb-12 text-center md:text-left flex flex-col md:flex-row md:items-start gap-5 md:gap-8">
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-amber-50 flex items-center justify-center shrink-0 mx-auto md:mx-0">
-            <IconComponent className="w-8 h-8 md:w-10 md:h-10 text-amber-600" strokeWidth={1.5} />
-          </div>
-          <div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-zinc-900 mb-4 md:mb-6 leading-tight">
-              {service.title}
-            </h1>
-            {service.description && (
-               <p className="text-base md:text-xl text-zinc-600 leading-relaxed max-w-3xl">
-                 {service.description}
-               </p>
-            )}
-          </div>
+        <motion.div variants={STAGGER_ITEM} className="mb-10 md:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-serif text-zinc-900 mb-4 md:mb-6 leading-tight">
+            {service.title}
+          </h1>
+          {service.description && (
+             <p className="text-base md:text-xl text-zinc-600 leading-relaxed max-w-3xl">
+               {service.description}
+             </p>
+          )}
         </motion.div>
 
         {service.cover_image && (
@@ -126,11 +125,17 @@ export default function ServiceDetail() {
             </div>
             
             <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32 h-fit">
-                <div className="bg-zinc-50 p-6 sm:p-8 rounded-sm border border-zinc-100">
-                  <h4 className="font-serif text-xl md:text-2xl text-zinc-900 mb-3 md:mb-4">Cần tư vấn giải pháp này?</h4>
-                  <p className="text-sm md:text-base text-zinc-600 mb-6 md:mb-8 leading-relaxed">Để lại thông tin, mình sẽ liên hệ và trao đổi chi tiết về yêu cầu của bạn.</p>
-                  <Link to="/contact" className="flex items-center justify-center w-full py-3.5 bg-zinc-900 text-white rounded-sm font-bold active:scale-95 md:hover:bg-amber-500 md:hover:text-zinc-950 transition-all shadow-xl shadow-black/10">
-                    Liên hệ tư vấn
+                <div className="bg-zinc-50 p-8 md:p-10 border border-zinc-200">
+                  <h4 className="font-serif text-2xl md:text-3xl text-zinc-900 mb-4 leading-tight">
+                    Bạn cần triển khai <br/><span className="italic text-zinc-500 font-light">giải pháp này?</span>
+                  </h4>
+                  <p className="text-zinc-600 mb-8 leading-relaxed text-sm md:text-base">
+                    Để lại yêu cầu, mình sẽ phân tích và đề xuất lộ trình thực hiện cụ thể cho doanh nghiệp của bạn.
+                  </p>
+                  
+                  <Link to="/contact" className="group flex items-center justify-center w-full py-4 bg-zinc-900 text-white text-sm uppercase tracking-widest font-bold transition-all hover:bg-amber-600 active:scale-95">
+                    <span>Liên hệ tư vấn</span>
+                    <ArrowRight size={16} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
                   </Link>
                 </div>
             </div>
