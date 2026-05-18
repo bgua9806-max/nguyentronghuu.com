@@ -113,6 +113,8 @@ function Layout() {
             <img 
               src={logoUrl} 
               alt="Hữu Logo" 
+              width="152"
+              height="46"
               className="h-[46px] w-[152px] object-contain transition-transform duration-300 transform group-hover:scale-[1.02] origin-left" 
               style={{
                 filter: isMobileMenuOpen || (isContactPage && !isScrolled) ? 'invert(1) brightness(1.5)' : 'contrast(1.05)',
