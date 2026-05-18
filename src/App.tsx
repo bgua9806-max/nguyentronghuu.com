@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import { Menu, X, Youtube, Twitter, Facebook } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
-import logoUrl from './assets/images/logo3.png';
+import logoUrl from './assets/images/logo3.webp';
 
 // Pages
 import Home from './pages/Home';

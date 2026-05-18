@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { STAGGER, STAGGER_ITEM } from '../data';
 import { Mail, Facebook, MessageCircle, Phone, ArrowRight, Loader2 } from 'lucide-react';
 import SEO from '../components/SEO';
-import logoUrl from '../assets/images/logo3.png';
+import logoUrl from '../assets/images/logo3.webp';
 import toast from 'react-hot-toast';
 import { supabase } from '../lib/supabase';
 

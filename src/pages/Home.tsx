@@ -4,7 +4,7 @@ import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
 import { STAGGER, STAGGER_ITEM, FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import regeneratedImage from '../assets/images/regenerated_image_1778087112848.png';
+import regeneratedImage from '../assets/images/regenerated_image.webp';
 import { supabase } from '../lib/supabase';
 
 export default function Home() {
