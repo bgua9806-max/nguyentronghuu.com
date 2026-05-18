@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { Menu, X, Youtube, Twitter, Facebook } from 'lucide-react';
@@ -6,29 +6,32 @@ import { Toaster } from 'react-hot-toast';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
 import logoUrl from './assets/images/logo3.webp';
 
-// Pages
+// Eager: Home (LCP page - must load instantly)
 import Home from './pages/Home';
-import About from './pages/About';
-import Services from './pages/Services';
-import ServiceDetail from './pages/ServiceDetail';
-import Projects from './pages/Projects';
-import ProjectDetail from './pages/ProjectDetail';
-import BlogList from './pages/BlogList';
-import BlogPost from './pages/BlogPost';
-import Contact from './pages/Contact';
-import MetaAds from './pages/MetaAds';
-// Admin Pages
-import AdminLayout from './layouts/AdminLayout';
-import Dashboard from './pages/admin/Dashboard';
-import BlogManager from './pages/admin/BlogManager';
-import PostEditor from './pages/admin/PostEditor';
-import ProjectManager from './pages/admin/ProjectManager';
-import ProjectEditor from './pages/admin/ProjectEditor';
-import ServiceManager from './pages/admin/ServiceManager';
-import ServiceEditor from './pages/admin/ServiceEditor';
-import ContactManager from './pages/admin/ContactManager';
-import EmailSettings from './pages/admin/EmailSettings';
-import Settings from './pages/admin/Settings';
+
+// Lazy-loaded pages (code splitting - only loads when navigated to)
+const About = React.lazy(() => import('./pages/About'));
+const Services = React.lazy(() => import('./pages/Services'));
+const ServiceDetail = React.lazy(() => import('./pages/ServiceDetail'));
+const Projects = React.lazy(() => import('./pages/Projects'));
+const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail'));
+const BlogList = React.lazy(() => import('./pages/BlogList'));
+const BlogPost = React.lazy(() => import('./pages/BlogPost'));
+const Contact = React.lazy(() => import('./pages/Contact'));
+const MetaAds = React.lazy(() => import('./pages/MetaAds'));
+
+// Lazy-loaded Admin Pages
+const AdminLayout = React.lazy(() => import('./layouts/AdminLayout'));
+const Dashboard = React.lazy(() => import('./pages/admin/Dashboard'));
+const BlogManager = React.lazy(() => import('./pages/admin/BlogManager'));
+const PostEditor = React.lazy(() => import('./pages/admin/PostEditor'));
+const ProjectManager = React.lazy(() => import('./pages/admin/ProjectManager'));
+const ProjectEditor = React.lazy(() => import('./pages/admin/ProjectEditor'));
+const ServiceManager = React.lazy(() => import('./pages/admin/ServiceManager'));
+const ServiceEditor = React.lazy(() => import('./pages/admin/ServiceEditor'));
+const ContactManager = React.lazy(() => import('./pages/admin/ContactManager'));
+const EmailSettings = React.lazy(() => import('./pages/admin/EmailSettings'));
+const Settings = React.lazy(() => import('./pages/admin/Settings'));
 
 function Layout() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -73,23 +76,25 @@ function Layout() {
 
   if (isAdminRoute) {
     return (
-      <Routes location={location}>
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route index element={<Dashboard />} />
-          <Route path="posts" element={<BlogManager />} />
-          <Route path="posts/new" element={<PostEditor />} />
-          <Route path="posts/edit/:id" element={<PostEditor />} />
-          <Route path="projects" element={<ProjectManager />} />
-          <Route path="projects/new" element={<ProjectEditor />} />
-          <Route path="projects/edit/:id" element={<ProjectEditor />} />
-          <Route path="services" element={<ServiceManager />} />
-          <Route path="services/new" element={<ServiceEditor />} />
-          <Route path="services/edit/:id" element={<ServiceEditor />} />
-          <Route path="contacts" element={<ContactManager />} />
-          <Route path="email" element={<EmailSettings />} />
-          <Route path="settings" element={<Settings />} />
-        </Route>
-      </Routes>
+      <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-6 h-6 border-2 border-zinc-300 border-t-zinc-900 rounded-full animate-spin" /></div>}>
+        <Routes location={location}>
+          <Route path="/admin" element={<AdminLayout />}>
+            <Route index element={<Dashboard />} />
+            <Route path="posts" element={<BlogManager />} />
+            <Route path="posts/new" element={<PostEditor />} />
+            <Route path="posts/edit/:id" element={<PostEditor />} />
+            <Route path="projects" element={<ProjectManager />} />
+            <Route path="projects/new" element={<ProjectEditor />} />
+            <Route path="projects/edit/:id" element={<ProjectEditor />} />
+            <Route path="services" element={<ServiceManager />} />
+            <Route path="services/new" element={<ServiceEditor />} />
+            <Route path="services/edit/:id" element={<ServiceEditor />} />
+            <Route path="contacts" element={<ContactManager />} />
+            <Route path="email" element={<EmailSettings />} />
+            <Route path="settings" element={<Settings />} />
+          </Route>
+        </Routes>
+      </Suspense>
     );
   }
 
@@ -221,22 +226,24 @@ function Layout() {
       )}
 
       <main className="flex-1">
-        <AnimatePresence mode="wait">
-          <motion.div key={location.pathname} className="h-full">
-            <Routes location={location}>
-              <Route path="/" element={<Home />} />
-              <Route path="/about" element={<About />} />
-              <Route path="/services" element={<Services />} />
-              <Route path="/services/:slug" element={<ServiceDetail />} />
-              <Route path="/projects" element={<Projects />} />
-              <Route path="/projects/:slug" element={<ProjectDetail />} />
-              <Route path="/blog" element={<BlogList />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
-              <Route path="/contact" element={<Contact />} />
-              <Route path="/meta_ads" element={<MetaAds />} />
-            </Routes>
-          </motion.div>
-        </AnimatePresence>
+        <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-6 h-6 border-2 border-zinc-300 border-t-zinc-900 rounded-full animate-spin" /></div>}>
+          <AnimatePresence mode="wait">
+            <motion.div key={location.pathname} className="h-full">
+              <Routes location={location}>
+                <Route path="/" element={<Home />} />
+                <Route path="/about" element={<About />} />
+                <Route path="/services" element={<Services />} />
+                <Route path="/services/:slug" element={<ServiceDetail />} />
+                <Route path="/projects" element={<Projects />} />
+                <Route path="/projects/:slug" element={<ProjectDetail />} />
+                <Route path="/blog" element={<BlogList />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/contact" element={<Contact />} />
+                <Route path="/meta_ads" element={<MetaAds />} />
+              </Routes>
+            </motion.div>
+          </AnimatePresence>
+        </Suspense>
       </main>
 
       {!isContactPage && !isMetaAdsPage && (
