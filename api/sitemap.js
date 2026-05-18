@@ -27,6 +27,13 @@ export default async function handler(req, res) {
       .select('slug, updated_at, created_at')
       .order('created_at', { ascending: false });
 
+    // Fetch all services
+    const { data: services } = await supabase
+      .from('services')
+      .select('slug, updated_at, created_at')
+      .eq('status', 'published')
+      .order('created_at', { ascending: false });
+
     const baseUrl = 'https://nguyentronghuu.com';
     const today = new Date().toISOString().split('T')[0];
 
@@ -56,6 +63,12 @@ export default async function handler(req, res) {
     <lastmod>${today}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>${baseUrl}/services</loc>
+    <lastmod>${today}</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>${baseUrl}/contact</loc>
@@ -92,6 +105,20 @@ export default async function handler(req, res) {
       }
     }
 
+    // Add all services
+    if (services && services.length > 0) {
+      for (const service of services) {
+        const lastmod = (service.updated_at || service.created_at || today).split('T')[0];
+        xml += `
+  <url>
+    <loc>${baseUrl}/services/${service.slug}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+      }
+    }
+
     xml += `\n</urlset>`;
 
     res.setHeader('Content-Type', 'application/xml');
@@ -112,6 +139,7 @@ function getStaticSitemap() {
   <url><loc>${baseUrl}/about</loc><priority>0.8</priority></url>
   <url><loc>${baseUrl}/projects</loc><priority>0.8</priority></url>
   <url><loc>${baseUrl}/blog</loc><priority>0.9</priority></url>
+  <url><loc>${baseUrl}/services</loc><priority>0.8</priority></url>
   <url><loc>${baseUrl}/contact</loc><priority>0.7</priority></url>
 </urlset>`;
 }
