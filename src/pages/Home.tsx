@@ -5,7 +5,7 @@ import { STAGGER, STAGGER_ITEM, FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import regeneratedImage from '../assets/images/regenerated_image.webp';
-import { supabase, optimizeImageUrl } from '../lib/supabase';
+import { optimizeImageUrl } from '../lib/imageUtils';
 
 export default function Home() {
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
@@ -14,6 +14,8 @@ export default function Home() {
   useEffect(() => {
     const fetchLatestPosts = async () => {
       try {
+        // Lazy-load Supabase to keep it off the critical path
+        const { supabase } = await import('../lib/supabase');
         const { data, error } = await supabase
           .from('posts')
           .select('*')
@@ -58,20 +60,11 @@ export default function Home() {
               Giải pháp công nghệ <br className="hidden md:block"/>
               <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>
             </h2>
-            {/* Non-LCP: Subtle fade-in animation is OK */}
-            <motion.p 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className="text-sm md:text-base text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12"
-            >
+            {/* All hero content renders instantly — no JS-based opacity:0 */}
+            <p className="text-sm md:text-base text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12 animate-fade-in" style={{ animationDelay: '0.1s' }}>
               Người xây dựng giải pháp nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.
-            </motion.p>
-            <motion.div 
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
+            </p>
+            <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
               <Link 
                 to="/projects" 
                 className="inline-flex items-center space-x-2 border-b-2 border-zinc-900 pb-1 text-sm font-medium text-zinc-900 hover:text-zinc-600 hover:border-zinc-600 transition-colors"
@@ -79,7 +72,7 @@ export default function Home() {
                 <span>Xem dự án</span>
                 <ArrowUpRight size={16} />
               </Link>
-            </motion.div>
+            </div>
           </div>
           
           <div className="w-full max-w-[280px] md:max-w-[320px] md:w-1/3">

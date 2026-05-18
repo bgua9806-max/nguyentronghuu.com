@@ -4,7 +4,8 @@ import { FADE_UP } from '../data';
 import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { supabase, optimizeImageUrl } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
+import { optimizeImageUrl } from '../lib/imageUtils';
 
 export default function BlogList() {
   const [posts, setPosts] = useState<any[]>([]);

@@ -3,7 +3,8 @@ import { motion } from 'motion/react';
 import { ArrowRight, CheckCircle2, Code2, Bot, LineChart, Cpu, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { supabase, optimizeImageUrl } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
+import { optimizeImageUrl } from '../lib/imageUtils';
 import { FADE_UP, STAGGER, STAGGER_ITEM } from '../data';
 
 const iconMap: Record<string, any> = {

@@ -3,7 +3,8 @@ import { motion } from 'motion/react';
 import { FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import { supabase, optimizeImageUrl } from '../lib/supabase';
+import { supabase } from '../lib/supabase';
+import { optimizeImageUrl } from '../lib/imageUtils';
 import { Loader2 } from 'lucide-react';
 
 export default function Projects() {
