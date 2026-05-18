@@ -48,27 +48,30 @@ export default function Home() {
       />
 
       <section className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-6xl mx-auto">
-        <motion.div
-          initial="initial"
-          animate="whileInView"
-          variants={STAGGER}
-          className="flex flex-col md:flex-row items-center md:items-start justify-between gap-16 md:gap-8"
-        >
+        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-16 md:gap-8">
           <div className="max-w-2xl md:w-2/3">
-            <motion.h1 variants={STAGGER_ITEM} className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">
+            {/* LCP-critical: No animation — renders instantly */}
+            <h1 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">
               Mình là Nguyễn Trọng Hữu
-            </motion.h1>
-            <motion.h2 
-              variants={STAGGER_ITEM} 
-              className="text-3xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8"
-            >
+            </h1>
+            <h2 className="text-3xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8">
               Giải pháp công nghệ <br className="hidden md:block"/>
               <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>
-            </motion.h2>
-            <motion.p variants={STAGGER_ITEM} className="text-sm md:text-base text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12">
+            </h2>
+            {/* Non-LCP: Subtle fade-in animation is OK */}
+            <motion.p 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.1 }}
+              className="text-sm md:text-base text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12"
+            >
               Người xây dựng giải pháp nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.
             </motion.p>
-            <motion.div variants={STAGGER_ITEM}>
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
               <Link 
                 to="/projects" 
                 className="inline-flex items-center space-x-2 border-b-2 border-zinc-900 pb-1 text-sm font-medium text-zinc-900 hover:text-zinc-600 hover:border-zinc-600 transition-colors"
@@ -79,7 +82,12 @@ export default function Home() {
             </motion.div>
           </div>
           
-          <motion.div variants={STAGGER_ITEM} className="w-full max-w-[280px] md:max-w-[320px] md:w-1/3">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.6, delay: 0.15 }}
+            className="w-full max-w-[280px] md:max-w-[320px] md:w-1/3"
+          >
             <div className="aspect-[3/4] overflow-hidden bg-zinc-100 rounded-tr-[4rem] rounded-bl-[4rem]">
               <img 
                 src="https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png" 
@@ -90,7 +98,7 @@ export default function Home() {
               />
             </div>
           </motion.div>
-        </motion.div>
+        </div>
       </section>
 
       <section className="py-8 md:py-12 border-y border-zinc-200/50 bg-white overflow-hidden flex whitespace-nowrap">

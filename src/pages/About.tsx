@@ -167,7 +167,7 @@ export default function About() {
                  className="w-full h-full object-cover hover:scale-105 transition-all duration-700"
                />
                <div className="absolute bottom-6 right-6">
-                 <span className="text-2xl md:text-3xl text-zinc-700/80 italic" style={{ fontFamily: "'Dancing Script', 'Pacifico', cursive" }}>Trọng Hữu</span>
+                 <span className="text-2xl md:text-3xl text-zinc-700/80 italic" style={{ fontFamily: "'Playfair Display', 'Georgia', cursive" }}>Trọng Hữu</span>
                </div>
              </div>
           </div>
