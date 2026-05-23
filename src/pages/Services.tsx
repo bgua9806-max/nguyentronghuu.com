@@ -91,15 +91,18 @@ export default function Services() {
   }, []);
 
   const displayServices = dbServices.length > 0 
-    ? dbServices.map(s => ({
-        id: s.slug,
-        icon: s.icon_name,
-        title: s.title,
-        description: s.description,
-        features: [],
-        slug: s.slug,
-        cover_image: s.cover_image
-      }))
+    ? dbServices.map(s => {
+        const matchedService = SERVICES.find(item => item.id === s.slug);
+        return {
+          id: s.slug,
+          icon: s.icon_name,
+          title: s.title,
+          description: s.description,
+          features: matchedService ? matchedService.features : [],
+          slug: s.slug,
+          cover_image: s.cover_image
+        };
+      })
     : SERVICES.map(s => ({ ...s, slug: s.id, icon: s.id === 'web-app' ? 'Code2' : s.id === 'ai-automation' ? 'Bot' : s.id === 'system-architecture' ? 'Cpu' : 'LineChart', cover_image: null }));
 
   return (

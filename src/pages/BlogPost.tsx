@@ -30,6 +30,12 @@ export default function BlogPost() {
         setPost(data);
         setLikes(data.likes || 0);
 
+        // Tăng số lượt xem bài viết (Views)
+        await supabase
+          .from('posts')
+          .update({ views: (data.views || 0) + 1 })
+          .eq('id', data.id);
+
         // Lấy danh sách bình luận
         const { data: commentsData } = await supabase
           .from('comments')

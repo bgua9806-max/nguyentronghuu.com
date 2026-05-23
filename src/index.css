@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
@@ -25,6 +27,74 @@
     scroll-padding-top: 6rem;
   }
   body {
-    @apply bg-[#FAFAFA] text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white;
+    @apply bg-[#FAFAFA] text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white transition-colors duration-300;
+  }
+  
+  /* Global dark mode styling overrides */
+  .dark body {
+    @apply bg-zinc-950 text-zinc-50 selection:bg-amber-500 selection:text-zinc-950;
+  }
+
+  .dark .bg-white {
+    background-color: var(--color-zinc-900) !important;
+  }
+
+  .dark .bg-zinc-50 {
+    background-color: var(--color-zinc-900) !important;
+  }
+
+  .dark .bg-zinc-50\/30 {
+    background-color: rgba(24, 24, 27, 0.3) !important;
+  }
+
+  .dark .text-zinc-900 {
+    color: var(--color-zinc-100) !important;
+  }
+
+  .dark .text-zinc-800 {
+    color: var(--color-zinc-200) !important;
+  }
+
+  .dark .text-zinc-700 {
+    color: var(--color-zinc-300) !important;
+  }
+
+  .dark .text-zinc-600 {
+    color: var(--color-zinc-400) !important;
+  }
+
+  .dark .text-zinc-500 {
+    color: var(--color-zinc-500) !important;
+  }
+
+  .dark .border-zinc-200 {
+    border-color: var(--color-zinc-800) !important;
+  }
+
+  .dark .border-zinc-100 {
+    border-color: var(--color-zinc-800) !important;
+  }
+
+  .dark .border-zinc-200\/50 {
+    border-color: rgba(63, 63, 70, 0.3) !important;
+  }
+
+  .dark .border-t-zinc-900 {
+    border-top-color: var(--color-amber-500) !important;
+  }
+  
+  .dark .bg-zinc-100 {
+    background-color: var(--color-zinc-800) !important;
+  }
+  
+  .dark nav .bg-white\/90 {
+    background-color: rgba(24, 24, 27, 0.9) !important;
+    border-color: rgba(63, 63, 70, 0.4) !important;
+  }
+  
+  .dark footer.bg-white {
+    background-color: var(--color-zinc-950) !important;
+    border-color: var(--color-zinc-900) !important;
   }
 }
+

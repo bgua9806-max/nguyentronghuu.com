@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { Menu, X, Youtube, Twitter, Facebook } from 'lucide-react';
+import { Menu, X, Youtube, Twitter, Facebook, Sun, Moon } from 'lucide-react';
 import { Toaster } from 'react-hot-toast';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
 import logoUrl from './assets/images/logo3.webp';
@@ -21,6 +21,7 @@ const Contact = React.lazy(() => import('./pages/Contact'));
 const MetaAds = React.lazy(() => import('./pages/MetaAds'));
 
 // Lazy-loaded Admin Pages
+const Login = React.lazy(() => import('./pages/admin/Login'));
 const AdminLayout = React.lazy(() => import('./layouts/AdminLayout'));
 const Dashboard = React.lazy(() => import('./pages/admin/Dashboard'));
 const BlogManager = React.lazy(() => import('./pages/admin/BlogManager'));
@@ -56,6 +57,27 @@ function Layout() {
   const isMetaAdsPage = location.pathname === '/meta_ads';
   const isAdminRoute = location.pathname.startsWith('/admin');
 
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    if (typeof window !== 'undefined') {
+      return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
+    }
+    return 'light';
+  });
+
+  useEffect(() => {
+    const root = window.document.documentElement;
+    if (isAdminRoute) {
+      root.classList.remove('dark');
+      return;
+    }
+    if (theme === 'dark') {
+      root.classList.add('dark');
+    } else {
+      root.classList.remove('dark');
+    }
+    localStorage.setItem('theme', theme);
+  }, [theme, isAdminRoute]);
+
   useEffect(() => {
     if (isAdminRoute) return;
     
@@ -78,6 +100,7 @@ function Layout() {
     return (
       <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-6 h-6 border-2 border-zinc-300 border-t-zinc-900 rounded-full animate-spin" /></div>}>
         <Routes location={location}>
+          <Route path="/admin/login" element={<Login />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="posts" element={<BlogManager />} />
@@ -122,8 +145,8 @@ function Layout() {
               height="46"
               className="h-[46px] w-[152px] object-contain transition-transform duration-300 transform group-hover:scale-[1.02] origin-left" 
               style={{
-                filter: isMobileMenuOpen || (isContactPage && !isScrolled) ? 'invert(1) brightness(1.5)' : 'contrast(1.05)',
-                mixBlendMode: isMobileMenuOpen || (isContactPage && !isScrolled) ? 'screen' : 'multiply'
+                filter: theme === 'dark' || isMobileMenuOpen || (isContactPage && !isScrolled) ? 'invert(1) brightness(1.5)' : 'contrast(1.05)',
+                mixBlendMode: theme === 'dark' || isMobileMenuOpen || (isContactPage && !isScrolled) ? 'screen' : 'multiply'
               }}
             />
           </Link>
@@ -148,19 +171,40 @@ function Layout() {
               <span>Liên hệ</span>
               <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname === '/contact' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
+            
+            <button 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className={`flex items-center justify-center p-1 ml-2 rounded-full transition-colors cursor-pointer ${
+                isContactPage && !isScrolled ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-zinc-950'
+              }`}
+              aria-label="Chuyển đổi giao diện"
+            >
+              {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
+            </button>
           </div>
 
-          <button 
-            className="md:hidden p-2 -mr-2"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle mobile menu"
-          >
-            {isMobileMenuOpen ? (
-               <X size={24} className="text-white" />
-            ) : (
-               <Menu size={24} className={isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} />
-            )}
-          </button>
+          <div className="flex items-center space-x-3 md:hidden">
+            <button 
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className={`p-2 rounded-full transition-colors cursor-pointer ${
+                isMobileMenuOpen || (isContactPage && !isScrolled) ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-zinc-950'
+              }`}
+              aria-label="Chuyển đổi giao diện"
+            >
+              {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
+            <button 
+              className="p-2 -mr-2"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? (
+                 <X size={24} className="text-white" />
+              ) : (
+                 <Menu size={24} className={isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} />
+              )}
+            </button>
+          </div>
         </div>
 
         <AnimatePresence>
@@ -252,7 +296,15 @@ function Layout() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-12 mb-16">
               <div className="md:col-span-4">
                 <div className="mb-6 -ml-2">
-                  <img src={logoUrl} alt="Hữu Logo" className="h-10 w-auto object-contain origin-left" style={{ filter: 'contrast(1.05)', mixBlendMode: 'multiply' }} />
+                  <img 
+                    src={logoUrl} 
+                    alt="Hữu Logo" 
+                    className="h-10 w-auto object-contain origin-left" 
+                    style={{ 
+                      filter: theme === 'dark' ? 'invert(1) brightness(1.5)' : 'contrast(1.05)', 
+                      mixBlendMode: theme === 'dark' ? 'screen' : 'multiply' 
+                    }} 
+                  />
                 </div>
                 <p className="text-sm text-zinc-600 leading-relaxed mb-6 pr-4">
                   Mình chuyên tư vấn và triển khai xây dựng hệ thống phần mềm, phát triển Web, App và tự động hóa AI, giúp doanh nghiệp tối ưu hóa quy trình và tăng trưởng bền vững.

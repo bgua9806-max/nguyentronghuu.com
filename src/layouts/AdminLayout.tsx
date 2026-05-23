@@ -1,13 +1,54 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { Link, Outlet, useLocation } from 'react-router-dom';
-import { PenTool, Library, Settings, LogOut, LayoutDashboard, Search, Bell, Sparkles, Home, Users, Mail, CheckCircle2, Cpu } from 'lucide-react';
+import { Link, Outlet, useLocation, Navigate } from 'react-router-dom';
+import { PenTool, Library, Settings, LogOut, LayoutDashboard, Search, Bell, Sparkles, Home, Users, Mail, CheckCircle2, Cpu, Loader2 } from 'lucide-react';
 import { AnimatePresence, motion } from 'motion/react';
 import logoUrl from '../assets/images/logo3.png';
+import { supabase } from '../lib/supabase';
+import toast from 'react-hot-toast';
 
 export default function AdminLayout() {
   const location = useLocation();
   const [showNotifications, setShowNotifications] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
+
+  const [session, setSession] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      setLoading(false);
+    });
+
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const handleLogout = async () => {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) throw error;
+      toast.success('Đăng xuất thành công!');
+    } catch (error: any) {
+      toast.error(error.message || 'Lỗi khi đăng xuất');
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#f7f4ef]">
+        <Loader2 className="w-8 h-8 text-amber-500 animate-spin" />
+      </div>
+    );
+  }
+
+  if (!session) {
+    return <Navigate to="/admin/login" replace />;
+  }
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -98,7 +139,10 @@ export default function AdminLayout() {
             <Link to="/" className="flex min-h-11 items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold text-zinc-400 transition-all hover:bg-white/[0.06] hover:text-white active:scale-[0.98]">
               <Home size={18} /> Xem website
             </Link>
-            <button className="flex min-h-11 w-full items-center gap-3 rounded-sm px-4 py-3 text-left text-sm font-semibold text-zinc-400 transition-all hover:bg-white/[0.06] hover:text-white active:scale-[0.98]">
+            <button 
+              onClick={handleLogout}
+              className="flex min-h-11 w-full items-center gap-3 rounded-sm px-4 py-3 text-left text-sm font-semibold text-zinc-400 transition-all hover:bg-white/[0.06] hover:text-white active:scale-[0.98]"
+            >
               <LogOut size={18} /> Đăng xuất
             </button>
           </div>
