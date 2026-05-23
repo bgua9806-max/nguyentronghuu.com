@@ -142,7 +142,7 @@ function Layout() {
         <div 
           className={`relative z-50 flex justify-between items-center transition-all duration-500 h-[51px] ${
             (isScrolled && !isMobileMenuOpen)
-              ? 'bg-white/90 backdrop-blur-md border border-zinc-200/50 shadow-sm rounded-full px-6 md:px-8 w-full max-w-3xl' 
+              ? 'bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm rounded-full px-6 md:px-8 w-full max-w-3xl' 
               : 'w-full max-w-6xl px-6 md:px-12 bg-transparent'
           }`}
         >

@@ -47,7 +47,7 @@ export default function MetaAds() {
 
       <div className="flex flex-col min-h-screen">
         {/* Header - Simple Logo or Name */}
-        <div className="py-6 px-6 md:px-12 border-b border-zinc-100 flex items-center justify-between sticky top-0 bg-white/90 backdrop-blur-sm z-10">
+        <div className="py-6 px-6 md:px-12 border-b border-zinc-100 dark:border-zinc-800/80 flex items-center justify-between sticky top-0 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-sm z-10">
           <Link to="/" className="text-xl font-serif font-medium text-zinc-900 tracking-tight">
             NTH<span className="text-zinc-400">.</span>
           </Link>
