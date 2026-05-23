@@ -58,24 +58,33 @@ function Layout() {
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem('theme') as 'light' | 'dark') || 'light';
+    try {
+      if (typeof window !== 'undefined') {
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark' || saved === 'light') return saved;
+      }
+    } catch (e) {
+      console.warn('Failed to access localStorage:', e);
     }
     return 'light';
   });
 
   useEffect(() => {
-    const root = window.document.documentElement;
-    if (isAdminRoute) {
-      root.classList.remove('dark');
-      return;
+    try {
+      const root = window.document.documentElement;
+      if (isAdminRoute) {
+        root.classList.remove('dark');
+        return;
+      }
+      if (theme === 'dark') {
+        root.classList.add('dark');
+      } else {
+        root.classList.remove('dark');
+      }
+      localStorage.setItem('theme', theme);
+    } catch (e) {
+      console.warn('Failed to update theme classes or localStorage:', e);
     }
-    if (theme === 'dark') {
-      root.classList.add('dark');
-    } else {
-      root.classList.remove('dark');
-    }
-    localStorage.setItem('theme', theme);
   }, [theme, isAdminRoute]);
 
   useEffect(() => {
