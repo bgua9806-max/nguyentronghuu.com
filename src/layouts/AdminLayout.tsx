@@ -28,6 +28,33 @@ export default function AdminLayout() {
     return () => subscription.unsubscribe();
   }, []);
 
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
+        setShowNotifications(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    if (!session) return;
+    const isMobile = window.innerWidth <= 768;
+    if (!isMobile) {
+      document.body.style.zoom = "90%";
+      document.documentElement.style.setProperty('--ui-zoom', "0.9");
+    } else {
+      document.body.style.zoom = "100%";
+      document.documentElement.style.setProperty('--ui-zoom', "1");
+    }
+
+    return () => {
+      document.body.style.zoom = "100%";
+      document.documentElement.style.setProperty('--ui-zoom', "1");
+    };
+  }, [session]);
+
   const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -50,15 +77,7 @@ export default function AdminLayout() {
     return <Navigate to="/admin/login" replace />;
   }
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (notifRef.current && !notifRef.current.contains(event.target as Node)) {
-        setShowNotifications(false);
-      }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+
 
   const notifications = [
     { id: 1, title: 'Liên hệ mới', desc: 'Có yêu cầu tư vấn AI Automation từ anh Tuấn Anh.', time: '5 phút trước', unread: true },
@@ -79,21 +98,7 @@ export default function AdminLayout() {
 
   const currentPage = navItems.find(item => location.pathname === item.path || (item.path !== '/admin' && location.pathname.startsWith(item.path)))?.name || 'Quản trị';
 
-  useEffect(() => {
-    const isMobile = window.innerWidth <= 768;
-    if (!isMobile) {
-      document.body.style.zoom = "90%";
-      document.documentElement.style.setProperty('--ui-zoom', "0.9");
-    } else {
-      document.body.style.zoom = "100%";
-      document.documentElement.style.setProperty('--ui-zoom', "1");
-    }
 
-    return () => {
-      document.body.style.zoom = "100%";
-      document.documentElement.style.setProperty('--ui-zoom', "1");
-    };
-  }, []);
 
   return (
     <div className="min-h-[calc(100vh/var(--ui-zoom,1))] bg-[#f7f4ef] text-zinc-900 lg:flex admin-crm-shell">
