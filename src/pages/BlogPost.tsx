@@ -184,7 +184,7 @@ export default function BlogPost() {
 
       <div className="text-zinc-700 leading-relaxed text-base md:text-xl font-serif mb-16 prose md:prose-lg prose-zinc max-w-none prose-img:rounded-sm prose-img:shadow-md prose-a:text-amber-600">
         {post.content ? (
-          <div dangerouslySetInnerHTML={{ __html: post.content.replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
+          <div dangerouslySetInnerHTML={{ __html: post.content.replace(/\\n/g, '\n').replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
         ) : (
           <p className="mb-8 italic text-zinc-500">Nội dung đang được cập nhật...</p>
         )}

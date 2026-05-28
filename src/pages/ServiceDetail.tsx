@@ -117,7 +117,7 @@ export default function ServiceDetail() {
             <div className="lg:col-span-8 space-y-10 md:space-y-16">
                 <motion.div variants={STAGGER_ITEM} className="prose md:prose-lg prose-zinc max-w-none text-base md:text-lg text-zinc-700 leading-relaxed prose-headings:font-serif prose-headings:font-normal prose-a:text-amber-600">
                   {service.content ? (
-                    <div dangerouslySetInnerHTML={{ __html: service.content.replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
+                    <div dangerouslySetInnerHTML={{ __html: service.content.replace(/\\n/g, '\n').replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
                   ) : (
                     <p className="italic text-zinc-500">Đang cập nhật chi tiết dịch vụ...</p>
                   )}

@@ -18,49 +18,49 @@ const SERVICES = [
   {
     id: "web-app",
     icon: <Code2 className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
-    title: "Phát triển Web & Mobile App",
-    description: "Xây dựng nền tảng số chất lượng cao, tối ưu hóa trải nghiệm người dùng (UI/UX) và tốc độ tải trang. Kiến trúc hệ thống mở rộng linh hoạt theo từng giai đoạn phát triển của doanh nghiệp.",
+    title: "Thiết kế Website & Phát triển App",
+    description: "Chúng tôi thiết kế website cao cấp chuẩn SEO, xây dựng các hệ thống web app và mobile app tối ưu trải nghiệm người dùng (UI/UX) và tích hợp các giải pháp AI thông minh.",
     features: [
-      "Thiết kế UI/UX theo tiêu chuẩn quốc tế",
-      "Phát triển Web App / SaaS Architecture",
-      "Ứng dụng Mobile đa nền tảng",
-      "Tối ưu hóa SEO & Hiệu suất kỹ thuật"
+      "Thiết kế Website cao cấp & chuẩn SEO",
+      "Phát triển Web App / SaaS Enterprise",
+      "Ứng dụng Mobile đa nền tảng (iOS/Android)",
+      "Website tích hợp tính năng AI thông minh"
     ]
   },
   {
     id: "ai-automation",
     icon: <Bot className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
-    title: "Hệ thống AI & Tự động hoá",
-    description: "Thiết kế và triển khai các luồng làm việc tự động hóa kết hợp Trí tuệ nhân tạo (AI) giúp tối ưu hóa chi phí vận hành, giảm tải khối lượng công việc lặp lại và gia tăng năng suất.",
+    title: "Hệ thống AI & Tự động hoá doanh nghiệp",
+    description: "Thiết kế và triển khai các luồng tự động hóa công việc kết hợp AI Agents giúp doanh nghiệp tối ưu hóa chi phí vận hành, loại bỏ 80% tác vụ lặp lại và tăng tốc quy trình.",
     features: [
-      "AI Chatbot chăm sóc khách hàng đa kênh",
-      "Tự động hóa quy trình nội bộ (n8n, Make)",
-      "Triển khai AI Agent cho Sales & Marketing",
-      "Tích hợp API & Đồng bộ hóa dữ liệu CRM/ERP"
+      "AI Chatbot tư vấn khách hàng đa kênh",
+      "Workflow Automation (n8n, Make, Zapier)",
+      "AI Agents tự động vận hành (Social/Sales)",
+      "Trích xuất dữ liệu hóa đơn thông minh (AI OCR)"
     ]
   },
   {
     id: "system-architecture",
     icon: <Cpu className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
-    title: "Tư vấn & Kiến trúc Hệ thống",
-    description: "Cung cấp giải pháp quy hoạch tổng thể công nghệ cho doanh nghiệp. Lựa chọn công nghệ phù hợp với mô hình kinh doanh để đảm bảo khả năng bảo mật, tính ổn định và tính mở rộng.",
+    title: "Tư vấn & Kiến trúc Hệ thống Công nghệ",
+    description: "Cung cấp giải pháp quy hoạch tổng thể công nghệ cho doanh nghiệp. Lựa chọn công nghệ phù hợp với mô hình kinh doanh để đảm bảo khả năng bảo mật, tính ổn định và scale linh hoạt.",
     features: [
-      "Đánh giá & tái cấu trúc hệ thống hiện tại",
-      "Tư vấn lựa chọn Tech Stack phù hợp",
-      "Thiết kế cơ sở dữ liệu & hạ tầng Cloud",
-      "Bảo mật thông tin & quản trị rủi ro"
+      "Đánh giá & Tối ưu hóa hệ thống hiện tại (Audit)",
+      "Tư vấn giải pháp kiến trúc & Tech Stack",
+      "Thiết kế hạ tầng Cloud Auto-scaling & DevOps",
+      "Bảo mật thông tin & Quản trị rủi ro hệ thống"
     ]
   },
   {
     id: "marketing-growth",
     icon: <LineChart className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
-    title: "Chiến lược Marketing & Growth",
-    description: "Xây dựng phễu chuyển đổi toàn diện, từ việc thu hút khách hàng tiềm năng đến khi ra quyết định mua hàng. Kết hợp dữ liệu (Data-driven) để đưa ra các quyết định chiến lược.",
+    title: "Chiến lược Marketing & Growth Dữ liệu",
+    description: "Xây dựng phễu chuyển đổi toàn diện, từ việc thu hút khách hàng tiềm năng đến chốt đơn. Tối ưu trải nghiệm chuyển đổi (CRO) và kiểm soát ngân sách dựa trên dữ liệu thực tế.",
     features: [
-      "Thiết lập & tối ưu chiến dịch Performance Marketing",
-      "Tối ưu hóa Tỷ lệ Chuyển đổi (CRO)",
-      "Thiết lập hệ thống Tracking & Analytics (GA4)",
-      "Phễu Inbound Marketing & Lead Generation"
+      "Tối ưu tỷ lệ chuyển đổi (CRO) trang đích",
+      "Thiết lập đo lường Tracking GA4/GTM/Conversion API",
+      "Xây dựng phễu Marketing & Lead Gen tự động",
+      "Vận hành và tối ưu quảng cáo Performance Marketing"
     ]
   }
 ];

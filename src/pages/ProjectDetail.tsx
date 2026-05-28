@@ -135,7 +135,7 @@ export default function ProjectDetail() {
             <div className="lg:col-span-8 space-y-12 md:space-y-16">
                 <motion.div variants={STAGGER_ITEM} className="prose md:prose-lg prose-zinc max-w-none text-base md:text-lg text-zinc-700 leading-relaxed">
                   {project.content ? (
-                    <div dangerouslySetInnerHTML={{ __html: project.content.replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
+                    <div dangerouslySetInnerHTML={{ __html: project.content.replace(/\\n/g, '\n').replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
                   ) : (
                     <p className="italic text-zinc-500">Đang cập nhật chi tiết dự án...</p>
                   )}
