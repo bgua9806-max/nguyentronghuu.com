@@ -110,14 +110,14 @@ export default function Home() {
 
       <section className="py-24 md:py-32 bg-zinc-50 border-b border-zinc-200 px-6 md:px-12 overflow-hidden">
         <div className="max-w-6xl mx-auto">
-          <motion.div
-            initial="initial"
-            whileInView="whileInView"
-            variants={FADE_UP}
-            viewport={{ once: true }}
-            className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center"
-          >
-            <div className="lg:col-span-5 order-2 lg:order-1 relative">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-20 items-center">
+            <motion.div 
+              initial={{ opacity: 0, scale: 1.03, y: 30 }}
+              whileInView={{ opacity: 1, scale: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
+              className="lg:col-span-5 order-2 lg:order-1 relative"
+            >
               <div className="aspect-[4/5] overflow-hidden rounded-md bg-zinc-200 shadow-lg">
                 <img 
                   referrerPolicy="no-referrer"
@@ -128,32 +128,44 @@ export default function Home() {
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
                 />
               </div>
-              <div className="absolute -bottom-6 -right-2 lg:-right-6 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm p-4 md:p-5 shadow-lg rounded-sm border border-zinc-100 dark:border-zinc-800 min-w-[160px] h-[81.6px] flex flex-col justify-center">
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.85, x: 20 }}
+                whileInView={{ opacity: 1, scale: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                className="absolute -bottom-6 -right-2 lg:-right-6 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm p-4 md:p-5 shadow-lg rounded-sm border border-zinc-100 dark:border-zinc-800 min-w-[160px] h-[81.6px] flex flex-col justify-center"
+              >
                 <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Kinh nghiệm</p>
                 <p className="font-serif text-2xl md:text-3xl font-bold text-zinc-900 leading-none">5+ Năm</p>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
             
-            <div className="lg:col-span-7 order-1 lg:order-2">
-              <h2 className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-6 lg:mb-8">Nguyễn Trọng Hữu là ai?</h2>
+            <motion.div 
+              initial="initial"
+              whileInView="whileInView"
+              viewport={{ once: true, margin: "-100px" }}
+              variants={STAGGER}
+              className="lg:col-span-7 order-1 lg:order-2"
+            >
+              <motion.h2 variants={STAGGER_ITEM} className="text-xs font-bold text-zinc-500 uppercase tracking-widest mb-6 lg:mb-8">Nguyễn Trọng Hữu là ai?</motion.h2>
               
-              <p className="text-xl md:text-3xl leading-snug text-zinc-900 font-serif font-medium mb-8">
+              <motion.p variants={STAGGER_ITEM} className="text-xl md:text-3xl leading-snug text-zinc-900 font-serif font-medium mb-8">
                 Mình là một người tư vấn và xây dựng nền tảng công nghệ, giải pháp số và AI.
-              </p>
+              </motion.p>
               
               <div className="space-y-6 text-sm md:text-base text-zinc-600 mb-10">
-                <p>
+                <motion.p variants={STAGGER_ITEM}>
                   Niềm đam mê của mình là biến những vấn đề phức tạp thành các giải pháp công nghệ đơn giản, tinh tế và mang lại hiệu quả cao nhất cho doanh nghiệp.
-                </p>
-                <p>
+                </motion.p>
+                <motion.p variants={STAGGER_ITEM}>
                   Từ việc kiến tạo các hệ thống Web, App toàn diện đến tích hợp AI Automation, mình luôn đặt yếu tố <span className="text-zinc-900 italic font-medium">"Tối ưu hóa"</span> và <span className="text-zinc-900 italic font-medium">"Trải nghiệm người dùng"</span> lên hàng đầu.
-                </p>
-                <p>
+                </motion.p>
+                <motion.p variants={STAGGER_ITEM}>
                   Ngoài công việc, mình còn là một người thích chia sẻ kiến thức về Marketing, Quản trị hệ thống và các góc nhìn về Công nghệ qua blog cá nhân này.
-                </p>
+                </motion.p>
               </div>
               
-              <div>
+              <motion.div variants={STAGGER_ITEM}>
                 <Link 
                   to="/about" 
                   className="inline-flex items-center space-x-2 border-b-2 border-zinc-900 pb-1 text-sm font-medium text-zinc-900 hover:text-zinc-600 hover:border-zinc-600 transition-colors"
@@ -161,9 +173,9 @@ export default function Home() {
                   <span>Biết thêm về mình</span>
                   <ArrowRight size={16} />
                 </Link>
-              </div>
-            </div>
-          </motion.div>
+              </motion.div>
+            </motion.div>
+          </div>
         </div>
       </section>
 
@@ -200,21 +212,21 @@ export default function Home() {
             </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <motion.div 
+            initial="initial"
+            whileInView="whileInView"
+            viewport={{ once: true, margin: "-100px" }}
+            variants={STAGGER}
+            className="grid grid-cols-1 md:grid-cols-3 gap-8"
+          >
             {isLoading ? (
               <div className="col-span-1 md:col-span-3 flex justify-center py-12">
                 <Loader2 className="animate-spin text-amber-500" size={32} />
               </div>
-            ) : latestPosts.map((post, idx) => (
+            ) : latestPosts.map((post) => (
               <motion.div
                 key={post.id}
-                initial="initial"
-                whileInView="whileInView"
-                viewport={{ once: true }}
-                variants={{
-                  initial: { opacity: 0, y: 20 },
-                  whileInView: { opacity: 1, y: 0, transition: { duration: 0.6, delay: idx * 0.1 } }
-                }}
+                variants={STAGGER_ITEM}
               >
                 <Link to={`/blog/${post.slug}`} className="group block">
                   <div className="w-full aspect-video bg-zinc-100 overflow-hidden mb-6 rounded-sm relative">
@@ -244,7 +256,7 @@ export default function Home() {
                 </Link>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
     </motion.div>

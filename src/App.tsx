@@ -2,6 +2,7 @@ import React, { useEffect, useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { Menu, X, Youtube, Twitter, Facebook, Sun, Moon } from 'lucide-react';
+import Lenis from 'lenis';
 import { Toaster } from 'react-hot-toast';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
 import logoUrl from './assets/images/logo3.webp';
@@ -47,15 +48,48 @@ function Layout() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Use useEffect to scroll to top on path change
-  useEffect(() => {
-    window.scrollTo(0, 0);
-    setIsMobileMenuOpen(false);
-  }, [location.pathname]);
-
   const isContactPage = location.pathname === '/contact';
   const isMetaAdsPage = location.pathname === '/meta_ads';
   const isAdminRoute = location.pathname.startsWith('/admin');
+
+  // Use useEffect to scroll to top on path change
+  useEffect(() => {
+    if ((window as any).lenis) {
+      (window as any).lenis.scrollTo(0, { immediate: true });
+    } else {
+      window.scrollTo(0, 0);
+    }
+    setIsMobileMenuOpen(false);
+  }, [location.pathname]);
+
+  // Initialize Lenis Smooth Scroll (ignored for admin routes)
+  useEffect(() => {
+    if (isAdminRoute) return;
+
+    const lenisInstance = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1.05,
+    });
+
+    let rafId: number;
+    function raf(time: number) {
+      lenisInstance.raf(time);
+      rafId = requestAnimationFrame(raf);
+    }
+    rafId = requestAnimationFrame(raf);
+
+    (window as any).lenis = lenisInstance;
+
+    return () => {
+      cancelAnimationFrame(rafId);
+      lenisInstance.destroy();
+      (window as any).lenis = null;
+    };
+  }, [isAdminRoute]);
 
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     try {
