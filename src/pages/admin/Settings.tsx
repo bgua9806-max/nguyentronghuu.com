@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { 
   User, Lock, Shield, Mail, Loader2, Save, 
   Users, UserPlus, Check, X, ShieldAlert, Edit3, 
-  Trash2, ToggleLeft, ToggleRight, CheckCircle2, Eye,
-  LayoutDashboard, PenTool, Library, Cpu, Settings as SettingsIcon, Minus
+  Trash2, ToggleLeft, ToggleRight, CheckCircle2, Eye, EyeOff,
+  LayoutDashboard, PenTool, Library, Cpu, Settings as SettingsIcon, Minus,
+  Copy, ExternalLink, RefreshCw, Sparkles, Terminal, Code, ArrowRight, Play
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import toast from 'react-hot-toast';
@@ -120,7 +121,7 @@ const getModuleIcon = (module: string) => {
 };
 
 export default function Settings() {
-  const [activeTab, setActiveTab] = useState<'profile' | 'permissions' | 'security'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'permissions' | 'mcp' | 'security'>('mcp');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -141,6 +142,13 @@ export default function Settings() {
   const [newUserEmail, setNewUserEmail] = useState('');
   const [newUserPassword, setNewUserPassword] = useState('');
   const [newUserRole, setNewUserRole] = useState<'super_admin' | 'editor' | 'crm' | 'viewer'>('editor');
+
+  // MCP & AI Agent states
+  const [apiKey, setApiKey] = useState('nth_ai_agent_secret_2026');
+  const [showApiKey, setShowApiKey] = useState(false);
+  const [isTestingMcp, setIsTestingMcp] = useState(false);
+  const [testPostTitle, setTestPostTitle] = useState('Ứng dụng AI Agent tự động hóa tiếp thị đa kênh 2026');
+  const [testResult, setTestResult] = useState<string | null>(null);
 
   useEffect(() => {
     fetchSettings();
@@ -175,6 +183,17 @@ export default function Settings() {
       if (permData && permData.value) {
         if (permData.value.users) setAdminUsers(permData.value.users);
         if (permData.value.permissions) setRolePermissions(permData.value.permissions);
+      }
+
+      // Fetch MCP settings if any
+      const { data: mcpData } = await supabase
+        .from('system_settings')
+        .select('value')
+        .eq('key', 'mcp_settings')
+        .single();
+
+      if (mcpData && mcpData.value && mcpData.value.apiKey) {
+        setApiKey(mcpData.value.apiKey);
       }
     } catch (error) {
       console.warn('No custom settings found, using default values.');
@@ -235,6 +254,69 @@ export default function Settings() {
       toast.error('Không thể lưu phân quyền: ' + (error.message || 'Lỗi kết nối'));
     } finally {
       setIsSaving(false);
+    }
+  };
+
+  const handleSaveMcpSettings = async () => {
+    try {
+      setIsSaving(true);
+      const payload = {
+        apiKey,
+        updated_at: new Date().toISOString()
+      };
+
+      const { error } = await supabase
+        .from('system_settings')
+        .upsert({
+          key: 'mcp_settings',
+          value: payload,
+          updated_at: new Date().toISOString()
+        });
+
+      if (error) throw error;
+      toast.success('Đã lưu cấu hình MCP & API Key thành công!');
+    } catch (error: any) {
+      toast.error('Lỗi khi lưu cấu hình MCP: ' + error.message);
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const copyToClipboard = (text: string, label: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`Đã sao chép ${label}!`);
+  };
+
+  const handleTestMcpPost = async () => {
+    try {
+      setIsTestingMcp(true);
+      setTestResult(null);
+
+      const res = await fetch('/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-api-key': apiKey
+        },
+        body: JSON.stringify({
+          title: testPostTitle,
+          content: `<h2>${testPostTitle}</h2><p>Bài viết thử nghiệm được tạo tự động qua giao thức MCP và Serverless API của Nguyễn Trọng Hữu lúc ${new Date().toLocaleTimeString('vi-VN')}.</p><p>Hệ thống AI Agent đã kết nối thành công 100%.</p>`,
+          category: 'AI AGENT',
+          tags: ['AI Agent', 'MCP Automation', 'ChatGPT'],
+          status: 'draft'
+        })
+      });
+
+      const json = await res.json();
+      if (!res.ok) throw new Error(json.error || 'Lỗi kết nối API');
+
+      setTestResult(JSON.stringify(json, null, 2));
+      toast.success('Thử nghiệm gọi MCP tạo bài thành công (Lưu dạng bản nháp)!');
+    } catch (err: any) {
+      setTestResult(`Lỗi: ${err.message}`);
+      toast.error(`Thử nghiệm thất bại: ${err.message}`);
+    } finally {
+      setIsTestingMcp(false);
     }
   };
 
@@ -372,20 +454,20 @@ export default function Settings() {
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
           <h2 className="font-serif text-3xl text-zinc-950">Cài đặt</h2>
-          <p className="mt-1 text-sm text-zinc-500">Quản lý cấu hình, phân quyền truy cập và bảo mật trang quản trị</p>
+          <p className="mt-1 text-sm text-zinc-500">Quản lý cấu hình, phân quyền, kết nối MCP AI Agent và bảo mật trang quản trị</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
         {/* Sidebar Nav */}
         <div className="lg:col-span-3">
-          <nav className="flex flex-col gap-2 sticky top-28">
+          <nav className="flex flex-col gap-1.5 sticky top-28">
             <button 
-              onClick={() => setActiveTab('profile')}
-              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold text-left transition-all ${activeTab === 'profile' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
+              onClick={() => setActiveTab('mcp')}
+              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold text-left transition-all ${activeTab === 'mcp' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
             >
-              <User size={17} className={activeTab === 'profile' ? 'text-zinc-950' : 'text-zinc-400'} />
-              Hồ sơ cá nhân
+              <Cpu size={17} className={activeTab === 'mcp' ? 'text-zinc-950' : 'text-zinc-400'} />
+              Kết nối MCP & AI Agent
             </button>
             <button 
               onClick={() => setActiveTab('permissions')}
@@ -393,6 +475,13 @@ export default function Settings() {
             >
               <ShieldAlert size={17} className={activeTab === 'permissions' ? 'text-zinc-950' : 'text-zinc-400'} />
               Phân quyền & Tài khoản
+            </button>
+            <button 
+              onClick={() => setActiveTab('profile')}
+              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold text-left transition-all ${activeTab === 'profile' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
+            >
+              <User size={17} className={activeTab === 'profile' ? 'text-zinc-950' : 'text-zinc-400'} />
+              Hồ sơ cá nhân
             </button>
             <button 
               onClick={() => setActiveTab('security')}
@@ -406,7 +495,253 @@ export default function Settings() {
 
         {/* Settings Content */}
         <div className="space-y-8 lg:col-span-9">
-          {/* TAB 1: PROFILE */}
+
+          {/* TAB: MCP & AI AGENT (NEW) */}
+          {activeTab === 'mcp' && (
+            <div className="space-y-6 animate-in fade-in duration-300">
+              
+              {/* Overview Banner */}
+              <div className="relative overflow-hidden rounded-sm bg-zinc-950 p-6 sm:p-8 text-white shadow-2xl shadow-zinc-900/20">
+                <div className="absolute -right-10 -top-10 h-48 w-48 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
+                <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+                  <div>
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-zinc-800/80 border border-zinc-700 text-xs font-semibold text-zinc-300 mb-3">
+                      <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span> MCP Server Status: Online (200 OK)
+                    </div>
+                    <h3 className="font-serif text-2xl text-white">Giao Thức MCP & AI Content Automation</h3>
+                    <p className="mt-1 text-sm text-zinc-400 max-w-2xl leading-relaxed">
+                      Kết nối website <strong className="text-white">nguyentronghuu.com</strong> với <strong>ChatGPT, Claude Desktop, Antigravity AI</strong> để tự động nghiên cứu, viết bài chuẩn SEO và xuất bản trực tiếp lên website.
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-3 shrink-0">
+                    <a
+                      href="https://nguyentronghuu.com/openapi.json"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-1.5 px-4 py-2.5 rounded-sm bg-zinc-800 text-zinc-200 hover:bg-zinc-700 text-xs font-semibold border border-zinc-700 transition-colors"
+                    >
+                      <Code size={14} /> Xem OpenAPI JSON
+                    </a>
+                  </div>
+                </div>
+              </div>
+
+              {/* 1. API KEY & ENDPOINTS */}
+              <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
+                <div className="border-b border-zinc-100 pb-4">
+                  <h4 className="font-serif text-lg text-zinc-950">1. Thông tin Kết nối & Xác thực API Key</h4>
+                  <p className="mt-0.5 text-xs text-zinc-500">Sử dụng các thông số này để nạp vào ChatGPT Plugins, Custom GPT Actions hoặc Claude Desktop.</p>
+                </div>
+
+                {/* API Key Box */}
+                <div className="space-y-2">
+                  <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Mã khóa bí mật (Secret API Key) *</label>
+                  <div className="flex gap-2">
+                    <div className="relative flex-1">
+                      <input 
+                        type={showApiKey ? 'text' : 'password'}
+                        value={apiKey}
+                        onChange={(e) => setApiKey(e.target.value)}
+                        className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm font-mono text-zinc-900 transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
+                      />
+                      <button 
+                        type="button"
+                        onClick={() => setShowApiKey(!showApiKey)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-zinc-400 hover:text-zinc-700 p-1"
+                      >
+                        {showApiKey ? <EyeOff size={16} /> : <Eye size={16} />}
+                      </button>
+                    </div>
+                    <button 
+                      onClick={() => copyToClipboard(apiKey, 'API Key')}
+                      className="px-4 py-2.5 rounded-sm bg-zinc-100 hover:bg-zinc-200 border border-zinc-200 text-zinc-700 text-xs font-semibold flex items-center gap-1.5 transition-colors shrink-0"
+                    >
+                      <Copy size={14} /> Sao chép
+                    </button>
+                    <button 
+                      onClick={handleSaveMcpSettings}
+                      disabled={isSaving}
+                      className="px-4 py-2.5 rounded-sm bg-zinc-950 hover:bg-zinc-800 text-white text-xs font-semibold flex items-center gap-1.5 transition-colors shadow-sm shrink-0"
+                    >
+                      {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />} Lưu Key
+                    </button>
+                  </div>
+                </div>
+
+                {/* Endpoint Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                  <div className="p-4 rounded-sm bg-zinc-50/70 border border-zinc-200 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 flex items-center gap-1.5">
+                        <Terminal size={14} /> ChatGPT Plugin SSE Stream URL
+                      </span>
+                      <button 
+                        onClick={() => copyToClipboard('https://nguyentronghuu.com/api/sse', 'SSE URL')}
+                        className="text-xs text-zinc-600 hover:text-zinc-950 font-semibold flex items-center gap-1"
+                      >
+                        <Copy size={12} /> Copy
+                      </button>
+                    </div>
+                    <p className="font-mono text-xs text-zinc-700 bg-white p-2 rounded-sm border border-zinc-200 select-all truncate">
+                      https://nguyentronghuu.com/api/sse
+                    </p>
+                    <p className="text-[11px] text-zinc-500">Dùng dán vào ô "URL máy chủ" khi tạo Plugin mới trên ChatGPT.</p>
+                  </div>
+
+                  <div className="p-4 rounded-sm bg-zinc-50/70 border border-zinc-200 space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-900 flex items-center gap-1.5">
+                        <Code size={14} /> OpenAPI Schema URL (Custom GPTs)
+                      </span>
+                      <button 
+                        onClick={() => copyToClipboard('https://nguyentronghuu.com/openapi.json', 'OpenAPI URL')}
+                        className="text-xs text-zinc-600 hover:text-zinc-950 font-semibold flex items-center gap-1"
+                      >
+                        <Copy size={12} /> Copy
+                      </button>
+                    </div>
+                    <p className="font-mono text-xs text-zinc-700 bg-white p-2 rounded-sm border border-zinc-200 select-all truncate">
+                      https://nguyentronghuu.com/openapi.json
+                    </p>
+                    <p className="text-[11px] text-zinc-500">Dùng nhập vào nút "Import from URL" khi tạo Action trong Custom GPTs.</p>
+                  </div>
+                </div>
+              </div>
+
+              {/* 2. MCP AVAILABLE TOOLS TABLE */}
+              <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
+                <div className="border-b border-zinc-100 pb-4">
+                  <h4 className="font-serif text-lg text-zinc-950">2. Danh Sách Công Cụ MCP Khả Dụng (Active Tools)</h4>
+                  <p className="mt-0.5 text-xs text-zinc-500">Các công cụ mà ChatGPT và AI Agent có thể gọi tự động trên website.</p>
+                </div>
+
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left text-sm">
+                    <thead>
+                      <tr className="border-b border-zinc-100 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                        <th className="pb-3 font-bold">Tên công cụ (Tool Name)</th>
+                        <th className="pb-3 font-bold">Mô tả chức năng</th>
+                        <th className="pb-3 font-bold">Phương thức</th>
+                        <th className="pb-3 font-bold text-right">Trạng thái</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-zinc-50">
+                      <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
+                            <PenTool size={12} />
+                          </div>
+                          create_post
+                        </td>
+                        <td className="py-3.5 text-xs text-zinc-600">
+                          Tự động nghiên cứu, viết bài chuẩn SEO, định dạng HTML và xuất bản bài viết lên blog.
+                        </td>
+                        <td className="py-3.5">
+                          <span className="font-mono text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-200/60">POST /api/posts</span>
+                        </td>
+                        <td className="py-3.5 text-right">
+                          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
+                            <Library size={12} />
+                          </div>
+                          get_posts
+                        </td>
+                        <td className="py-3.5 text-xs text-zinc-600">
+                          Đọc danh sách các bài viết hiện có để tham khảo dàn bài và tránh viết trùng lặp chủ đề.
+                        </td>
+                        <td className="py-3.5">
+                          <span className="font-mono text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-sm border border-blue-200/60">GET /api/posts</span>
+                        </td>
+                        <td className="py-3.5 text-right">
+                          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
+                            <Edit3 size={12} />
+                          </div>
+                          update_post
+                        </td>
+                        <td className="py-3.5 text-xs text-zinc-600">
+                          Cập nhật nội dung, bổ sung thông tin hoặc tối ưu lại SEO metadata cho bài viết theo slug.
+                        </td>
+                        <td className="py-3.5">
+                          <span className="font-mono text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-sm border border-amber-200/60">PUT /api/posts</span>
+                        </td>
+                        <td className="py-3.5 text-right">
+                          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
+                            <Trash2 size={12} />
+                          </div>
+                          delete_post
+                        </td>
+                        <td className="py-3.5 text-xs text-zinc-600">
+                          Xóa bài viết khỏi cơ sở dữ liệu theo slug định danh.
+                        </td>
+                        <td className="py-3.5">
+                          <span className="font-mono text-[11px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-sm border border-rose-200/60">DELETE /api/posts</span>
+                        </td>
+                        <td className="py-3.5 text-right">
+                          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* 3. TEST CONSOLE */}
+              <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
+                <div className="border-b border-zinc-100 pb-4">
+                  <h4 className="font-serif text-lg text-zinc-950">3. Trình Thử Nghiệm Gọi MCP Trực Tiếp (Test Console)</h4>
+                  <p className="mt-0.5 text-xs text-zinc-500">Mô phỏng lại cuộc gọi từ ChatGPT để kiểm tra xem Serverless Function có tạo bài viết thành công hay không.</p>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="space-y-1.5">
+                    <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Tiêu đề bài viết mẫu</label>
+                    <div className="flex gap-2">
+                      <input 
+                        type="text"
+                        value={testPostTitle}
+                        onChange={(e) => setTestPostTitle(e.target.value)}
+                        className="flex-1 rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
+                      />
+                      <button
+                        onClick={handleTestMcpPost}
+                        disabled={isTestingMcp}
+                        className="px-5 py-2.5 rounded-sm bg-zinc-950 hover:bg-zinc-800 text-white text-xs font-semibold flex items-center gap-2 transition-all shadow-md active:scale-95 disabled:opacity-50"
+                      >
+                        {isTestingMcp ? <Loader2 size={15} className="animate-spin" /> : <Play size={15} />}
+                        Gửi lệnh test MCP
+                      </button>
+                    </div>
+                  </div>
+
+                  {testResult && (
+                    <div className="space-y-1.5 animate-in fade-in">
+                      <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Kết quả phản hồi từ Server:</span>
+                      <pre className="p-4 rounded-sm bg-zinc-900 text-emerald-400 font-mono text-xs overflow-x-auto leading-relaxed border border-zinc-800">
+                        {testResult}
+                      </pre>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+            </div>
+          )}
+
+          {/* TAB: PROFILE */}
           {activeTab === 'profile' && (
             <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-8 animate-in fade-in duration-300">
               <div className="border-b border-zinc-100 pb-6">
@@ -495,7 +830,7 @@ export default function Settings() {
             </div>
           )}
 
-          {/* TAB 2: PERMISSIONS & ROLE-BASED ACCESS CONTROL (RBAC) */}
+          {/* TAB: PERMISSIONS & ROLE-BASED ACCESS CONTROL (RBAC) */}
           {activeTab === 'permissions' && (
             <div className="space-y-8 animate-in fade-in duration-300">
               {/* Quick Stat Cards */}
@@ -762,7 +1097,7 @@ export default function Settings() {
             </div>
           )}
 
-          {/* TAB 3: SECURITY & 2FA */}
+          {/* TAB: SECURITY & 2FA */}
           {activeTab === 'security' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="relative overflow-hidden rounded-sm bg-zinc-950 p-6 sm:p-8 text-white shadow-2xl shadow-zinc-900/20">

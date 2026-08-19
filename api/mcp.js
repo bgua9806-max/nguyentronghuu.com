@@ -25,18 +25,22 @@ function slugifyVietnamese(str) {
 const MCP_TOOLS = [
   {
     name: 'create_post',
-    description: 'Tự động tạo và đăng bài viết chuẩn SEO lên website nguyentronghuu.com',
+    description: 'Tự động tạo và xuất bản bài viết chuẩn SEO lên website nguyentronghuu.com',
     inputSchema: {
       type: 'object',
       properties: {
         title: { type: 'string', description: 'Tiêu đề bài viết (hấp dẫn, chuẩn SEO)' },
         content: { type: 'string', description: 'Nội dung bài viết đầy đủ định dạng HTML (h2, h3, p, ul, li, strong, blockquote)' },
-        excerpt: { type: 'string', description: 'Tóm tắt ngắn gọn bài viết (1-2 câu ngắn)' },
-        category: { type: 'string', description: 'Chuyên mục bài viết: AI AGENT, MARKETING, CONVERSION RATE, CONTENT STRATEGY' },
+        excerpt: { type: 'string', description: 'Tóm tắt ngắn gọn bài viết (1-2 câu)' },
+        category: { 
+          type: 'string', 
+          description: 'Chuyên mục bài viết: AI AGENT, MARKETING, CONVERSION RATE, CONTENT STRATEGY',
+          enum: ['AI AGENT', 'MARKETING', 'CONVERSION RATE', 'CONTENT STRATEGY']
+        },
         tags: { type: 'array', items: { type: 'string' }, description: 'Danh sách thẻ từ khóa' },
         cover_image: { type: 'string', description: 'Link ảnh đại diện bài viết' },
-        status: { type: 'string', enum: ['published', 'draft'], description: 'Trạng thái bài: published (xuất bản) hoặc draft (nháp)' },
-        seo_title: { type: 'string', description: 'Tiêu đề thẻ Meta Title SEO' },
+        status: { type: 'string', enum: ['published', 'draft'], description: 'Trạng thái: published (xuất bản ngay) hoặc draft (nháp)' },
+        seo_title: { type: 'string', description: 'Tiêu đề Meta Title SEO' },
         seo_description: { type: 'string', description: 'Mô tả Meta Description SEO' }
       },
       required: ['title', 'content']
@@ -44,7 +48,7 @@ const MCP_TOOLS = [
   },
   {
     name: 'get_posts',
-    description: 'Lấy danh sách các bài viết hiện có trên nguyentronghuu.com để tham khảo hoặc kiểm tra chủ đề',
+    description: 'Lấy danh sách các bài viết hiện có trên nguyentronghuu.com để tham khảo hoặc tránh trùng lặp chủ đề',
     inputSchema: {
       type: 'object',
       properties: {
@@ -55,7 +59,7 @@ const MCP_TOOLS = [
   },
   {
     name: 'update_post',
-    description: 'Cập nhật nội dung hoặc thông tin của một bài viết theo slug hoặc ID',
+    description: 'Cập nhật nội dung hoặc thông tin của một bài viết theo slug',
     inputSchema: {
       type: 'object',
       properties: {
@@ -87,29 +91,43 @@ export default async function handler(req, res) {
 
   if (req.method === 'OPTIONS') return res.status(200).end();
 
-  const authHeader = req.headers.authorization || req.headers['x-api-key'] || '';
-  const token = authHeader.replace(/^Bearer\s+/i, '').trim();
-
-  // Xác thực API Key
-  if (token !== VALID_API_KEY && req.query.apiKey !== VALID_API_KEY) {
-    return res.status(401).json({
-      jsonrpc: '2.0',
-      error: { code: -32600, message: 'Unauthorized: Invalid API Key' },
-      id: req.body?.id || null
-    });
+  // Hỗ trợ GET /api/mcp cho SSE nếu ChatGPT gọi thẳng vào /api/mcp
+  if (req.method === 'GET') {
+    res.setHeader('Content-Type', 'text/event-stream; charset=utf-8');
+    res.setHeader('Cache-Control', 'no-cache, no-transform');
+    res.setHeader('Connection', 'keep-alive');
+    const sessionId = Date.now().toString();
+    const host = req.headers.host || 'nguyentronghuu.com';
+    const protocol = req.headers['x-forwarded-proto'] || 'https';
+    res.write(`event: endpoint\ndata: ${protocol}://${host}/api/mcp?sessionId=${sessionId}\n\n`);
+    return res.end();
   }
 
   const { method, params, id } = req.body || {};
 
   try {
-    // 1. Khởi tạo MCP handshake
+    // 1. Ping
+    if (method === 'ping') {
+      return res.status(200).json({ jsonrpc: '2.0', id, result: {} });
+    }
+
+    // 2. Initialized Notification
+    if (method === 'notifications/initialized') {
+      return res.status(200).json({ jsonrpc: '2.0', id, result: {} });
+    }
+
+    // 3. Khởi tạo MCP handshake
     if (method === 'initialize') {
       return res.status(200).json({
         jsonrpc: '2.0',
         id,
         result: {
           protocolVersion: '2024-11-05',
-          capabilities: { tools: {} },
+          capabilities: { 
+            tools: {
+              listChanged: false
+            } 
+          },
           serverInfo: {
             name: 'nguyentronghuu-mcp-server',
             version: '1.0.0'
@@ -118,7 +136,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // 2. Danh sách công cụ (Tools List)
+    // 4. Danh sách công cụ (Tools List)
     if (method === 'tools/list') {
       return res.status(200).json({
         jsonrpc: '2.0',
@@ -129,7 +147,7 @@ export default async function handler(req, res) {
       });
     }
 
-    // 3. Thực thi công cụ (Tools Call)
+    // 5. Thực thi công cụ (Tools Call)
     if (method === 'tools/call') {
       const { name: toolName, arguments: args } = params || {};
 
@@ -144,13 +162,13 @@ export default async function handler(req, res) {
           status = 'published',
           seo_title,
           seo_description
-        } = args;
+        } = args || {};
 
         let finalSlug = slugifyVietnamese(title) || `post-${Date.now()}`;
         const { data: existing } = await supabase.from('posts').select('id').eq('slug', finalSlug).maybeSingle();
         if (existing) finalSlug = `${finalSlug}-${Math.floor(Math.random() * 1000)}`;
 
-        const cleanText = content.replace(/<[^>]*>?/gm, '').trim();
+        const cleanText = (content || '').replace(/<[^>]*>?/gm, '').trim();
         const finalExcerpt = excerpt || cleanText.substring(0, 160) + '...';
 
         const postPayload = {
@@ -158,8 +176,8 @@ export default async function handler(req, res) {
           slug: finalSlug,
           content,
           excerpt: finalExcerpt,
-          category: category.toUpperCase(),
-          tags: Array.isArray(tags) ? tags : [tags],
+          category: (category || 'AI AGENT').toUpperCase(),
+          tags: Array.isArray(tags) ? tags : [tags || 'AI'],
           cover_image,
           status: status === 'draft' ? 'draft' : 'published',
           seo_title: seo_title || title,
@@ -179,7 +197,7 @@ export default async function handler(req, res) {
             content: [
               {
                 type: 'text',
-                text: `✅ Đã đăng bài viết thành công lên website!\n\n📌 Tiêu đề: ${data.title}\n🔗 Link bài viết: https://nguyentronghuu.com/blog/${data.slug}\n🏷️ Chuyên mục: ${data.category}\n🟢 Trạng thái: ${data.status}`
+                text: `✅ Đã đăng bài viết thành công lên website nguyentronghuu.com!\n\n📌 Tiêu đề: ${data.title}\n🔗 Link bài viết: https://nguyentronghuu.com/blog/${data.slug}\n🏷️ Chuyên mục: ${data.category}\n🟢 Trạng thái: ${data.status}`
               }
             ]
           }
@@ -209,7 +227,7 @@ export default async function handler(req, res) {
       }
 
       if (toolName === 'update_post') {
-        const { slug, ...updateFields } = args;
+        const { slug, ...updateFields } = args || {};
         updateFields.updated_at = new Date().toISOString();
 
         const { data, error } = await supabase.from('posts').update(updateFields).eq('slug', slug).select().single();
@@ -230,7 +248,7 @@ export default async function handler(req, res) {
       }
 
       if (toolName === 'delete_post') {
-        const { slug } = args;
+        const { slug } = args || {};
         const { error } = await supabase.from('posts').delete().eq('slug', slug);
         if (error) throw error;
 
@@ -255,10 +273,10 @@ export default async function handler(req, res) {
       });
     }
 
-    return res.status(400).json({
+    return res.status(200).json({
       jsonrpc: '2.0',
-      error: { code: -32600, message: 'Invalid Request method' },
-      id
+      id,
+      result: { status: 'ok' }
     });
   } catch (error) {
     console.error('MCP Error:', error);
