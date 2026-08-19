@@ -269,14 +269,14 @@ export default function AdminLayout() {
 
   return (
     <div className="min-h-[calc(100vh/var(--ui-zoom,1))] bg-[#f7f4ef] text-zinc-900 lg:flex admin-crm-shell">
-      <aside className="hidden lg:fixed lg:top-0 lg:left-0 lg:z-40 lg:flex lg:w-[292px] lg:flex-col border-r border-white/10 bg-zinc-950 text-zinc-300 overflow-hidden h-[calc(100vh/var(--ui-zoom,1))]">
+      <aside className="hidden lg:fixed lg:top-0 lg:left-0 lg:z-40 lg:flex lg:w-[220px] lg:flex-col border-r border-white/10 bg-zinc-950 text-zinc-300 overflow-hidden h-[calc(100vh/var(--ui-zoom,1))]">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(250,204,21,0.16),transparent_34%),radial-gradient(circle_at_90%_12%,rgba(255,255,255,0.08),transparent_28%)]" />
-        <div className="relative flex h-full flex-col p-5">
-          <Link to="/" className="group mb-10 mt-2 flex items-center justify-start px-2 transition-all active:scale-[0.98]">
+        <div className="relative flex h-full flex-col p-3.5">
+          <Link to="/" className="group mb-7 mt-1 flex items-center justify-start px-1.5 transition-all active:scale-[0.98]">
             <img 
               src={logoUrl} 
               alt="Logo" 
-              className="h-[46px] w-auto object-contain transition-transform duration-300 transform group-hover:scale-[1.02] origin-left" 
+              className="h-[36px] w-auto object-contain transition-transform duration-300 transform group-hover:scale-[1.02] origin-left" 
               style={{
                 filter: 'invert(1) brightness(1.5)',
                 mixBlendMode: 'screen'
@@ -292,34 +292,34 @@ export default function AdminLayout() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`group flex min-h-12 items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold transition-all active:scale-[0.98] ${
+                  className={`group flex min-h-10 items-center gap-2.5 rounded-sm px-3 py-2 text-xs font-semibold transition-all active:scale-[0.98] ${
                     isActive
                       ? 'bg-white text-zinc-950 shadow-xl shadow-black/20'
                       : 'text-zinc-400 hover:bg-white/[0.06] hover:text-white'
                   }`}
                 >
-                  <Icon size={19} className={isActive ? 'text-zinc-950' : 'text-zinc-500 group-hover:text-zinc-200'} />
+                  <Icon size={16} className={isActive ? 'text-zinc-950' : 'text-zinc-500 group-hover:text-zinc-200'} />
                   {item.name}
                 </Link>
               );
             })}
           </nav>
 
-          <div className="mt-6 space-y-3 border-t border-white/10 pt-5">
-            <Link to="/" className="flex min-h-11 items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold text-zinc-400 transition-all hover:bg-white/[0.06] hover:text-white active:scale-[0.98]">
-              <Home size={18} /> Xem website
+          <div className="mt-4 space-y-1.5 border-t border-white/10 pt-4">
+            <Link to="/" className="flex min-h-9 items-center gap-2.5 rounded-sm px-3 py-2 text-xs font-semibold text-zinc-400 transition-all hover:bg-white/[0.06] hover:text-white active:scale-[0.98]">
+              <Home size={15} /> Xem website
             </Link>
             <button 
               onClick={handleLogout}
-              className="flex min-h-11 w-full items-center gap-3 rounded-sm px-4 py-3 text-left text-sm font-semibold text-zinc-400 transition-all hover:bg-white/[0.06] hover:text-white active:scale-[0.98]"
+              className="flex min-h-9 w-full items-center gap-2.5 rounded-sm px-3 py-2 text-left text-xs font-semibold text-zinc-400 transition-all hover:bg-white/[0.06] hover:text-white active:scale-[0.98]"
             >
-              <LogOut size={18} /> Đăng xuất
+              <LogOut size={15} /> Đăng xuất
             </button>
           </div>
         </div>
       </aside>
 
-      <main className="min-w-0 flex-1 lg:pl-[292px]">
+      <main className="min-w-0 flex-1 lg:pl-[220px]">
         <header className="sticky top-0 z-50 border-b border-white/70 bg-[#f7f4ef]/80 backdrop-blur-2xl">
           <div className="flex min-h-[76px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
             <div className="min-w-0">
