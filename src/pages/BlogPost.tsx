@@ -31,10 +31,23 @@ export default function BlogPost() {
         setLikes(data.likes || 0);
 
         // Tăng số lượt xem bài viết (Views)
-        await supabase
-          .from('posts')
-          .update({ views: (data.views || 0) + 1 })
-          .eq('id', data.id);
+        const sessionKey = `viewed_${slug}`;
+        if (!sessionStorage.getItem(sessionKey)) {
+          sessionStorage.setItem(sessionKey, 'true');
+          try {
+            // 1. Thử gọi hàm RPC Postgres
+            const { error: rpcError } = await supabase.rpc('increment_post_views', { post_slug: slug });
+            if (rpcError) {
+              // 2. Fallback sang lệnh update trực tiếp
+              await supabase
+                .from('posts')
+                .update({ views: ((data.views || 0) + 1) })
+                .eq('id', data.id);
+            }
+          } catch (vErr) {
+            console.warn('Could not increment views:', vErr);
+          }
+        }
 
         // Lấy danh sách bình luận
         const { data: commentsData } = await supabase
