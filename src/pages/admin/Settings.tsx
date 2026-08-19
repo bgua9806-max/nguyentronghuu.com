@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  User, Lock, Bell, Globe, Sparkles, Shield, Mail, Loader2, Save, 
-  ImageIcon, Users, UserPlus, Check, X, ShieldAlert, Key, Edit3, 
-  Trash2, ToggleLeft, ToggleRight, CheckCircle2, AlertCircle, Eye, EyeOff
+  User, Lock, Shield, Mail, Loader2, Save, 
+  Users, UserPlus, Check, X, ShieldAlert, Edit3, 
+  Trash2, ToggleLeft, ToggleRight, CheckCircle2, Eye,
+  LayoutDashboard, PenTool, Library, Cpu, Settings as SettingsIcon, Minus
 } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 import toast from 'react-hot-toast';
@@ -20,7 +21,6 @@ interface AdminUser {
 interface RolePermission {
   module: string;
   name: string;
-  icon: string;
   view: boolean;
   create: boolean;
   edit: boolean;
@@ -61,41 +61,62 @@ const DEFAULT_ADMIN_USERS: AdminUser[] = [
 
 const DEFAULT_ROLE_PERMISSIONS: Record<string, RolePermission[]> = {
   super_admin: [
-    { module: 'dashboard', name: 'Dashboard & Báo cáo', icon: '📊', view: true, create: true, edit: true, delete: true, export: true },
-    { module: 'posts', name: 'Quản lý Bài viết', icon: '✍️', view: true, create: true, edit: true, delete: true, publish: true },
-    { module: 'projects', name: 'Quản lý Dự án', icon: '💼', view: true, create: true, edit: true, delete: true },
-    { module: 'services', name: 'Quản lý Dịch vụ', icon: '⚙️', view: true, create: true, edit: true, delete: true },
-    { module: 'contacts', name: 'Khách hàng & CRM', icon: '👥', view: true, create: true, edit: true, delete: true, export: true },
-    { module: 'email', name: 'Cấu hình Email Marketing', icon: '✉️', view: true, create: true, edit: true, delete: true },
-    { module: 'settings', name: 'Cài đặt & Phân quyền', icon: '🛡️', view: true, create: true, edit: true, delete: true }
+    { module: 'dashboard', name: 'Dashboard & Báo cáo', view: true, create: true, edit: true, delete: true, export: true },
+    { module: 'posts', name: 'Quản lý Bài viết', view: true, create: true, edit: true, delete: true, publish: true },
+    { module: 'projects', name: 'Quản lý Dự án', view: true, create: true, edit: true, delete: true },
+    { module: 'services', name: 'Quản lý Dịch vụ', view: true, create: true, edit: true, delete: true },
+    { module: 'contacts', name: 'Khách hàng & CRM', view: true, create: true, edit: true, delete: true, export: true },
+    { module: 'email', name: 'Cấu hình Email Marketing', view: true, create: true, edit: true, delete: true },
+    { module: 'settings', name: 'Cài đặt & Phân quyền', view: true, create: true, edit: true, delete: true }
   ],
   editor: [
-    { module: 'dashboard', name: 'Dashboard & Báo cáo', icon: '📊', view: true, create: false, edit: false, delete: false, export: false },
-    { module: 'posts', name: 'Quản lý Bài viết', icon: '✍️', view: true, create: true, edit: true, delete: true, publish: true },
-    { module: 'projects', name: 'Quản lý Dự án', icon: '💼', view: true, create: true, edit: true, delete: false },
-    { module: 'services', name: 'Quản lý Dịch vụ', icon: '⚙️', view: true, create: true, edit: true, delete: false },
-    { module: 'contacts', name: 'Khách hàng & CRM', icon: '👥', view: false, create: false, edit: false, delete: false, export: false },
-    { module: 'email', name: 'Cấu hình Email Marketing', icon: '✉️', view: false, create: false, edit: false, delete: false },
-    { module: 'settings', name: 'Cài đặt & Phân quyền', icon: '🛡️', view: false, create: false, edit: false, delete: false }
+    { module: 'dashboard', name: 'Dashboard & Báo cáo', view: true, create: false, edit: false, delete: false, export: false },
+    { module: 'posts', name: 'Quản lý Bài viết', view: true, create: true, edit: true, delete: true, publish: true },
+    { module: 'projects', name: 'Quản lý Dự án', view: true, create: true, edit: true, delete: false },
+    { module: 'services', name: 'Quản lý Dịch vụ', view: true, create: true, edit: true, delete: false },
+    { module: 'contacts', name: 'Khách hàng & CRM', view: false, create: false, edit: false, delete: false, export: false },
+    { module: 'email', name: 'Cấu hình Email Marketing', view: false, create: false, edit: false, delete: false },
+    { module: 'settings', name: 'Cài đặt & Phân quyền', view: false, create: false, edit: false, delete: false }
   ],
   crm: [
-    { module: 'dashboard', name: 'Dashboard & Báo cáo', icon: '📊', view: true, create: false, edit: false, delete: false, export: true },
-    { module: 'posts', name: 'Quản lý Bài viết', icon: '✍️', view: false, create: false, edit: false, delete: false, publish: false },
-    { module: 'projects', name: 'Quản lý Dự án', icon: '💼', view: false, create: false, edit: false, delete: false },
-    { module: 'services', name: 'Quản lý Dịch vụ', icon: '⚙️', view: false, create: false, edit: false, delete: false },
-    { module: 'contacts', name: 'Khách hàng & CRM', icon: '👥', view: true, create: true, edit: true, delete: false, export: true },
-    { module: 'email', name: 'Cấu hình Email Marketing', icon: '✉️', view: true, create: false, edit: true, delete: false },
-    { module: 'settings', name: 'Cài đặt & Phân quyền', icon: '🛡️', view: false, create: false, edit: false, delete: false }
+    { module: 'dashboard', name: 'Dashboard & Báo cáo', view: true, create: false, edit: false, delete: false, export: true },
+    { module: 'posts', name: 'Quản lý Bài viết', view: false, create: false, edit: false, delete: false, publish: false },
+    { module: 'projects', name: 'Quản lý Dự án', view: false, create: false, edit: false, delete: false },
+    { module: 'services', name: 'Quản lý Dịch vụ', view: false, create: false, edit: false, delete: false },
+    { module: 'contacts', name: 'Khách hàng & CRM', view: true, create: true, edit: true, delete: false, export: true },
+    { module: 'email', name: 'Cấu hình Email Marketing', view: true, create: false, edit: true, delete: false },
+    { module: 'settings', name: 'Cài đặt & Phân quyền', view: false, create: false, edit: false, delete: false }
   ],
   viewer: [
-    { module: 'dashboard', name: 'Dashboard & Báo cáo', icon: '📊', view: true, create: false, edit: false, delete: false, export: false },
-    { module: 'posts', name: 'Quản lý Bài viết', icon: '✍️', view: true, create: false, edit: false, delete: false, publish: false },
-    { module: 'projects', name: 'Quản lý Dự án', icon: '💼', view: true, create: false, edit: false, delete: false },
-    { module: 'services', name: 'Quản lý Dịch vụ', icon: '⚙️', view: true, create: false, edit: false, delete: false },
-    { module: 'contacts', name: 'Khách hàng & CRM', icon: '👥', view: false, create: false, edit: false, delete: false, export: false },
-    { module: 'email', name: 'Cấu hình Email Marketing', icon: '✉️', view: false, create: false, edit: false, delete: false },
-    { module: 'settings', name: 'Cài đặt & Phân quyền', icon: '🛡️', view: false, create: false, edit: false, delete: false }
+    { module: 'dashboard', name: 'Dashboard & Báo cáo', view: true, create: false, edit: false, delete: false, export: false },
+    { module: 'posts', name: 'Quản lý Bài viết', view: true, create: false, edit: false, delete: false, publish: false },
+    { module: 'projects', name: 'Quản lý Dự án', view: true, create: false, edit: false, delete: false },
+    { module: 'services', name: 'Quản lý Dịch vụ', view: true, create: false, edit: false, delete: false },
+    { module: 'contacts', name: 'Khách hàng & CRM', view: false, create: false, edit: false, delete: false, export: false },
+    { module: 'email', name: 'Cấu hình Email Marketing', view: false, create: false, edit: false, delete: false },
+    { module: 'settings', name: 'Cài đặt & Phân quyền', view: false, create: false, edit: false, delete: false }
   ]
+};
+
+const getModuleIcon = (module: string) => {
+  switch (module) {
+    case 'dashboard':
+      return <LayoutDashboard size={14} className="text-zinc-700" />;
+    case 'posts':
+      return <PenTool size={14} className="text-zinc-700" />;
+    case 'projects':
+      return <Library size={14} className="text-zinc-700" />;
+    case 'services':
+      return <Cpu size={14} className="text-zinc-700" />;
+    case 'contacts':
+      return <Users size={14} className="text-zinc-700" />;
+    case 'email':
+      return <Mail size={14} className="text-zinc-700" />;
+    case 'settings':
+      return <SettingsIcon size={14} className="text-zinc-700" />;
+    default:
+      return <Shield size={14} className="text-zinc-700" />;
+  }
 };
 
 export default function Settings() {
@@ -326,13 +347,13 @@ export default function Settings() {
   const getRoleBadge = (role: AdminUser['role']) => {
     switch (role) {
       case 'super_admin':
-        return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-amber-500/10 text-amber-600 border border-amber-500/20"><Shield size={12} /> Super Admin</span>;
+        return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-semibold bg-zinc-950 text-amber-400 border border-amber-500/30"><Shield size={11} /> Super Admin</span>;
       case 'editor':
-        return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-blue-500/10 text-blue-600 border border-blue-500/20"><Edit3 size={12} /> Editor</span>;
+        return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-semibold bg-zinc-100 text-zinc-800 border border-zinc-200"><Edit3 size={11} /> Editor</span>;
       case 'crm':
-        return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"><Users size={12} /> CRM Specialist</span>;
+        return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-semibold bg-zinc-100 text-zinc-800 border border-zinc-200"><Users size={11} /> CRM Specialist</span>;
       case 'viewer':
-        return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-zinc-500/10 text-zinc-600 border border-zinc-500/20"><Eye size={12} /> Viewer</span>;
+        return <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-sm text-xs font-semibold bg-zinc-100 text-zinc-600 border border-zinc-200"><Eye size={11} /> Viewer</span>;
     }
   };
 
@@ -350,7 +371,7 @@ export default function Settings() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h2 className="font-serif text-3xl text-zinc-950">Cài đặt Hệ thống</h2>
+          <h2 className="font-serif text-3xl text-zinc-950">Cài đặt</h2>
           <p className="mt-1 text-sm text-zinc-500">Quản lý cấu hình, phân quyền truy cập và bảo mật trang quản trị</p>
         </div>
       </div>
@@ -361,23 +382,23 @@ export default function Settings() {
           <nav className="flex flex-col gap-2 sticky top-28">
             <button 
               onClick={() => setActiveTab('profile')}
-              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-bold text-left transition-all ${activeTab === 'profile' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
+              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold text-left transition-all ${activeTab === 'profile' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
             >
-              <User size={18} className={activeTab === 'profile' ? 'text-amber-500' : 'text-zinc-400'} />
+              <User size={17} className={activeTab === 'profile' ? 'text-zinc-950' : 'text-zinc-400'} />
               Hồ sơ cá nhân
             </button>
             <button 
               onClick={() => setActiveTab('permissions')}
-              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-bold text-left transition-all ${activeTab === 'permissions' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
+              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold text-left transition-all ${activeTab === 'permissions' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
             >
-              <ShieldAlert size={18} className={activeTab === 'permissions' ? 'text-amber-500' : 'text-zinc-400'} />
+              <ShieldAlert size={17} className={activeTab === 'permissions' ? 'text-zinc-950' : 'text-zinc-400'} />
               Phân quyền & Tài khoản
             </button>
             <button 
               onClick={() => setActiveTab('security')}
-              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-bold text-left transition-all ${activeTab === 'security' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
+              className={`flex items-center gap-3 rounded-sm px-4 py-3 text-sm font-semibold text-left transition-all ${activeTab === 'security' ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200' : 'text-zinc-500 hover:bg-zinc-50 hover:text-zinc-950'}`}
             >
-              <Lock size={18} className={activeTab === 'security' ? 'text-amber-500' : 'text-zinc-400'} />
+              <Lock size={17} className={activeTab === 'security' ? 'text-zinc-950' : 'text-zinc-400'} />
               Bảo mật (2FA)
             </button>
           </nav>
@@ -387,7 +408,7 @@ export default function Settings() {
         <div className="space-y-8 lg:col-span-9">
           {/* TAB 1: PROFILE */}
           {activeTab === 'profile' && (
-            <div className="rounded-sm border border-zinc-100 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-8 animate-in fade-in duration-300">
+            <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-8 animate-in fade-in duration-300">
               <div className="border-b border-zinc-100 pb-6">
                 <h3 className="font-serif text-xl text-zinc-950">Thông tin cơ bản</h3>
                 <p className="mt-1 text-sm text-zinc-500">Sẽ được lưu trữ vào hệ thống và phục vụ các hiển thị động.</p>
@@ -420,7 +441,7 @@ export default function Settings() {
                         required
                         value={name}
                         onChange={(e) => setName(e.target.value)}
-                        className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10"
+                        className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
                       />
                     </div>
                     <div className="space-y-2">
@@ -430,7 +451,7 @@ export default function Settings() {
                         required
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
-                        className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10"
+                        className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
                       />
                     </div>
                   </div>
@@ -443,7 +464,7 @@ export default function Settings() {
                         required
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
-                        className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 pl-10 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10"
+                        className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 pl-10 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
                       />
                       <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-400" />
                     </div>
@@ -455,7 +476,7 @@ export default function Settings() {
                       rows={4}
                       value={bio}
                       onChange={(e) => setBio(e.target.value)}
-                      className="w-full resize-none rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10"
+                      className="w-full resize-none rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
                     />
                   </div>
                 </div>
@@ -465,7 +486,7 @@ export default function Settings() {
                 <button 
                   onClick={handleSaveProfile}
                   disabled={isSaving}
-                  className="flex items-center gap-2 rounded-sm bg-zinc-950 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-black/10 transition-all hover:bg-amber-500 hover:text-zinc-950 active:scale-95 disabled:opacity-50"
+                  className="flex items-center gap-2 rounded-sm bg-zinc-950 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-black/10 transition-all hover:bg-zinc-800 active:scale-95 disabled:opacity-50"
                 >
                   {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
                   Lưu thay đổi
@@ -479,42 +500,42 @@ export default function Settings() {
             <div className="space-y-8 animate-in fade-in duration-300">
               {/* Quick Stat Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
-                <div className="p-5 rounded-sm bg-white border border-zinc-100 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
+                <div className="p-5 rounded-sm bg-white border border-zinc-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-zinc-400">Tài khoản</span>
-                    <Users size={18} className="text-zinc-400" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">Tài khoản</span>
+                    <Users size={16} className="text-zinc-400" />
                   </div>
                   <p className="text-2xl font-serif text-zinc-950 mt-2">{adminUsers.length}</p>
-                  <p className="text-[11px] text-emerald-600 font-medium mt-1">Đang hoạt động</p>
+                  <p className="text-[11px] text-zinc-500 font-medium mt-1">Đang hoạt động</p>
                 </div>
-                <div className="p-5 rounded-sm bg-white border border-zinc-100 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
+                <div className="p-5 rounded-sm bg-white border border-zinc-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-amber-500">Super Admin</span>
-                    <Shield size={18} className="text-amber-500" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-950">Super Admin</span>
+                    <Shield size={16} className="text-zinc-950" />
                   </div>
                   <p className="text-2xl font-serif text-zinc-950 mt-2">{adminUsers.filter(u => u.role === 'super_admin').length}</p>
-                  <p className="text-[11px] text-zinc-400 font-medium mt-1">Toàn quyền hệ thống</p>
+                  <p className="text-[11px] text-zinc-500 font-medium mt-1">Toàn quyền hệ thống</p>
                 </div>
-                <div className="p-5 rounded-sm bg-white border border-zinc-100 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
+                <div className="p-5 rounded-sm bg-white border border-zinc-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-blue-500">Biên tập viên</span>
-                    <Edit3 size={18} className="text-blue-500" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-950">Biên tập viên</span>
+                    <Edit3 size={16} className="text-zinc-950" />
                   </div>
                   <p className="text-2xl font-serif text-zinc-950 mt-2">{adminUsers.filter(u => u.role === 'editor').length}</p>
-                  <p className="text-[11px] text-zinc-400 font-medium mt-1">Quản lý bài & dự án</p>
+                  <p className="text-[11px] text-zinc-500 font-medium mt-1">Quản lý bài & dự án</p>
                 </div>
-                <div className="p-5 rounded-sm bg-white border border-zinc-100 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
+                <div className="p-5 rounded-sm bg-white border border-zinc-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-emerald-500">CSKH / CRM</span>
-                    <Sparkles size={18} className="text-emerald-500" />
+                    <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-950">CSKH / CRM</span>
+                    <Users size={16} className="text-zinc-950" />
                   </div>
                   <p className="text-2xl font-serif text-zinc-950 mt-2">{adminUsers.filter(u => u.role === 'crm').length}</p>
-                  <p className="text-[11px] text-zinc-400 font-medium mt-1">Chăm sóc khách hàng</p>
+                  <p className="text-[11px] text-zinc-500 font-medium mt-1">Chăm sóc khách hàng</p>
                 </div>
               </div>
 
               {/* 1. DANH SÁCH TÀI KHOẢN QUẢN TRỊ */}
-              <div className="rounded-sm border border-zinc-100 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
+              <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-100 pb-6">
                   <div>
                     <h3 className="font-serif text-xl text-zinc-950">Danh sách tài khoản Quản trị viên</h3>
@@ -522,16 +543,16 @@ export default function Settings() {
                   </div>
                   <button 
                     onClick={() => setShowAddUserModal(true)}
-                    className="flex items-center gap-2 rounded-sm bg-zinc-950 px-4 py-2.5 text-xs font-bold text-white shadow-md transition-all hover:bg-amber-500 hover:text-zinc-950 active:scale-95"
+                    className="flex items-center gap-2 rounded-sm bg-zinc-950 px-4 py-2.5 text-xs font-semibold text-white shadow-md transition-all hover:bg-zinc-800 active:scale-95"
                   >
-                    <UserPlus size={16} /> Thêm thành viên
+                    <UserPlus size={15} /> Thêm thành viên
                   </button>
                 </div>
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
                     <thead>
-                      <tr className="border-b border-zinc-100 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                      <tr className="border-b border-zinc-100 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
                         <th className="pb-3 font-bold">Thành viên</th>
                         <th className="pb-3 font-bold">Vai trò (Role)</th>
                         <th className="pb-3 font-bold">Trạng thái</th>
@@ -544,11 +565,11 @@ export default function Settings() {
                         <tr key={user.id} className="hover:bg-zinc-50/50 transition-colors">
                           <td className="py-4 pr-4">
                             <div className="flex items-center gap-3">
-                              <div className="h-9 w-9 rounded-full bg-zinc-900 text-white font-serif font-bold text-xs flex items-center justify-center border border-zinc-200">
+                              <div className="h-8 w-8 rounded-full bg-zinc-900 text-white font-serif font-bold text-xs flex items-center justify-center border border-zinc-200">
                                 {user.name.split(' ').pop()?.charAt(0) || 'U'}
                               </div>
                               <div>
-                                <p className="font-bold text-zinc-900">{user.name}</p>
+                                <p className="font-semibold text-zinc-900">{user.name}</p>
                                 <p className="text-xs text-zinc-500">{user.email}</p>
                               </div>
                             </div>
@@ -558,32 +579,32 @@ export default function Settings() {
                           </td>
                           <td className="py-4 pr-4">
                             {user.status === 'active' ? (
-                              <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">
-                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Hoạt động
+                              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-emerald-700 bg-emerald-50/80 border border-emerald-200/60 px-2.5 py-0.5 rounded-sm">
+                                <span className="h-1.5 w-1.5 rounded-full bg-emerald-600"></span> Hoạt động
                               </span>
                             ) : (
-                              <span className="inline-flex items-center gap-1 text-xs font-medium text-rose-600 bg-rose-50 px-2 py-0.5 rounded-full">
-                                <span className="h-1.5 w-1.5 rounded-full bg-rose-500"></span> Đã khóa
+                              <span className="inline-flex items-center gap-1.5 text-xs font-medium text-zinc-600 bg-zinc-100 border border-zinc-200 px-2.5 py-0.5 rounded-sm">
+                                <span className="h-1.5 w-1.5 rounded-full bg-zinc-400"></span> Đã khóa
                               </span>
                             )}
                           </td>
                           <td className="py-4 pr-4 text-xs text-zinc-500">
                             {user.lastLogin || 'Chưa ghi nhận'}
                           </td>
-                          <td className="py-4 text-right space-x-2">
+                          <td className="py-4 text-right space-x-1">
                             <button 
                               onClick={() => handleToggleUserStatus(user.id)}
                               title={user.status === 'active' ? 'Khóa tài khoản' : 'Mở khóa tài khoản'}
-                              className="p-1.5 text-zinc-400 hover:text-amber-600 transition-colors rounded-sm hover:bg-zinc-100"
+                              className="p-1.5 text-zinc-400 hover:text-zinc-900 transition-colors rounded-sm hover:bg-zinc-100"
                             >
-                              {user.status === 'active' ? <ToggleRight size={18} className="text-emerald-500" /> : <ToggleLeft size={18} className="text-zinc-400" />}
+                              {user.status === 'active' ? <ToggleRight size={18} className="text-zinc-900" /> : <ToggleLeft size={18} className="text-zinc-400" />}
                             </button>
                             <button 
                               onClick={() => handleDeleteUser(user.id)}
                               title="Xóa tài khoản"
                               className="p-1.5 text-zinc-400 hover:text-rose-600 transition-colors rounded-sm hover:bg-zinc-100"
                             >
-                              <Trash2 size={16} />
+                              <Trash2 size={15} />
                             </button>
                           </td>
                         </tr>
@@ -594,19 +615,19 @@ export default function Settings() {
               </div>
 
               {/* 2. MA TRẬN PHÂN QUYỀN THEO VAI TRÒ (PERMISSION MATRIX GRID) */}
-              <div className="rounded-sm border border-zinc-100 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
+              <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-100 pb-6">
                   <div>
                     <h3 className="font-serif text-xl text-zinc-950">Ma trận Phân quyền Chức năng (RBAC)</h3>
                     <p className="mt-1 text-sm text-zinc-500">Tùy biến quyền hạn (Xem, Thêm, Sửa, Xóa, Xuất bản) cho từng vai trò trên từng phân hệ.</p>
                   </div>
-                  <div className="flex items-center gap-2 bg-zinc-100 p-1 rounded-sm">
+                  <div className="flex items-center gap-1.5 bg-zinc-100/80 p-1 rounded-sm border border-zinc-200/60">
                     {(['super_admin', 'editor', 'crm', 'viewer'] as const).map((r) => (
                       <button
                         key={r}
                         onClick={() => setSelectedRoleForMatrix(r)}
-                        className={`px-3 py-1.5 text-xs font-bold rounded-sm transition-all ${
-                          selectedRoleForMatrix === r ? 'bg-white text-zinc-950 shadow-sm' : 'text-zinc-500 hover:text-zinc-900'
+                        className={`px-3 py-1.5 text-xs font-semibold rounded-sm transition-all ${
+                          selectedRoleForMatrix === r ? 'bg-white text-zinc-950 shadow-sm border border-zinc-200/60' : 'text-zinc-500 hover:text-zinc-900'
                         }`}
                       >
                         {r === 'super_admin' ? 'Super Admin' : r === 'editor' ? 'Editor' : r === 'crm' ? 'CRM' : 'Viewer'}
@@ -618,7 +639,7 @@ export default function Settings() {
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
                     <thead>
-                      <tr className="border-b border-zinc-100 text-[11px] font-bold uppercase tracking-wider text-zinc-400">
+                      <tr className="border-b border-zinc-100 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
                         <th className="pb-3 font-bold">Phân hệ / Module</th>
                         <th className="pb-3 font-bold text-center">Xem (View)</th>
                         <th className="pb-3 font-bold text-center">Thêm (Create)</th>
@@ -630,48 +651,92 @@ export default function Settings() {
                     <tbody className="divide-y divide-zinc-50">
                       {(rolePermissions[selectedRoleForMatrix] || []).map((perm) => (
                         <tr key={perm.module} className="hover:bg-zinc-50/50 transition-colors">
-                          <td className="py-3.5 pr-4 font-semibold text-zinc-900 flex items-center gap-2.5">
-                            <span className="text-base">{perm.icon}</span>
-                            {perm.name}
+                          <td className="py-3.5 pr-4">
+                            <div className="flex items-center gap-3">
+                              <div className="w-7 h-7 rounded-sm bg-zinc-100/90 border border-zinc-200/70 flex items-center justify-center text-zinc-700 shadow-sm">
+                                {getModuleIcon(perm.module)}
+                              </div>
+                              <span className="font-semibold text-zinc-900 text-sm">{perm.name}</span>
+                            </div>
                           </td>
                           <td className="py-3.5 text-center">
                             <button 
                               onClick={() => handleTogglePermission(selectedRoleForMatrix, perm.module, 'view')}
-                              className={`p-1 rounded transition-colors ${perm.view ? 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100' : 'text-zinc-300 bg-zinc-50 hover:bg-zinc-100'}`}
+                              className="group p-1 inline-flex items-center justify-center focus:outline-none"
                             >
-                              <Check size={16} />
+                              {perm.view ? (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center shadow-sm transition-transform group-hover:scale-105">
+                                  <Check size={13} strokeWidth={2.5} />
+                                </div>
+                              ) : (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-100/80 border border-zinc-200 text-zinc-300 flex items-center justify-center transition-colors group-hover:border-zinc-300">
+                                  <Minus size={12} strokeWidth={2} />
+                                </div>
+                              )}
                             </button>
                           </td>
                           <td className="py-3.5 text-center">
                             <button 
                               onClick={() => handleTogglePermission(selectedRoleForMatrix, perm.module, 'create')}
-                              className={`p-1 rounded transition-colors ${perm.create ? 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100' : 'text-zinc-300 bg-zinc-50 hover:bg-zinc-100'}`}
+                              className="group p-1 inline-flex items-center justify-center focus:outline-none"
                             >
-                              <Check size={16} />
+                              {perm.create ? (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center shadow-sm transition-transform group-hover:scale-105">
+                                  <Check size={13} strokeWidth={2.5} />
+                                </div>
+                              ) : (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-100/80 border border-zinc-200 text-zinc-300 flex items-center justify-center transition-colors group-hover:border-zinc-300">
+                                  <Minus size={12} strokeWidth={2} />
+                                </div>
+                              )}
                             </button>
                           </td>
                           <td className="py-3.5 text-center">
                             <button 
                               onClick={() => handleTogglePermission(selectedRoleForMatrix, perm.module, 'edit')}
-                              className={`p-1 rounded transition-colors ${perm.edit ? 'text-emerald-600 bg-emerald-50 hover:bg-emerald-100' : 'text-zinc-300 bg-zinc-50 hover:bg-zinc-100'}`}
+                              className="group p-1 inline-flex items-center justify-center focus:outline-none"
                             >
-                              <Check size={16} />
+                              {perm.edit ? (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center shadow-sm transition-transform group-hover:scale-105">
+                                  <Check size={13} strokeWidth={2.5} />
+                                </div>
+                              ) : (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-100/80 border border-zinc-200 text-zinc-300 flex items-center justify-center transition-colors group-hover:border-zinc-300">
+                                  <Minus size={12} strokeWidth={2} />
+                                </div>
+                              )}
                             </button>
                           </td>
                           <td className="py-3.5 text-center">
                             <button 
                               onClick={() => handleTogglePermission(selectedRoleForMatrix, perm.module, 'delete')}
-                              className={`p-1 rounded transition-colors ${perm.delete ? 'text-rose-600 bg-rose-50 hover:bg-rose-100' : 'text-zinc-300 bg-zinc-50 hover:bg-zinc-100'}`}
+                              className="group p-1 inline-flex items-center justify-center focus:outline-none"
                             >
-                              <Check size={16} />
+                              {perm.delete ? (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center shadow-sm transition-transform group-hover:scale-105">
+                                  <Check size={13} strokeWidth={2.5} />
+                                </div>
+                              ) : (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-100/80 border border-zinc-200 text-zinc-300 flex items-center justify-center transition-colors group-hover:border-zinc-300">
+                                  <Minus size={12} strokeWidth={2} />
+                                </div>
+                              )}
                             </button>
                           </td>
                           <td className="py-3.5 text-center">
                             <button 
                               onClick={() => handleTogglePermission(selectedRoleForMatrix, perm.module, 'publish')}
-                              className={`p-1 rounded transition-colors ${(perm.publish || perm.export) ? 'text-amber-600 bg-amber-50 hover:bg-amber-100' : 'text-zinc-300 bg-zinc-50 hover:bg-zinc-100'}`}
+                              className="group p-1 inline-flex items-center justify-center focus:outline-none"
                             >
-                              <Check size={16} />
+                              {(perm.publish || perm.export) ? (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center shadow-sm transition-transform group-hover:scale-105">
+                                  <Check size={13} strokeWidth={2.5} />
+                                </div>
+                              ) : (
+                                <div className="w-6 h-6 rounded-sm bg-zinc-100/80 border border-zinc-200 text-zinc-300 flex items-center justify-center transition-colors group-hover:border-zinc-300">
+                                  <Minus size={12} strokeWidth={2} />
+                                </div>
+                              )}
                             </button>
                           </td>
                         </tr>
@@ -682,12 +747,12 @@ export default function Settings() {
 
                 <div className="flex justify-between items-center pt-4 border-t border-zinc-100">
                   <span className="text-xs text-zinc-400 flex items-center gap-1.5">
-                    <CheckCircle2 size={14} className="text-emerald-500" /> Cấu hình phân quyền được bảo vệ an toàn trên hệ thống.
+                    <CheckCircle2 size={14} className="text-zinc-600" /> Cấu hình phân quyền được bảo vệ an toàn trên hệ thống.
                   </span>
                   <button 
                     onClick={handleSavePermissions}
                     disabled={isSaving}
-                    className="flex items-center gap-2 rounded-sm bg-zinc-950 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-black/10 transition-all hover:bg-amber-500 hover:text-zinc-950 active:scale-95 disabled:opacity-50"
+                    className="flex items-center gap-2 rounded-sm bg-zinc-950 px-6 py-2.5 text-sm font-semibold text-white shadow-lg shadow-black/10 transition-all hover:bg-zinc-800 active:scale-95 disabled:opacity-50"
                   >
                     {isSaving ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
                     Lưu Ma Trận Phân Quyền
@@ -701,11 +766,11 @@ export default function Settings() {
           {activeTab === 'security' && (
             <div className="space-y-6 animate-in fade-in duration-300">
               <div className="relative overflow-hidden rounded-sm bg-zinc-950 p-6 sm:p-8 text-white shadow-2xl shadow-zinc-900/20">
-                <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-amber-500/20 blur-3xl pointer-events-none" />
+                <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
                 <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
                   <div>
-                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-sm bg-amber-500/20 text-amber-400">
-                      <Lock size={20} />
+                    <div className="mb-2 flex h-10 w-10 items-center justify-center rounded-sm bg-zinc-800 text-zinc-200 border border-zinc-700">
+                      <Lock size={18} />
                     </div>
                     <h4 className="mb-1 font-serif text-lg">Xác thực 2 yếu tố (2FA)</h4>
                     <p className="text-sm text-zinc-400">
@@ -714,29 +779,29 @@ export default function Settings() {
                   </div>
                   <button 
                     onClick={() => toast.success('Tính năng 2FA sẽ được kích hoạt cùng ứng dụng xác thực.')}
-                    className="shrink-0 rounded-sm bg-white px-5 py-2.5 text-sm font-bold text-zinc-950 transition-colors hover:bg-zinc-200 active:scale-95"
+                    className="shrink-0 rounded-sm bg-white px-5 py-2.5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-zinc-200 active:scale-95"
                   >
                     Kích hoạt 2FA
                   </button>
                 </div>
               </div>
 
-              <div className="rounded-sm border border-zinc-100 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
+              <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
                 <h4 className="font-serif text-lg text-zinc-950">Chính sách bảo mật phiên đăng nhập</h4>
                 <div className="space-y-4">
                   <div className="flex items-center justify-between py-3 border-b border-zinc-100">
                     <div>
-                      <p className="text-sm font-bold text-zinc-900">Tự động ngắt phiên đăng nhập khi không hoạt động</p>
+                      <p className="text-sm font-semibold text-zinc-900">Tự động ngắt phiên đăng nhập khi không hoạt động</p>
                       <p className="text-xs text-zinc-500">Tự động đăng xuất sau 30 phút không có thao tác để phòng ngừa truy cập trái phép.</p>
                     </div>
-                    <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Đang bật</span>
+                    <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-sm">Đang bật</span>
                   </div>
                   <div className="flex items-center justify-between py-3 border-b border-zinc-100">
                     <div>
-                      <p className="text-sm font-bold text-zinc-900">Giới hạn số lần thử đăng nhập sai (Brute-force protection)</p>
+                      <p className="text-sm font-semibold text-zinc-900">Giới hạn số lần thử đăng nhập sai (Brute-force protection)</p>
                       <p className="text-xs text-zinc-500">Tạm khóa IP 15 phút nếu nhập sai mật khẩu quá 5 lần liên tiếp.</p>
                     </div>
-                    <span className="text-xs font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full">Đang bật</span>
+                    <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-sm">Đang bật</span>
                   </div>
                 </div>
               </div>
@@ -751,8 +816,8 @@ export default function Settings() {
           <div className="w-full max-w-md bg-white rounded-sm border border-zinc-200 shadow-2xl p-6 sm:p-8 space-y-6 animate-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between border-b border-zinc-100 pb-4">
               <div className="flex items-center gap-2.5">
-                <div className="p-2 rounded bg-amber-500/10 text-amber-600">
-                  <UserPlus size={20} />
+                <div className="p-2 rounded-sm bg-zinc-100 text-zinc-800 border border-zinc-200/60">
+                  <UserPlus size={18} />
                 </div>
                 <div>
                   <h3 className="font-serif text-lg text-zinc-950">Thêm Thành Viên Quản Trị</h3>
@@ -763,7 +828,7 @@ export default function Settings() {
                 onClick={() => setShowAddUserModal(false)}
                 className="text-zinc-400 hover:text-zinc-700 p-1 rounded transition-colors"
               >
-                <X size={20} />
+                <X size={18} />
               </button>
             </div>
 
@@ -776,7 +841,7 @@ export default function Settings() {
                   placeholder="Ví dụ: Nguyễn Văn A"
                   value={newUserName}
                   onChange={(e) => setNewUserName(e.target.value)}
-                  className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10"
+                  className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
                 />
               </div>
 
@@ -788,7 +853,7 @@ export default function Settings() {
                   placeholder="admin@example.com"
                   value={newUserEmail}
                   onChange={(e) => setNewUserEmail(e.target.value)}
-                  className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10"
+                  className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
                 />
               </div>
 
@@ -799,7 +864,7 @@ export default function Settings() {
                   placeholder="•••••••• (Tự sinh nếu để trống)"
                   value={newUserPassword}
                   onChange={(e) => setNewUserPassword(e.target.value)}
-                  className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10"
+                  className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5"
                 />
               </div>
 
@@ -808,7 +873,7 @@ export default function Settings() {
                 <select 
                   value={newUserRole}
                   onChange={(e) => setNewUserRole(e.target.value as any)}
-                  className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-amber-500 focus:outline-none focus:ring-4 focus:ring-amber-500/10 cursor-pointer"
+                  className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-3.5 py-2.5 text-sm transition-all focus:bg-white focus:border-zinc-900 focus:outline-none focus:ring-4 focus:ring-zinc-900/5 cursor-pointer"
                 >
                   <option value="editor">Biên Tập Viên (Editor) - Quản lý Bài viết & Dự án</option>
                   <option value="crm">Chuyên Viên CRM (CRM Specialist) - Quản lý Khách hàng</option>
@@ -821,13 +886,13 @@ export default function Settings() {
                 <button 
                   type="button"
                   onClick={() => setShowAddUserModal(false)}
-                  className="rounded-sm border border-zinc-200 bg-white px-4 py-2 text-xs font-bold text-zinc-600 hover:bg-zinc-50 transition-colors"
+                  className="rounded-sm border border-zinc-200 bg-white px-4 py-2 text-xs font-semibold text-zinc-600 hover:bg-zinc-50 transition-colors"
                 >
                   Hủy bỏ
                 </button>
                 <button 
                   type="submit"
-                  className="rounded-sm bg-zinc-950 px-5 py-2 text-xs font-bold text-white hover:bg-amber-500 hover:text-zinc-950 transition-all shadow-md active:scale-95"
+                  className="rounded-sm bg-zinc-950 px-5 py-2 text-xs font-semibold text-white hover:bg-zinc-800 transition-all shadow-md active:scale-95"
                 >
                   Thêm thành viên
                 </button>
@@ -839,4 +904,3 @@ export default function Settings() {
     </div>
   );
 }
-
