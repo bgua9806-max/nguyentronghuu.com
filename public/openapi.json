@@ -1,0 +1,214 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Nguyễn Trọng Hữu - Auto Content Publisher API",
+    "description": "API cho phép ChatGPT tự động nghiên cứu, viết bài chuẩn SEO, quản lý và đăng bài viết trực tiếp lên website nguyentronghuu.com.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://nguyentronghuu.com/api",
+      "description": "Production Server"
+    }
+  ],
+  "paths": {
+    "/posts": {
+      "get": {
+        "operationId": "getPosts",
+        "summary": "Lấy danh sách bài viết hiện có trên website nguyentronghuu.com",
+        "description": "Dùng để kiểm tra các bài đã xuất bản, tránh trùng lặp chủ đề khi viết bài mới.",
+        "parameters": [
+          {
+            "name": "search",
+            "in": "query",
+            "required": false,
+            "description": "Từ khóa tìm kiếm theo tiêu đề",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "description": "Số lượng bài viết cần lấy",
+            "schema": {
+              "type": "integer",
+              "default": 10
+            }
+          },
+          {
+            "name": "slug",
+            "in": "query",
+            "required": false,
+            "description": "Slug của bài viết cụ thể cần đọc chi tiết",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Danh sách bài viết",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "data": { "type": "array", "items": { "type": "object" } }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "operationId": "createPost",
+        "summary": "Tạo và đăng bài viết mới lên website nguyentronghuu.com",
+        "description": "Đăng bài viết mới chuẩn SEO với đầy đủ tiêu đề, nội dung HTML, chuyên mục, tags, SEO meta.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["title", "content"],
+                "properties": {
+                  "title": {
+                    "type": "string",
+                    "description": "Tiêu đề bài viết (hấp dẫn, chứa từ khóa chính, chuẩn SEO)"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "Nội dung bài viết hoàn chỉnh với các thẻ định dạng HTML như <h2>, <h3>, <p>, <ul>, <li>, <strong>, <blockquote>, <code>"
+                  },
+                  "excerpt": {
+                    "type": "string",
+                    "description": "Tóm tắt bài viết ngắn gọn (150-160 ký tự) hiển thị ở danh sách bài"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Chuyên mục bài viết: AI AGENT, MARKETING, CONVERSION RATE, CONTENT STRATEGY",
+                    "enum": ["AI AGENT", "MARKETING", "CONVERSION RATE", "CONTENT STRATEGY"]
+                  },
+                  "tags": {
+                    "type": "array",
+                    "items": { "type": "string" },
+                    "description": "Danh sách từ khóa thẻ bài viết (ví dụ: ['AI Automation', 'MCP', 'ChatGPT'])"
+                  },
+                  "cover_image": {
+                    "type": "string",
+                    "description": "Link URL hình ảnh bìa bài viết (Unsplash, Cloudinary hoặc Supabase URL)"
+                  },
+                  "status": {
+                    "type": "string",
+                    "description": "Trạng thái bài viết: 'published' (xuất bản ngay) hoặc 'draft' (lưu nháp)",
+                    "enum": ["published", "draft"],
+                    "default": "published"
+                  },
+                  "seo_title": {
+                    "type": "string",
+                    "description": "Tiêu đề hiển thị cho Google Search SEO Meta Title (dưới 65 ký tự)"
+                  },
+                  "seo_description": {
+                    "type": "string",
+                    "description": "Mô tả hiển thị cho Google Search SEO Meta Description (dưới 160 ký tự)"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Bài viết đã được đăng thành công",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "success": { "type": "boolean" },
+                    "message": { "type": "string" },
+                    "url": { "type": "string" }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "updatePost",
+        "summary": "Cập nhật hoặc chỉnh sửa bài viết đã có",
+        "description": "Cập nhật lại tiêu đề, nội dung HTML hoặc SEO metadata cho bài viết theo slug.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["slug"],
+                "properties": {
+                  "slug": { "type": "string", "description": "Slug của bài viết cần cập nhật" },
+                  "title": { "type": "string" },
+                  "content": { "type": "string" },
+                  "excerpt": { "type": "string" },
+                  "status": { "type": "string", "enum": ["published", "draft"] }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Cập nhật thành công"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "deletePost",
+        "summary": "Xóa bài viết",
+        "parameters": [
+          {
+            "name": "slug",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "Slug bài viết cần xóa"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Xóa thành công"
+          }
+        },
+        "security": [
+          {
+            "ApiKeyAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "ApiKeyAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization"
+      }
+    }
+  }
+}
