@@ -119,13 +119,13 @@ export default function Contact() {
                     <div className="w-10 h-10 rounded-full border border-zinc-700 flex items-center justify-center bg-zinc-800/50"><Facebook size={18} /></div>
                     <span>Facebook Cá Nhân</span>
                   </a>
-                  <a href="https://zalo.me/0906291941" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-300 text-zinc-400 transition-colors flex items-center space-x-3">
+                  <a href="https://zalo.me/0845555851" target="_blank" rel="noopener noreferrer" className="hover:text-zinc-300 text-zinc-400 transition-colors flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-full border border-zinc-700 flex items-center justify-center bg-zinc-800/50"><MessageCircle size={18} /></div>
-                    <span>Zalo: 0906291941</span>
+                    <span>Zalo: 0845555851</span>
                   </a>
-                  <a href="tel:0906291941" className="hover:text-zinc-300 text-zinc-400 transition-colors flex items-center space-x-3">
+                  <a href="tel:0845555851" className="hover:text-zinc-300 text-zinc-400 transition-colors flex items-center space-x-3">
                     <div className="w-10 h-10 rounded-full border border-zinc-700 flex items-center justify-center bg-zinc-800/50"><Phone size={18} /></div>
-                    <span>0906291941</span>
+                    <span>0845555851</span>
                   </a>
                 </div>
               </div>

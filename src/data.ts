@@ -347,12 +347,12 @@ export const SOCIAL_LINKS = [
   },
   {
     name: "Zalo",
-    url: "https://zalo.me/0906291941",
+    url: "https://zalo.me/0845555851",
     type: "external"
   },
   {
-    name: "0906291941",
-    url: "tel:0906291941",
+    name: "0845555851",
+    url: "tel:0845555851",
     type: "phone"
   },
   {
