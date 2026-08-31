@@ -315,10 +315,7 @@ export default function AdminLayout() {
         <header className="sticky top-0 z-50 border-b border-white/70 bg-[#f4f1eb]/85 backdrop-blur-2xl">
           <div className="flex min-h-[76px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
             <div className="min-w-0">
-              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-600">
-                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" /> CMS Workspace
-              </div>
-              <h1 className="mt-1 truncate font-serif text-2xl text-zinc-950 sm:text-3xl">{currentPage}</h1>
+              <h1 className="truncate font-serif text-2xl text-zinc-950 sm:text-3xl">{currentPage}</h1>
               <p className="mt-0.5 hidden text-xs text-zinc-500 sm:block">{pageDescriptions[currentPage]}</p>
             </div>
 
