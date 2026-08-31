@@ -196,23 +196,6 @@ export default function AdminLayout() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    if (!session) return;
-    const isMobile = window.innerWidth <= 768;
-    if (!isMobile) {
-      document.body.style.zoom = "90%";
-      document.documentElement.style.setProperty('--ui-zoom', "0.9");
-    } else {
-      document.body.style.zoom = "100%";
-      document.documentElement.style.setProperty('--ui-zoom', "1");
-    }
-
-    return () => {
-      document.body.style.zoom = "100%";
-      document.documentElement.style.setProperty('--ui-zoom', "1");
-    };
-  }, [session]);
-
   const handleLogout = async () => {
     try {
       const { error } = await supabase.auth.signOut();
@@ -268,8 +251,8 @@ export default function AdminLayout() {
   const currentPage = navItems.find(item => location.pathname === item.path || (item.path !== '/admin' && location.pathname.startsWith(item.path)))?.name || 'Quản trị';
 
   return (
-    <div className="min-h-[calc(100vh/var(--ui-zoom,1))] bg-[#f7f4ef] text-zinc-900 lg:flex admin-crm-shell">
-      <aside className="hidden lg:fixed lg:top-0 lg:left-0 lg:z-40 lg:flex lg:w-[220px] lg:flex-col border-r border-white/10 bg-zinc-950 text-zinc-300 overflow-hidden h-[calc(100vh/var(--ui-zoom,1))]">
+    <div className="min-h-screen bg-[#f7f4ef] text-zinc-900 lg:flex admin-crm-shell">
+      <aside className="hidden lg:fixed lg:top-0 lg:left-0 lg:z-40 lg:flex lg:w-[220px] lg:flex-col border-r border-white/10 bg-zinc-950 text-zinc-300 overflow-hidden h-screen">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_0%,rgba(250,204,21,0.16),transparent_34%),radial-gradient(circle_at_90%_12%,rgba(255,255,255,0.08),transparent_28%)]" />
         <div className="relative flex h-full flex-col p-3.5">
           <Link to="/" className="group mb-7 mt-1 flex items-center justify-start px-1.5 transition-all active:scale-[0.98]">

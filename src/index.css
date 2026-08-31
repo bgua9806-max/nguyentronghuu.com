@@ -26,6 +26,12 @@
     scroll-behavior: smooth;
     scroll-padding-top: 6rem;
   }
+
+  :focus-visible {
+    outline: 2px solid var(--color-amber-500) !important;
+    outline-offset: 3px !important;
+  }
+
   body {
     @apply bg-[#FAFAFA] text-zinc-900 antialiased selection:bg-zinc-900 selection:text-white transition-colors duration-300;
   }
@@ -33,6 +39,7 @@
   /* Global dark mode styling overrides */
   .dark body {
     @apply bg-zinc-950 text-zinc-50 selection:bg-amber-500 selection:text-zinc-950;
+    color-scheme: dark;
   }
 
   .dark .bg-white {
@@ -45,6 +52,26 @@
 
   .dark .bg-zinc-50\/30 {
     background-color: rgba(24, 24, 27, 0.3) !important;
+  }
+
+  .dark .bg-zinc-50\/60 {
+    background-color: rgba(24, 24, 27, 0.6) !important;
+  }
+
+  .dark .bg-white\/70 {
+    background-color: rgba(24, 24, 27, 0.7) !important;
+  }
+
+  .dark .bg-white\/80 {
+    background-color: rgba(24, 24, 27, 0.8) !important;
+  }
+
+  .dark .bg-white\/90 {
+    background-color: rgba(24, 24, 27, 0.9) !important;
+  }
+
+  .dark .bg-white\/95 {
+    background-color: rgba(24, 24, 27, 0.95) !important;
   }
 
   .dark .text-zinc-900 {
@@ -96,6 +123,43 @@
     background-color: var(--color-zinc-950) !important;
     border-color: var(--color-zinc-900) !important;
   }
+
+  .dark .prose {
+    --tw-prose-body: var(--color-zinc-300);
+    --tw-prose-headings: var(--color-zinc-100);
+    --tw-prose-lead: var(--color-zinc-400);
+    --tw-prose-links: var(--color-amber-400);
+    --tw-prose-bold: var(--color-zinc-100);
+    --tw-prose-counters: var(--color-zinc-400);
+    --tw-prose-bullets: var(--color-zinc-500);
+    --tw-prose-hr: var(--color-zinc-800);
+    --tw-prose-quotes: var(--color-zinc-200);
+    --tw-prose-quote-borders: var(--color-zinc-700);
+    --tw-prose-captions: var(--color-zinc-400);
+    --tw-prose-code: var(--color-zinc-100);
+    --tw-prose-th-borders: var(--color-zinc-700);
+    --tw-prose-td-borders: var(--color-zinc-800);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .animate-marquee {
+    animation: none !important;
+    transform: none !important;
+  }
 }
 
 /* Lenis Smooth Scroll Recommended Styles */
@@ -118,5 +182,4 @@ html.lenis, html.lenis body {
 .lenis.lenis-scrolling iframe {
   pointer-events: none;
 }
-
 

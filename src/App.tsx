@@ -1,6 +1,6 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, MotionConfig, motion } from 'motion/react';
 import { Menu, X, Facebook, Sun, Moon, ArrowUpRight, Phone, MessageCircle, Mail } from 'lucide-react';
 import Lenis from 'lenis';
 import { Toaster } from 'react-hot-toast';
@@ -56,6 +56,8 @@ function Layout() {
   const phoneLink = SOCIAL_LINKS.find((link) => link.type === 'phone');
   const zaloLink = SOCIAL_LINKS.find((link) => link.name === 'Zalo');
   const showMobileContactBar = !isContactPage && !isMetaAdsPage && !isMobileMenuOpen;
+  const navLinkTone = isContactPage && !isScrolled ? 'hover:text-white' : 'hover:text-zinc-900 dark:hover:text-white';
+  const navUnderlineTone = isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900 dark:bg-white';
 
   // Use useEffect to scroll to top on path change
   useEffect(() => {
@@ -70,6 +72,7 @@ function Layout() {
   // Initialize Lenis Smooth Scroll (ignored for admin routes)
   useEffect(() => {
     if (isAdminRoute) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     const lenisInstance = new Lenis({
       duration: 1.2,
@@ -105,7 +108,7 @@ function Layout() {
     } catch (e) {
       console.warn('Failed to access localStorage:', e);
     }
-    return 'light';
+    return typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
   });
 
   useEffect(() => {
@@ -125,24 +128,6 @@ function Layout() {
       console.warn('Failed to update theme classes or localStorage:', e);
     }
   }, [theme, isAdminRoute]);
-
-  useEffect(() => {
-    if (isAdminRoute) return;
-    
-    const isMobile = window.innerWidth <= 768;
-    if (!isMobile) {
-      document.body.style.zoom = "110%";
-      document.documentElement.style.setProperty('--ui-zoom', "1.1");
-    } else {
-      document.body.style.zoom = "100%";
-      document.documentElement.style.setProperty('--ui-zoom', "1");
-    }
-
-    return () => {
-      document.body.style.zoom = "100%";
-      document.documentElement.style.setProperty('--ui-zoom', "1");
-    };
-  }, [isAdminRoute]);
 
   if (isAdminRoute) {
     return (
@@ -170,7 +155,7 @@ function Layout() {
   }
 
   return (
-    <div className={`min-h-[calc(100vh/var(--ui-zoom,1))] flex flex-col ${showMobileContactBar ? 'pb-24 md:pb-0' : ''}`}>
+    <div className={`min-h-screen flex flex-col ${showMobileContactBar ? 'pb-24 md:pb-0' : ''}`}>
       {/* Navigation */}
       {!isMetaAdsPage && (
         <nav
@@ -199,21 +184,21 @@ function Layout() {
             />
           </Link>
           <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${isContactPage && !isScrolled ? 'text-zinc-400' : 'text-zinc-500'}`}>
-            <Link to="/about" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/about' ? 'text-zinc-900' : ''}`}>
+            <Link to="/about" className={`relative group transition-colors py-1 ${navLinkTone} ${location.pathname === '/about' ? 'text-zinc-900' : ''}`}>
               <span>Giới thiệu</span>
-              <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname === '/about' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              <span className={`absolute bottom-0 left-0 h-[1.5px] ${navUnderlineTone} transition-all duration-300 ${location.pathname === '/about' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
-            <Link to="/services" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/services' ? 'text-zinc-900' : ''}`}>
+            <Link to="/services" className={`relative group transition-colors py-1 ${navLinkTone} ${location.pathname === '/services' ? 'text-zinc-900' : ''}`}>
               <span>Dịch vụ</span>
-              <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname === '/services' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              <span className={`absolute bottom-0 left-0 h-[1.5px] ${navUnderlineTone} transition-all duration-300 ${location.pathname === '/services' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
-            <Link to="/projects" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/projects' ? 'text-zinc-900' : ''}`}>
+            <Link to="/projects" className={`relative group transition-colors py-1 ${navLinkTone} ${location.pathname === '/projects' ? 'text-zinc-900' : ''}`}>
               <span>Dự án</span>
-              <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname === '/projects' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              <span className={`absolute bottom-0 left-0 h-[1.5px] ${navUnderlineTone} transition-all duration-300 ${location.pathname === '/projects' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
-            <Link to="/blog" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname.startsWith('/blog') ? 'text-zinc-900' : ''}`}>
+            <Link to="/blog" className={`relative group transition-colors py-1 ${navLinkTone} ${location.pathname.startsWith('/blog') ? 'text-zinc-900' : ''}`}>
               <span>Bài viết</span>
-              <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname.startsWith('/blog') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+              <span className={`absolute bottom-0 left-0 h-[1.5px] ${navUnderlineTone} transition-all duration-300 ${location.pathname.startsWith('/blog') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
             <Link
               to="/contact"
@@ -230,9 +215,10 @@ function Layout() {
             <button 
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className={`flex items-center justify-center p-1 ml-2 rounded-full transition-colors cursor-pointer ${
-                isContactPage && !isScrolled ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-zinc-950'
+                isContactPage && !isScrolled ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white'
               }`}
-              aria-label="Chuyển đổi giao diện"
+              aria-label={theme === 'dark' ? 'Bật giao diện sáng' : 'Bật giao diện tối'}
+              aria-pressed={theme === 'dark'}
             >
               {theme === 'dark' ? <Sun size={17} /> : <Moon size={17} />}
             </button>
@@ -242,9 +228,10 @@ function Layout() {
             <button 
               onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
               className={`p-2 rounded-full transition-colors cursor-pointer ${
-                isMobileMenuOpen || (isContactPage && !isScrolled) ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-zinc-950'
+                isMobileMenuOpen || (isContactPage && !isScrolled) ? 'text-zinc-400 hover:text-white' : 'text-zinc-500 hover:text-zinc-950 dark:hover:text-white'
               }`}
-              aria-label="Chuyển đổi giao diện"
+              aria-label={theme === 'dark' ? 'Bật giao diện sáng' : 'Bật giao diện tối'}
+              aria-pressed={theme === 'dark'}
             >
               {theme === 'dark' ? <Sun size={20} /> : <Moon size={20} />}
             </button>
@@ -256,7 +243,7 @@ function Layout() {
               {isMobileMenuOpen ? (
                  <X size={24} className="text-white" />
               ) : (
-                 <Menu size={24} className={isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} />
+                 <Menu size={24} className={isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900 dark:text-white'} />
               )}
             </button>
           </div>
@@ -491,7 +478,9 @@ export default function App() {
           color: '#09090b',
         },
       }} />
-      <Layout />
+      <MotionConfig reducedMotion="user">
+        <Layout />
+      </MotionConfig>
     </Router>
   );
 }
