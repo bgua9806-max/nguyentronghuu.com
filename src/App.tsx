@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { Menu, X, Youtube, Twitter, Facebook, Sun, Moon, ArrowUpRight, Phone, MessageCircle } from 'lucide-react';
+import { Menu, X, Facebook, Sun, Moon, ArrowUpRight, Phone, MessageCircle, Mail } from 'lucide-react';
 import Lenis from 'lenis';
 import { Toaster } from 'react-hot-toast';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
@@ -19,6 +19,7 @@ const ProjectDetail = React.lazy(() => import('./pages/ProjectDetail'));
 const BlogList = React.lazy(() => import('./pages/BlogList'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost'));
 const Contact = React.lazy(() => import('./pages/Contact'));
+const LegalPage = React.lazy(() => import('./pages/LegalPage'));
 const MetaAds = React.lazy(() => import('./pages/MetaAds'));
 const NotFound = React.lazy(() => import('./pages/NotFound'));
 
@@ -352,6 +353,8 @@ function Layout() {
                 <Route path="/blog" element={<BlogList />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/contact" element={<Contact />} />
+                <Route path="/privacy" element={<LegalPage variant="privacy" />} />
+                <Route path="/terms" element={<LegalPage variant="terms" />} />
                 <Route path="/meta_ads" element={<MetaAds />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
@@ -380,14 +383,14 @@ function Layout() {
                   Mình chuyên tư vấn và triển khai xây dựng hệ thống phần mềm, phát triển Web, App và tự động hóa AI, giúp doanh nghiệp tối ưu hóa quy trình và tăng trưởng bền vững.
                 </p>
                 <div className="flex gap-4">
-                  <a href="#" aria-label="YouTube" className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-colors group">
-                    <Youtube size={18} className="text-zinc-600 group-hover:text-red-600 transition-colors" />
-                  </a>
-                  <a href="#" aria-label="Twitter" className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-colors group">
-                    <Twitter size={18} className="text-zinc-600 group-hover:text-blue-500 transition-colors" />
-                  </a>
-                  <a href="#" aria-label="Facebook" className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-colors group">
+                  <a href="https://www.facebook.com/nguyen.trong.huu.838820/?locale=vi_VN" target="_blank" rel="noopener noreferrer" aria-label="Facebook của Nguyễn Trọng Hữu" className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-colors group">
                     <Facebook size={18} className="text-zinc-600 group-hover:text-blue-600 transition-colors" />
+                  </a>
+                  <a href="https://zalo.me/0845555851" target="_blank" rel="noopener noreferrer" aria-label="Zalo của Nguyễn Trọng Hữu" className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-colors group">
+                    <MessageCircle size={18} className="text-zinc-600 group-hover:text-blue-500 transition-colors" />
+                  </a>
+                  <a href="mailto:nguyentronghuu1905@gmail.com" aria-label="Gửi email cho Nguyễn Trọng Hữu" className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center hover:bg-zinc-200 transition-colors group">
+                    <Mail size={18} className="text-zinc-600 group-hover:text-amber-600 transition-colors" />
                   </a>
                 </div>
               </div>
@@ -405,26 +408,20 @@ function Layout() {
               <div className="md:col-span-2">
                 <h4 className="text-zinc-900 font-bold mb-6 tracking-wide text-sm">CHÍNH SÁCH</h4>
                 <ul className="space-y-3 text-sm text-zinc-600">
-                  <li><a href="#" className="hover:text-zinc-900 transition-colors">Điều khoản – điều kiện</a></li>
-                  <li><a href="#" className="hover:text-zinc-900 transition-colors">Chính sách bảo mật</a></li>
+                  <li><Link to="/terms" className="hover:text-zinc-900 transition-colors">Điều khoản sử dụng</Link></li>
+                  <li><Link to="/privacy" className="hover:text-zinc-900 transition-colors">Chính sách bảo mật</Link></li>
                 </ul>
               </div>
 
               <div className="md:col-span-4">
-                <form className="flex flex-col gap-3" onSubmit={(e) => e.preventDefault()}>
-                  <input 
-                    type="email" 
-                    placeholder="Email" 
-                    className="w-full px-4 py-3 bg-zinc-50 border border-zinc-200 focus:border-zinc-400 text-zinc-900 focus:outline-none rounded-sm text-sm"
-                    required
-                  />
-                  <button 
-                    type="submit" 
-                    className="w-full px-4 py-3 bg-zinc-900 hover:bg-zinc-800 text-white font-medium transition-colors rounded-sm text-sm"
-                  >
-                    Đăng ký
-                  </button>
-                </form>
+                <div className="rounded-xl border border-zinc-200 bg-zinc-50 p-5">
+                  <p className="text-xs font-bold uppercase tracking-widest text-zinc-500">Bắt đầu dự án</p>
+                  <p className="mt-3 text-sm leading-relaxed text-zinc-600">Chia sẻ bài toán để nhận đề xuất hướng triển khai phù hợp.</p>
+                  <Link to="/contact" className="group mt-5 flex min-h-11 items-center justify-between rounded-full bg-zinc-950 px-5 text-sm font-semibold text-white transition-colors hover:bg-amber-500 hover:text-zinc-950 dark:bg-white dark:text-zinc-950">
+                    <span>Nhận tư vấn</span>
+                    <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </Link>
+                </div>
               </div>
             </div>
 

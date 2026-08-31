@@ -262,6 +262,20 @@ const staticPages = [
     breadcrumbs: [{ name: 'Trang chủ', url: SITE_URL }, { name: 'Liên hệ', url: `${SITE_URL}/contact` }],
   },
   {
+    route: '/privacy',
+    title: 'Chính sách bảo mật',
+    rawTitle: 'Chính sách bảo mật',
+    description: 'Chính sách bảo mật thông tin khi bạn truy cập và gửi yêu cầu tư vấn trên nguyentronghuu.com.',
+    breadcrumbs: [{ name: 'Trang chủ', url: SITE_URL }, { name: 'Chính sách bảo mật', url: `${SITE_URL}/privacy` }],
+  },
+  {
+    route: '/terms',
+    title: 'Điều khoản sử dụng',
+    rawTitle: 'Điều khoản sử dụng',
+    description: 'Các điều khoản áp dụng khi truy cập nội dung và sử dụng biểu mẫu liên hệ trên nguyentronghuu.com.',
+    breadcrumbs: [{ name: 'Trang chủ', url: SITE_URL }, { name: 'Điều khoản sử dụng', url: `${SITE_URL}/terms` }],
+  },
+  {
     route: '/meta_ads',
     title: 'Meta Ads Analyzer – AI Workflow Skill',
     rawTitle: 'Meta Ads Analyzer',
