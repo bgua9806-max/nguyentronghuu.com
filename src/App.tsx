@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { Menu, X, Youtube, Twitter, Facebook, Sun, Moon } from 'lucide-react';
+import { Menu, X, Youtube, Twitter, Facebook, Sun, Moon, ArrowUpRight } from 'lucide-react';
 import Lenis from 'lenis';
 import { Toaster } from 'react-hot-toast';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
@@ -177,7 +177,7 @@ function Layout() {
         <div 
           className={`relative z-50 flex justify-between items-center transition-all duration-500 h-[51px] ${
             (isScrolled && !isMobileMenuOpen)
-              ? 'bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm rounded-full px-6 md:px-8 w-full max-w-3xl' 
+              ? 'bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-zinc-200/50 dark:border-zinc-800/50 shadow-sm rounded-full px-6 md:px-8 w-full max-w-4xl'
               : 'w-full max-w-6xl px-6 md:px-12 bg-transparent'
           }`}
         >
@@ -194,7 +194,7 @@ function Layout() {
               }}
             />
           </Link>
-          <div className={`hidden md:flex space-x-8 text-sm font-medium ${isContactPage && !isScrolled ? 'text-zinc-400' : 'text-zinc-500'}`}>
+          <div className={`hidden md:flex items-center gap-6 text-sm font-medium ${isContactPage && !isScrolled ? 'text-zinc-400' : 'text-zinc-500'}`}>
             <Link to="/about" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/about' ? 'text-zinc-900' : ''}`}>
               <span>Giới thiệu</span>
               <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname === '/about' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
@@ -211,9 +211,16 @@ function Layout() {
               <span>Bài viết</span>
               <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname.startsWith('/blog') ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
             </Link>
-            <Link to="/contact" className={`relative group hover:${isContactPage && !isScrolled ? 'text-white' : 'text-zinc-900'} transition-colors py-1 ${location.pathname === '/contact' ? (isScrolled ? 'text-zinc-900' : 'text-white') : ''}`}>
-              <span>Liên hệ</span>
-              <span className={`absolute bottom-0 left-0 h-[1.5px] ${isContactPage && !isScrolled ? 'bg-white' : 'bg-zinc-900'} transition-all duration-300 ${location.pathname === '/contact' ? 'w-full' : 'w-0 group-hover:w-full'}`}></span>
+            <Link
+              to="/contact"
+              className={`group inline-flex items-center gap-2 rounded-full px-4 py-2 text-xs font-semibold transition-all duration-300 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2 ${
+                isContactPage && !isScrolled
+                  ? 'bg-white text-zinc-950 hover:bg-amber-400'
+                  : 'bg-zinc-950 text-white shadow-sm hover:bg-amber-500 hover:text-zinc-950 dark:bg-white dark:text-zinc-950'
+              } ${location.pathname === '/contact' ? 'ring-2 ring-amber-500 ring-offset-2 ring-offset-transparent' : ''}`}
+            >
+              <span>Nhận tư vấn</span>
+              <ArrowUpRight size={14} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
             </Link>
             
             <button 
@@ -282,7 +289,6 @@ function Layout() {
                   { path: '/services', label: 'Dịch vụ', num: '03' },
                   { path: '/projects', label: 'Dự án', num: '04' },
                   { path: '/blog', label: 'Bài viết', num: '05' },
-                  { path: '/contact', label: 'Liên hệ', num: '06' },
                 ].map((item) => (
                   <motion.div 
                     key={item.num}
@@ -305,6 +311,22 @@ function Layout() {
                     </Link>
                   </motion.div>
                 ))}
+
+                <motion.div
+                  variants={{
+                    hidden: { y: 20, opacity: 0 },
+                    visible: { y: 0, opacity: 1, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }
+                  }}
+                  className="pt-8"
+                >
+                  <Link
+                    to="/contact"
+                    className="group flex min-h-14 w-full items-center justify-between rounded-full bg-amber-400 px-6 py-4 text-zinc-950 transition-colors hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+                  >
+                    <span className="text-base font-semibold">Nhận tư vấn dự án</span>
+                    <ArrowUpRight size={20} className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </Link>
+                </motion.div>
               </motion.div>
 
             </motion.div>
