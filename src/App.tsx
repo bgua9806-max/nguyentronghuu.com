@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Suspense } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
-import { Menu, X, Youtube, Twitter, Facebook, Sun, Moon, ArrowUpRight } from 'lucide-react';
+import { Menu, X, Youtube, Twitter, Facebook, Sun, Moon, ArrowUpRight, Phone, MessageCircle } from 'lucide-react';
 import Lenis from 'lenis';
 import { Toaster } from 'react-hot-toast';
 import { SOCIAL_LINKS, COPYRIGHT_TEXT } from './data';
@@ -52,6 +52,9 @@ function Layout() {
   const isContactPage = location.pathname === '/contact';
   const isMetaAdsPage = location.pathname === '/meta_ads';
   const isAdminRoute = location.pathname.startsWith('/admin');
+  const phoneLink = SOCIAL_LINKS.find((link) => link.type === 'phone');
+  const zaloLink = SOCIAL_LINKS.find((link) => link.name === 'Zalo');
+  const showMobileContactBar = !isContactPage && !isMetaAdsPage && !isMobileMenuOpen;
 
   // Use useEffect to scroll to top on path change
   useEffect(() => {
@@ -166,7 +169,7 @@ function Layout() {
   }
 
   return (
-    <div className="min-h-[calc(100vh/var(--ui-zoom,1))] flex flex-col">
+    <div className={`min-h-[calc(100vh/var(--ui-zoom,1))] flex flex-col ${showMobileContactBar ? 'pb-24 md:pb-0' : ''}`}>
       {/* Navigation */}
       {!isMetaAdsPage && (
         <nav
@@ -431,6 +434,52 @@ function Layout() {
           </div>
         </footer>
       )}
+
+      <AnimatePresence>
+        {showMobileContactBar && (
+          <motion.aside
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 24 }}
+            transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+            className="fixed inset-x-3 z-40 rounded-2xl border border-zinc-200 bg-white/95 p-2 shadow-2xl shadow-zinc-950/20 backdrop-blur-xl md:hidden"
+            style={{ bottom: 'calc(0.75rem + env(safe-area-inset-bottom))' }}
+            aria-label="Liên hệ nhanh"
+          >
+            <div className="grid grid-cols-[0.8fr_0.8fr_1.4fr] items-stretch gap-1">
+              {phoneLink && (
+                <a
+                  href={phoneLink.url}
+                  className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl px-2 text-[10px] font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                  aria-label={`Gọi ${phoneLink.name}`}
+                >
+                  <Phone size={18} strokeWidth={1.8} />
+                  <span>Gọi điện</span>
+                </a>
+              )}
+              {zaloLink && (
+                <a
+                  href={zaloLink.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl px-2 text-[10px] font-semibold text-zinc-700 transition-colors hover:bg-zinc-100 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500"
+                  aria-label="Nhắn tin qua Zalo"
+                >
+                  <MessageCircle size={18} strokeWidth={1.8} />
+                  <span>Zalo</span>
+                </a>
+              )}
+              <Link
+                to="/contact"
+                className="group flex min-h-12 items-center justify-center gap-2 rounded-xl bg-zinc-950 px-3 text-xs font-semibold text-white transition-colors hover:bg-amber-500 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 dark:bg-white dark:text-zinc-950"
+              >
+                <span>Nhận tư vấn</span>
+                <ArrowUpRight size={15} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+            </div>
+          </motion.aside>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
