@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { STAGGER, STAGGER_ITEM } from '../data';
-import { ArrowLeft, ArrowRight, Share2, Loader2, Code2, Bot, Cpu, LineChart, FileSpreadsheet, Sparkles, MessageSquareText } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Share2, Loader2, Code2, Bot, Cpu, LineChart, FileSpreadsheet, Sparkles, MessageSquareText, ChevronDown } from 'lucide-react';
 import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
@@ -15,6 +15,25 @@ const iconMap: Record<string, any> = {
   Sparkles,
   MessageSquareText
 };
+
+const SERVICE_FAQS = [
+  {
+    question: 'Chi phí triển khai được xác định như thế nào?',
+    answer: 'Chi phí phụ thuộc vào phạm vi tính năng, mức độ tích hợp và hiện trạng hệ thống. Sau buổi trao đổi yêu cầu, bạn sẽ nhận được đề xuất phạm vi và chi phí tương ứng trước khi quyết định.'
+  },
+  {
+    question: 'Thời gian thực hiện dự án khoảng bao lâu?',
+    answer: 'Thời gian được xác định sau khi làm rõ mục tiêu, dữ liệu đầu vào và các bên liên quan. Lộ trình thực hiện cùng các mốc bàn giao sẽ được thống nhất trong đề xuất dự án.'
+  },
+  {
+    question: 'Doanh nghiệp cần chuẩn bị gì trước buổi tư vấn?',
+    answer: 'Bạn nên chuẩn bị bài toán đang gặp phải, quy trình hiện tại, công cụ hoặc nguồn dữ liệu đang sử dụng và kết quả mong muốn. Những thông tin này giúp buổi trao đổi đi thẳng vào giải pháp.'
+  },
+  {
+    question: 'Sau khi bàn giao có hỗ trợ vận hành không?',
+    answer: 'Phạm vi hướng dẫn, bảo hành và hỗ trợ sau bàn giao sẽ được ghi rõ trong đề xuất hoặc thỏa thuận triển khai để phù hợp với nhu cầu vận hành thực tế.'
+  }
+];
 
 const FALLBACK_SERVICES: Record<string, any> = {
   "zalo-ai-data-sync": {
@@ -518,15 +537,55 @@ export default function ServiceDetail() {
           )}
         </motion.div>
 
+        <motion.section
+          id="tong-quan"
+          variants={STAGGER_ITEM}
+          className="mb-10 scroll-mt-32 rounded-2xl border border-zinc-200 bg-zinc-50 p-5 sm:p-7 md:mb-12"
+          aria-labelledby="service-summary-title"
+        >
+          <div className="flex flex-col gap-6 md:flex-row md:items-center">
+            <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white text-zinc-900 ring-1 ring-zinc-200">
+              <IconComponent className="h-7 w-7" strokeWidth={1.5} />
+            </div>
+            <div className="flex-1">
+              <p id="service-summary-title" className="mb-4 text-xs font-bold uppercase tracking-widest text-zinc-500">Tóm tắt dịch vụ</p>
+              <dl className="grid gap-4 sm:grid-cols-3 sm:divide-x sm:divide-zinc-200">
+                <div className="sm:pr-4">
+                  <dt className="text-xs text-zinc-500">Phạm vi</dt>
+                  <dd className="mt-1 text-sm font-semibold text-zinc-900">Giải pháp theo nhu cầu</dd>
+                </div>
+                <div className="sm:px-4">
+                  <dt className="text-xs text-zinc-500">Hình thức</dt>
+                  <dd className="mt-1 text-sm font-semibold text-zinc-900">Tư vấn & triển khai</dd>
+                </div>
+                <div className="sm:pl-4">
+                  <dt className="text-xs text-zinc-500">Bước đầu tiên</dt>
+                  <dd className="mt-1 text-sm font-semibold text-zinc-900">Trao đổi bài toán</dd>
+                </div>
+              </dl>
+            </div>
+          </div>
+        </motion.section>
+
         {service.cover_image && (
           <motion.div variants={STAGGER_ITEM} className="w-full mb-12 md:mb-24 rounded-sm overflow-hidden bg-zinc-50">
               <img src={service.cover_image} alt={service.title} width="1200" height="675" className="w-full h-auto max-h-[60vh] object-cover" />
           </motion.div>
         )}
 
+        <nav className="mb-10 rounded-xl border border-zinc-200 bg-white p-5 lg:hidden" aria-label="Mục lục trang dịch vụ">
+          <p className="mb-4 text-xs font-bold uppercase tracking-widest text-zinc-500">Trong trang này</p>
+          <div className="grid grid-cols-2 gap-2 text-sm font-medium text-zinc-700">
+            <a href="#tong-quan" className="rounded-lg bg-zinc-50 px-3 py-2.5 hover:text-amber-700">Tổng quan</a>
+            <a href="#chi-tiet" className="rounded-lg bg-zinc-50 px-3 py-2.5 hover:text-amber-700">Chi tiết</a>
+            <a href="#cau-hoi" className="rounded-lg bg-zinc-50 px-3 py-2.5 hover:text-amber-700">Câu hỏi</a>
+            <a href="#nhan-tu-van" className="rounded-lg bg-zinc-50 px-3 py-2.5 hover:text-amber-700">Nhận tư vấn</a>
+          </div>
+        </nav>
+
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16">
             <div className="lg:col-span-8 space-y-10 md:space-y-16">
-                <motion.div variants={STAGGER_ITEM} className="prose md:prose-lg prose-zinc max-w-none text-base md:text-lg text-zinc-700 leading-relaxed prose-headings:font-serif prose-headings:font-normal prose-a:text-amber-600">
+                <motion.div id="chi-tiet" variants={STAGGER_ITEM} className="prose md:prose-lg prose-zinc max-w-none scroll-mt-32 text-base md:text-lg text-zinc-700 leading-relaxed prose-headings:scroll-mt-32 prose-headings:font-serif prose-headings:font-normal prose-a:text-amber-600">
                   {service.content ? (
                     <div dangerouslySetInnerHTML={{ __html: service.content.replace(/\\n/g, '\n').replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
                   ) : (
@@ -536,6 +595,15 @@ export default function ServiceDetail() {
             </div>
             
             <div className="lg:col-span-4 space-y-8 lg:sticky lg:top-32 h-fit">
+                <nav className="hidden rounded-xl border border-zinc-200 bg-white p-6 lg:block" aria-label="Mục lục trang dịch vụ">
+                  <p className="mb-4 text-xs font-bold uppercase tracking-widest text-zinc-500">Trong trang này</p>
+                  <div className="space-y-1 text-sm font-medium text-zinc-700">
+                    <a href="#tong-quan" className="block rounded-lg px-3 py-2.5 transition-colors hover:bg-zinc-50 hover:text-amber-700">01 · Tổng quan</a>
+                    <a href="#chi-tiet" className="block rounded-lg px-3 py-2.5 transition-colors hover:bg-zinc-50 hover:text-amber-700">02 · Chi tiết giải pháp</a>
+                    <a href="#cau-hoi" className="block rounded-lg px-3 py-2.5 transition-colors hover:bg-zinc-50 hover:text-amber-700">03 · Câu hỏi thường gặp</a>
+                    <a href="#nhan-tu-van" className="block rounded-lg px-3 py-2.5 transition-colors hover:bg-zinc-50 hover:text-amber-700">04 · Nhận tư vấn</a>
+                  </div>
+                </nav>
                 <div className="bg-zinc-50 p-8 md:p-10 border border-zinc-200">
                   <h4 className="font-serif text-2xl md:text-3xl text-zinc-900 mb-4 leading-tight">
                     Bạn cần triển khai <br/><span className="italic text-zinc-500 font-light">giải pháp này?</span>
@@ -551,6 +619,36 @@ export default function ServiceDetail() {
                 </div>
             </div>
         </div>
+
+        <motion.section id="cau-hoi" variants={STAGGER_ITEM} className="mt-16 scroll-mt-32 border-t border-zinc-200 pt-12 md:mt-24 md:pt-16" aria-labelledby="faq-title">
+          <p className="mb-4 text-xs font-bold uppercase tracking-widest text-zinc-500">Thông tin cần biết</p>
+          <h2 id="faq-title" className="mb-8 max-w-2xl font-serif text-3xl leading-tight text-zinc-900 md:text-5xl">Câu hỏi thường gặp</h2>
+          <div className="divide-y divide-zinc-200 border-y border-zinc-200">
+            {SERVICE_FAQS.map((item) => (
+              <details key={item.question} className="group">
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left font-semibold text-zinc-900 marker:content-none md:py-6">
+                  <span>{item.question}</span>
+                  <ChevronDown size={18} className="shrink-0 text-zinc-500 transition-transform duration-300 group-open:rotate-180" />
+                </summary>
+                <p className="max-w-3xl pb-6 pr-10 text-sm leading-relaxed text-zinc-600 md:text-base">{item.answer}</p>
+              </details>
+            ))}
+          </div>
+        </motion.section>
+
+        <motion.section id="nhan-tu-van" variants={STAGGER_ITEM} className="mt-16 scroll-mt-32 overflow-hidden rounded-2xl bg-zinc-950 px-6 py-10 text-white md:mt-24 md:px-10 md:py-12" aria-labelledby="consultation-title">
+          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-center">
+            <div className="max-w-2xl">
+              <p className="mb-3 text-xs font-bold uppercase tracking-widest text-amber-400">Bước tiếp theo</p>
+              <h2 id="consultation-title" className="font-serif text-3xl leading-tight md:text-4xl">Trao đổi trực tiếp về bài toán của bạn</h2>
+              <p className="mt-4 text-sm leading-relaxed text-zinc-400 md:text-base">Chia sẻ mục tiêu và quy trình hiện tại để cùng xác định phạm vi giải pháp phù hợp.</p>
+            </div>
+            <Link to="/contact" className="group inline-flex min-h-12 shrink-0 items-center justify-center gap-2 rounded-full bg-amber-400 px-6 py-3 text-sm font-semibold text-zinc-950 transition-all hover:-translate-y-0.5 hover:bg-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950">
+              <span>Nhận tư vấn</span>
+              <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
+            </Link>
+          </div>
+        </motion.section>
 
         <motion.div variants={STAGGER_ITEM} className="mt-12 md:mt-16 pt-8 border-t border-zinc-200">
            <button 
