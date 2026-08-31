@@ -49,41 +49,69 @@ export default function Home() {
         keywords="Nguyễn Trọng Hữu, tư vấn công nghệ, AI Automation, Web Developer, Mobile App, chuyển đổi số"
       />
 
-      <section className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-6xl mx-auto">
-        <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-16 md:gap-8">
-          <div className="max-w-2xl md:w-2/3">
+      <section className="relative overflow-hidden border-b border-zinc-200/60 px-6 pb-20 pt-32 md:px-12 md:pb-28 md:pt-44">
+        <div className="pointer-events-none absolute -right-32 top-12 h-80 w-80 rounded-full bg-amber-100/60 blur-3xl" aria-hidden="true" />
+        <div className="relative mx-auto grid max-w-6xl items-center gap-14 md:grid-cols-12 md:gap-10">
+          <div className="md:col-span-8 lg:col-span-8">
             {/* LCP-critical: No animation — renders instantly */}
-            <p className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">
-              Mình là Nguyễn Trọng Hữu
-            </p>
-            <h1 className="text-3xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8">
-              Giải pháp công nghệ <br className="hidden md:block"/>
-              <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>
+            <div className="mb-6 inline-flex items-center gap-3 rounded-full border border-zinc-200 bg-white/80 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] text-zinc-600 shadow-sm backdrop-blur-sm">
+              <span className="h-2 w-2 rounded-full bg-amber-500" aria-hidden="true" />
+              Tư vấn · Thiết kế · Triển khai
+            </div>
+            <h1 className="mb-6 max-w-4xl font-serif text-4xl leading-[1.05] tracking-tight text-zinc-900 sm:text-5xl md:mb-8 md:text-6xl lg:text-7xl">
+              Biến ý tưởng thành <span className="italic text-zinc-500">Web, App & AI</span> vận hành hiệu quả.
             </h1>
             {/* All hero content renders instantly — no JS-based opacity:0 */}
-            <p className="text-sm md:text-base text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12 animate-fade-in" style={{ animationDelay: '0.1s' }}>
-              Người xây dựng giải pháp nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.
+            <p className="mb-9 max-w-2xl text-base leading-relaxed text-zinc-600 animate-fade-in md:text-lg" style={{ animationDelay: '0.1s' }}>
+              Mình là Nguyễn Trọng Hữu — tư vấn và xây dựng sản phẩm số giúp doanh nghiệp giảm thao tác thủ công, kết nối dữ liệu và nâng cao trải nghiệm khách hàng.
             </p>
-            <div className="animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              <Link 
-                to="/projects" 
-                className="inline-flex items-center space-x-2 border-b-2 border-zinc-900 pb-1 text-sm font-medium text-zinc-900 hover:text-zinc-600 hover:border-zinc-600 transition-colors"
+            <div className="flex flex-col gap-3 animate-fade-in sm:flex-row sm:items-center" style={{ animationDelay: '0.2s' }}>
+              <Link
+                to="/contact"
+                className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full bg-zinc-950 px-6 py-3 text-sm font-semibold text-white shadow-sm transition-all hover:-translate-y-0.5 hover:bg-amber-500 hover:text-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-2"
+              >
+                <span>Nhận tư vấn</span>
+                <ArrowUpRight size={17} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+              <Link
+                to="/projects"
+                className="group inline-flex min-h-12 items-center justify-center gap-2 rounded-full border border-zinc-300 bg-white/70 px-6 py-3 text-sm font-semibold text-zinc-900 transition-all hover:-translate-y-0.5 hover:border-zinc-950 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-900 focus-visible:ring-offset-2"
               >
                 <span>Xem dự án</span>
-                <ArrowUpRight size={16} />
+                <ArrowRight size={17} className="transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
+
+            <dl className="mt-10 grid max-w-2xl grid-cols-3 divide-x divide-zinc-200 border-y border-zinc-200 py-5 animate-fade-in" style={{ animationDelay: '0.3s' }}>
+              <div className="pr-3 sm:pr-6">
+                <dt className="text-xl font-semibold text-zinc-900 sm:text-2xl">5+</dt>
+                <dd className="mt-1 text-[10px] leading-snug text-zinc-500 sm:text-xs">Năm kinh nghiệm</dd>
+              </div>
+              <div className="px-3 sm:px-6">
+                <dt className="text-sm font-semibold text-zinc-900 sm:text-base">Web · App</dt>
+                <dd className="mt-1 text-[10px] leading-snug text-zinc-500 sm:text-xs">Phát triển sản phẩm</dd>
+              </div>
+              <div className="pl-3 sm:pl-6">
+                <dt className="text-sm font-semibold text-zinc-900 sm:text-base">AI Automation</dt>
+                <dd className="mt-1 text-[10px] leading-snug text-zinc-500 sm:text-xs">Tối ưu vận hành</dd>
+              </div>
+            </dl>
           </div>
           
-          <div className="w-full max-w-[280px] md:max-w-[320px] md:w-1/3">
-            <div className="aspect-[3/4] overflow-hidden bg-zinc-100 rounded-tr-[4rem] rounded-bl-[4rem]">
+          <div className="relative mx-auto w-full max-w-[300px] md:col-span-4 md:max-w-[340px]">
+            <div className="absolute -inset-3 rounded-tr-[5rem] rounded-bl-[5rem] border border-amber-300/60" aria-hidden="true" />
+            <div className="relative aspect-[3/4] overflow-hidden rounded-bl-[4.5rem] rounded-tr-[4.5rem] bg-zinc-100 shadow-xl shadow-zinc-900/10">
               <img 
                 src="https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png" 
-                alt="Nguyễn Trọng Hữu - Avatar" 
-                width="320" height="427"
+                alt="Nguyễn Trọng Hữu - Chuyên gia tư vấn và phát triển giải pháp Web, App, AI"
+                width="340" height="453"
                 fetchPriority="high"
                 className="w-full h-full object-cover" 
               />
+            </div>
+            <div className="absolute -bottom-5 left-1/2 flex -translate-x-1/2 items-center gap-2 whitespace-nowrap rounded-full border border-zinc-200 bg-white px-4 py-2.5 text-xs font-semibold text-zinc-900 shadow-lg">
+              <span className="h-2 w-2 rounded-full bg-emerald-500" aria-hidden="true" />
+              Web · App · AI Automation
             </div>
           </div>
         </div>
