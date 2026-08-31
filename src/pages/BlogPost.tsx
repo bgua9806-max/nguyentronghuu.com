@@ -5,6 +5,47 @@ import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
 
+const cleanPostHtml = (value = '') => value
+  .replace(/\\n/g, '\n')
+  .replace(/font-family:[^;"]*;?/gi, '')
+  .replace(/line-height:[^;"]*;?/gi, '')
+  .replace(/font-size:[^;"]*;?/gi, '')
+  .replace(/background-color:[^;"]*;?/gi, '');
+
+const headingSlug = (value: string) => value
+  .normalize('NFD')
+  .replace(/[\u0300-\u036f]/g, '')
+  .replace(/đ/g, 'd')
+  .replace(/Đ/g, 'D')
+  .toLowerCase()
+  .replace(/<[^>]+>/g, ' ')
+  .replace(/[^a-z0-9\s-]/g, '')
+  .trim()
+  .replace(/\s+/g, '-')
+  .replace(/-+/g, '-');
+
+const preparePostContent = (value = '') => {
+  const toc: { id: string; label: string; level: number }[] = [];
+  const usedIds = new Map<string, number>();
+  const html = cleanPostHtml(value).replace(/<h([23])([^>]*)>([\s\S]*?)<\/h\1>/gi, (_match, level, attributes, innerHtml) => {
+    const label = String(innerHtml).replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+    if (!label) return _match;
+    const baseId = headingSlug(label) || `noi-dung-${toc.length + 1}`;
+    const count = usedIds.get(baseId) || 0;
+    usedIds.set(baseId, count + 1);
+    const id = count === 0 ? baseId : `${baseId}-${count + 1}`;
+    const cleanAttributes = String(attributes).replace(/\s+id=(['"])[\s\S]*?\1/gi, '');
+    toc.push({ id, label, level: Number(level) });
+    return `<h${level}${cleanAttributes} id="${id}">${innerHtml}</h${level}>`;
+  });
+
+  return { html, toc };
+};
+
+const formatDate = (value?: string) => value
+  ? new Date(value).toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' })
+  : '';
+
 export default function BlogPost() {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -17,6 +58,7 @@ export default function BlogPost() {
   const [replyingTo, setReplyingTo] = useState<string | null>(null);
   const [shareText, setShareText] = useState("Chia sẻ");
   const [relatedPosts, setRelatedPosts] = useState<any[]>([]);
+  const [readingProgress, setReadingProgress] = useState(0);
   useEffect(() => {
     const fetchPost = async () => {
       try {
@@ -77,6 +119,28 @@ export default function BlogPost() {
 
     if (slug) fetchPost();
   }, [slug, navigate]);
+
+  useEffect(() => {
+    if (!post) return;
+
+    const updateProgress = () => {
+      const content = document.getElementById('article-content');
+      if (!content) return;
+      const start = content.offsetTop - window.innerHeight * 0.2;
+      const end = content.offsetTop + content.offsetHeight - window.innerHeight * 0.7;
+      const distance = Math.max(end - start, 1);
+      const progress = Math.min(100, Math.max(0, ((window.scrollY - start) / distance) * 100));
+      setReadingProgress(progress);
+    };
+
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+    return () => {
+      window.removeEventListener('scroll', updateProgress);
+      window.removeEventListener('resize', updateProgress);
+    };
+  }, [post]);
 
   if (isLoading) {
     return (
@@ -148,13 +212,20 @@ export default function BlogPost() {
     }
   };
 
+  const preparedContent = preparePostContent(post.content || '');
+  const readingMinutes = Math.max(1, Math.ceil(preparedContent.html.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length / 220));
+
   return (
+    <>
+    <div className="fixed inset-x-0 top-0 z-[60] h-1 bg-transparent" aria-hidden="true">
+      <div className="h-full bg-amber-500" style={{ width: `${readingProgress}%` }} />
+    </div>
     <motion.article 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 max-w-3xl mx-auto min-h-screen"
+      className="mx-auto min-h-screen max-w-5xl px-6 pb-24 pt-32 md:px-12 md:pb-32 md:pt-40"
     >
       <SEO 
         title={post.seo_title || post.title} 
@@ -181,30 +252,71 @@ export default function BlogPost() {
         <span>Trở lại Bài viết</span>
       </Link>
 
-      <header className="mb-12">
+      <header className="mx-auto mb-12 max-w-3xl">
         <div className="flex items-center space-x-4 mb-6 text-sm font-medium text-zinc-500">
           <span className="uppercase tracking-widest">{post.category}</span>
           <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
-          <span>{new Date(post.created_at).toLocaleDateString('vi-VN')}</span>
+          <span>{formatDate(post.created_at)}</span>
+          <span className="w-1 h-1 rounded-full bg-zinc-300"></span>
+          <span>{readingMinutes} phút đọc</span>
         </div>
         <h1 className="text-2xl sm:text-4xl lg:text-5xl font-serif text-zinc-900 leading-tight mb-8 md:mb-12">
           {post.title}
         </h1>
+        <div className="mb-10 flex items-center justify-between gap-5 border-y border-zinc-200 py-5">
+          <Link to="/about" className="group flex items-center gap-3">
+            <span className="flex h-11 w-11 items-center justify-center rounded-full bg-zinc-950 font-serif text-lg font-semibold text-white">H</span>
+            <span>
+              <span className="block text-xs text-zinc-500">Tác giả</span>
+              <span className="block text-sm font-semibold text-zinc-900 transition-colors group-hover:text-amber-700">Nguyễn Trọng Hữu</span>
+            </span>
+          </Link>
+          {post.updated_at && (
+            <span className="text-right text-xs leading-relaxed text-zinc-500">
+              Cập nhật<br/><strong className="font-semibold text-zinc-700">{formatDate(post.updated_at)}</strong>
+            </span>
+          )}
+        </div>
         <div className="w-full flex justify-center bg-zinc-50 rounded-sm mb-12">
           <img src={post.cover_image || 'https://via.placeholder.com/1200x600'} alt={post.title} width="1200" height="675" className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
         </div>
       </header>
 
-      <div className="text-zinc-700 leading-relaxed text-base md:text-xl font-serif mb-16 prose md:prose-lg prose-zinc max-w-none prose-img:rounded-sm prose-img:shadow-md prose-a:text-amber-600">
-        {post.content ? (
-          <div dangerouslySetInnerHTML={{ __html: post.content.replace(/\\n/g, '\n').replace(/font-family:[^;"]*;?/gi, '').replace(/line-height:[^;"]*;?/gi, '').replace(/font-size:[^;"]*;?/gi, '').replace(/background-color:[^;"]*;?/gi, '') }} />
-        ) : (
-          <p className="mb-8 italic text-zinc-500">Nội dung đang được cập nhật...</p>
+      {preparedContent.toc.length > 0 && (
+        <details className="mx-auto mb-10 max-w-3xl rounded-xl border border-zinc-200 bg-zinc-50 p-5 lg:hidden">
+          <summary className="cursor-pointer text-sm font-semibold text-zinc-900">Mục lục bài viết</summary>
+          <nav className="mt-4 space-y-1 border-t border-zinc-200 pt-4" aria-label="Mục lục bài viết trên mobile">
+            {preparedContent.toc.map((item) => (
+              <a key={item.id} href={`#${item.id}`} className={`block py-1.5 text-sm text-zinc-600 hover:text-amber-700 ${item.level === 3 ? 'pl-4' : ''}`}>{item.label}</a>
+            ))}
+          </nav>
+        </details>
+      )}
+
+      <div className={`mb-16 grid gap-12 ${preparedContent.toc.length > 0 ? 'lg:grid-cols-[220px_minmax(0,1fr)]' : ''}`}>
+        {preparedContent.toc.length > 0 && (
+          <aside className="hidden lg:block">
+            <nav className="sticky top-32 max-h-[calc(100vh-10rem)] overflow-y-auto border-l border-zinc-200 pl-5" aria-label="Mục lục bài viết">
+              <p className="mb-4 text-xs font-bold uppercase tracking-widest text-zinc-500">Mục lục</p>
+              <div className="space-y-1">
+                {preparedContent.toc.map((item) => (
+                  <a key={item.id} href={`#${item.id}`} className={`block py-1.5 text-xs leading-relaxed text-zinc-500 transition-colors hover:text-amber-700 ${item.level === 3 ? 'pl-3' : 'font-semibold text-zinc-700'}`}>{item.label}</a>
+                ))}
+              </div>
+            </nav>
+          </aside>
         )}
+        <div id="article-content" className="prose prose-zinc max-w-none scroll-mt-32 font-serif text-base leading-relaxed text-zinc-700 prose-headings:scroll-mt-32 prose-img:rounded-sm prose-img:shadow-md prose-a:text-amber-600 md:prose-lg md:text-xl">
+          {post.content ? (
+            <div dangerouslySetInnerHTML={{ __html: preparedContent.html }} />
+          ) : (
+            <p className="mb-8 italic text-zinc-500">Nội dung đang được cập nhật...</p>
+          )}
+        </div>
       </div>
 
       {/* Interactions Section */}
-      <section className="border-t border-zinc-200 pt-10">
+      <section className="ml-auto max-w-3xl border-t border-zinc-200 pt-10">
         <div className="flex items-center justify-between mb-12">
           <div className="flex space-x-4">
             <button 
@@ -367,5 +479,6 @@ export default function BlogPost() {
         </section>
       )}
     </motion.article>
+    </>
   );
 }
