@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Plus, Search, Edit2, Trash2, Filter, ExternalLink, AlertCircle, Loader2, Cpu } from 'lucide-react';
+import { Plus, Search, Edit2, Trash2, ExternalLink, AlertCircle, Loader2, Cpu } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
 
@@ -8,6 +8,18 @@ export default function ServiceManager() {
   const [serviceToDelete, setServiceToDelete] = useState<string | null>(null);
   const [services, setServices] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [query, setQuery] = useState('');
+  const [statusFilter, setStatusFilter] = useState('all');
+  const [page, setPage] = useState(1);
+  const pageSize = 8;
+
+  const filteredServices = services.filter((service) => {
+    const matchesQuery = `${service.title || ''} ${service.description || ''}`.toLowerCase().includes(query.trim().toLowerCase());
+    return matchesQuery && (statusFilter === 'all' || service.status === statusFilter);
+  });
+  const totalPages = Math.max(1, Math.ceil(filteredServices.length / pageSize));
+  const currentPage = Math.min(page, totalPages);
+  const paginatedServices = filteredServices.slice((currentPage - 1) * pageSize, currentPage * pageSize);
 
   useEffect(() => {
     fetchServices();
@@ -71,10 +83,18 @@ export default function ServiceManager() {
             <input 
               type="text" 
               placeholder="Tìm kiếm dịch vụ..." 
+              value={query}
+              onChange={(event) => { setQuery(event.target.value); setPage(1); }}
               className="w-full pl-11 pr-4 py-2.5 bg-zinc-50/50 border border-zinc-200 rounded-sm focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 text-sm transition-all"
             />
             <Search size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-400" />
           </div>
+
+          <select value={statusFilter} onChange={(event) => { setStatusFilter(event.target.value); setPage(1); }} aria-label="Lọc dịch vụ theo trạng thái" className="min-h-11 rounded-sm border border-zinc-200 bg-white px-4 text-sm font-semibold text-zinc-600 outline-none focus:border-amber-500">
+            <option value="all">Tất cả trạng thái</option>
+            <option value="published">Đã xuất bản</option>
+            <option value="draft">Bản nháp</option>
+          </select>
           
           <Link 
             to="/admin/services/new"
@@ -92,24 +112,25 @@ export default function ServiceManager() {
             <Loader2 size={32} className="text-amber-500 animate-spin mb-4" />
             <p className="text-sm text-zinc-500">Đang tải dữ liệu...</p>
           </div>
-        ) : services.length === 0 ? (
+        ) : filteredServices.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-20 px-4 text-center">
             <div className="w-20 h-20 bg-zinc-50 rounded-full flex items-center justify-center mb-6 border border-zinc-100">
               <Cpu size={32} className="text-zinc-300" />
             </div>
-            <h3 className="font-serif text-2xl text-zinc-900 mb-2">Chưa có dịch vụ nào</h3>
+            <h3 className="font-serif text-2xl text-zinc-900 mb-2">{services.length === 0 ? 'Chưa có dịch vụ nào' : 'Không tìm thấy dịch vụ'}</h3>
             <p className="text-zinc-500 max-w-sm mb-8 text-sm leading-relaxed">
-              Thêm các bài viết mô tả dịch vụ để khách hàng hiểu rõ hơn về giải pháp của bạn.
+              {services.length === 0 ? 'Thêm các bài viết mô tả dịch vụ để khách hàng hiểu rõ hơn về giải pháp của bạn.' : 'Thử thay đổi từ khóa hoặc bộ lọc trạng thái.'}
             </p>
-            <Link 
+            {services.length === 0 && <Link
               to="/admin/services/new"
               className="flex items-center justify-center gap-2 px-6 py-3 bg-zinc-950 text-white rounded-sm hover:bg-amber-500 hover:text-zinc-950 transition-all text-sm font-semibold shadow-xl shadow-black/10 hover:shadow-amber-500/20 active:scale-95"
             >
               <Plus size={18} />
               Thêm dịch vụ mới
-            </Link>
+            </Link>}
           </div>
         ) : (
+          <>
           <div className="overflow-x-auto">
             <table className="w-full text-left whitespace-nowrap">
               <thead>
@@ -120,7 +141,7 @@ export default function ServiceManager() {
                 </tr>
               </thead>
               <tbody className="divide-y divide-zinc-50">
-                {services.map((service) => (
+                {paginatedServices.map((service) => (
                   <tr key={service.id} className="hover:bg-zinc-50/50 transition-colors group">
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-5">
@@ -170,6 +191,14 @@ export default function ServiceManager() {
               </tbody>
             </table>
           </div>
+          <div className="flex items-center justify-between border-t border-zinc-100 bg-white px-6 py-4">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-zinc-400">{filteredServices.length} dịch vụ · Trang {currentPage}/{totalPages}</span>
+            <div className="flex gap-2">
+              <button onClick={() => setPage(value => Math.max(1, value - 1))} disabled={currentPage === 1} className="rounded-sm border border-zinc-200 bg-white px-4 py-2 text-xs font-bold disabled:cursor-not-allowed disabled:opacity-40">Trước</button>
+              <button onClick={() => setPage(value => Math.min(totalPages, value + 1))} disabled={currentPage === totalPages} className="rounded-sm border border-zinc-200 bg-white px-4 py-2 text-xs font-bold disabled:cursor-not-allowed disabled:opacity-40">Sau</button>
+            </div>
+          </div>
+          </>
         )}
       </div>
 

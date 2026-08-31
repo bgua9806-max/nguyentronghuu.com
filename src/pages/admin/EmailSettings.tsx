@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
-import { Mail, Save, Code, Layout, Loader2, Send } from 'lucide-react';
+import { Mail, Save, Code, Layout, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 
 export default function EmailSettings() {

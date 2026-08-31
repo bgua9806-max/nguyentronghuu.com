@@ -121,7 +121,7 @@ const getModuleIcon = (module: string) => {
 };
 
 export default function Settings() {
-  const [activeTab, setActiveTab] = useState<'profile' | 'permissions' | 'mcp' | 'security'>('mcp');
+  const [activeTab, setActiveTab] = useState<'profile' | 'permissions' | 'mcp' | 'security'>('profile');
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
 
@@ -884,6 +884,9 @@ export default function Settings() {
           {/* TAB: PERMISSIONS & ROLE-BASED ACCESS CONTROL (RBAC) */}
           {activeTab === 'permissions' && (
             <div className="space-y-8 animate-in fade-in duration-300">
+              <div className="rounded-sm border border-amber-200 bg-amber-50 p-4 text-sm leading-relaxed text-amber-900">
+                <strong>Chế độ một quản trị viên:</strong> các vai trò bên dưới dùng để chuẩn bị cấu trúc phân quyền. Việc tạo tài khoản đăng nhập thật cần được thực hiện qua Supabase Auth hoặc API quản trị bảo mật; CMS không hiển thị thao tác giả lập như một tài khoản đã hoạt động.
+              </div>
               {/* Quick Stat Cards */}
               <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div className="p-5 rounded-sm bg-white border border-zinc-200/80 shadow-[0_2px_15px_rgba(0,0,0,0.03)]">
@@ -924,14 +927,15 @@ export default function Settings() {
               <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-zinc-100 pb-6">
                   <div>
-                    <h3 className="font-serif text-xl text-zinc-950">Danh sách tài khoản Quản trị viên</h3>
-                    <p className="mt-1 text-sm text-zinc-500">Quản lý các tài khoản được phép truy cập và phân vai trò đăng nhập vào hệ thống.</p>
+                    <h3 className="font-serif text-xl text-zinc-950">Hồ sơ phân quyền dự kiến</h3>
+                    <p className="mt-1 text-sm text-zinc-500">Thiết lập vai trò trước khi kết nối quy trình mời thành viên an toàn ở phía máy chủ.</p>
                   </div>
                   <button 
-                    onClick={() => setShowAddUserModal(true)}
-                    className="flex items-center gap-2 rounded-sm bg-zinc-950 px-4 py-2.5 text-xs font-semibold text-white shadow-md transition-all hover:bg-zinc-800 active:scale-95"
+                    disabled
+                    title="Cần API quản trị Supabase để tạo tài khoản đăng nhập an toàn"
+                    className="flex cursor-not-allowed items-center gap-2 rounded-sm bg-zinc-200 px-4 py-2.5 text-xs font-semibold text-zinc-500"
                   >
-                    <UserPlus size={15} /> Thêm thành viên
+                    <UserPlus size={15} /> Cần kết nối Auth API
                   </button>
                 </div>
 
@@ -1164,10 +1168,11 @@ export default function Settings() {
                     </p>
                   </div>
                   <button 
-                    onClick={() => toast.success('Tính năng 2FA sẽ được kích hoạt cùng ứng dụng xác thực.')}
-                    className="shrink-0 rounded-sm bg-white px-5 py-2.5 text-sm font-semibold text-zinc-950 transition-colors hover:bg-zinc-200 active:scale-95"
+                    disabled
+                    title="Cần bật Supabase MFA trước khi sử dụng"
+                    className="shrink-0 cursor-not-allowed rounded-sm bg-zinc-800 px-5 py-2.5 text-sm font-semibold text-zinc-400"
                   >
-                    Kích hoạt 2FA
+                    Chưa cấu hình MFA
                   </button>
                 </div>
               </div>
@@ -1180,14 +1185,14 @@ export default function Settings() {
                       <p className="text-sm font-semibold text-zinc-900">Tự động ngắt phiên đăng nhập khi không hoạt động</p>
                       <p className="text-xs text-zinc-500">Tự động đăng xuất sau 30 phút không có thao tác để phòng ngừa truy cập trái phép.</p>
                     </div>
-                    <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-sm">Đang bật</span>
+                    <span className="text-xs font-semibold text-amber-700 bg-amber-50 border border-amber-200/60 px-2.5 py-1 rounded-sm">Cần cấu hình</span>
                   </div>
                   <div className="flex items-center justify-between py-3 border-b border-zinc-100">
                     <div>
                       <p className="text-sm font-semibold text-zinc-900">Giới hạn số lần thử đăng nhập sai (Brute-force protection)</p>
                       <p className="text-xs text-zinc-500">Tạm khóa IP 15 phút nếu nhập sai mật khẩu quá 5 lần liên tiếp.</p>
                     </div>
-                    <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200/60 px-2.5 py-1 rounded-sm">Đang bật</span>
+                    <span className="text-xs font-semibold text-zinc-600 bg-zinc-100 border border-zinc-200 px-2.5 py-1 rounded-sm">Theo Supabase Auth</span>
                   </div>
                 </div>
               </div>

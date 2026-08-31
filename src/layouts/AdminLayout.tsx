@@ -249,6 +249,15 @@ export default function AdminLayout() {
   ];
 
   const currentPage = navItems.find(item => location.pathname === item.path || (item.path !== '/admin' && location.pathname.startsWith(item.path)))?.name || 'Quản trị';
+  const pageDescriptions: Record<string, string> = {
+    Dashboard: 'Theo dõi nội dung, khách hàng và hiệu quả website.',
+    'Bài viết': 'Biên tập và xuất bản nội dung chuẩn SEO.',
+    'Dự án': 'Quản lý hồ sơ năng lực và case study.',
+    'Dịch vụ': 'Cập nhật các giải pháp đang cung cấp.',
+    'Khách hàng': 'Tiếp nhận và xử lý yêu cầu tư vấn.',
+    'Cấu hình Email': 'Thiết kế nội dung email tự động.',
+    'Cài đặt': 'Hồ sơ, tích hợp và bảo mật hệ thống.',
+  };
 
   return (
     <div className="min-h-screen bg-[#f7f4ef] text-zinc-900 lg:flex admin-crm-shell">
@@ -303,14 +312,27 @@ export default function AdminLayout() {
       </aside>
 
       <main className="min-w-0 flex-1 lg:pl-[220px]">
-        <header className="sticky top-0 z-50 border-b border-white/70 bg-[#f7f4ef]/80 backdrop-blur-2xl">
+        <header className="sticky top-0 z-50 border-b border-white/70 bg-[#f4f1eb]/85 backdrop-blur-2xl">
           <div className="flex min-h-[76px] items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
             <div className="min-w-0">
-              <h1 className="truncate font-serif text-2xl text-zinc-950 sm:text-3xl">{currentPage}</h1>
+              <div className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.18em] text-amber-600">
+                <span className="h-1.5 w-1.5 rounded-full bg-amber-500" /> CMS Workspace
+              </div>
+              <h1 className="mt-1 truncate font-serif text-2xl text-zinc-950 sm:text-3xl">{currentPage}</h1>
+              <p className="mt-0.5 hidden text-xs text-zinc-500 sm:block">{pageDescriptions[currentPage]}</p>
             </div>
 
             {/* NOTIFICATION BELL & DROPDOWN */}
-            <div className="relative" ref={notifRef}>
+            <div className="relative flex items-center gap-3" ref={notifRef}>
+              <div className="hidden items-center gap-3 border-r border-zinc-200 pr-3 md:flex">
+                <div className="text-right">
+                  <p className="max-w-48 truncate text-xs font-semibold text-zinc-900">{session.user?.email || 'Quản trị viên'}</p>
+                  <p className="mt-0.5 text-[10px] uppercase tracking-wider text-zinc-400">Đang hoạt động</p>
+                </div>
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-zinc-950 font-serif text-sm text-white ring-4 ring-white">
+                  {(session.user?.email || 'A').charAt(0).toUpperCase()}
+                </div>
+              </div>
               <button 
                 onClick={() => setShowNotifications(!showNotifications)}
                 className={`relative flex h-11 w-11 items-center justify-center rounded-full border border-zinc-200 shadow-sm transition-all hover:shadow-md active:scale-95 ${showNotifications ? 'bg-zinc-950 text-white' : 'bg-white text-zinc-700'}`} 
@@ -446,13 +468,13 @@ export default function AdminLayout() {
         </div>
       </main>
 
-      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-zinc-200/80 bg-white/90 px-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-20px_60px_rgba(24,24,27,0.12)] backdrop-blur-2xl lg:hidden">
-        <div className="grid grid-cols-4 gap-1">
+      <nav className="fixed inset-x-0 bottom-0 z-50 border-t border-zinc-200/80 bg-white/90 px-2 pb-[calc(0.5rem+env(safe-area-inset-bottom))] pt-2 shadow-[0_-20px_60px_rgba(24,24,27,0.12)] backdrop-blur-2xl lg:hidden">
+        <div className="admin-scrollbar-none flex gap-1 overflow-x-auto">
           {navItems.map((item) => {
             const Icon = item.icon;
             const isActive = location.pathname === item.path || (item.path !== '/admin' && location.pathname.startsWith(item.path));
             return (
-              <Link key={item.path} to={item.path} className={`flex min-h-14 flex-col items-center justify-center rounded-sm text-[11px] font-bold transition-all active:scale-95 ${isActive ? 'bg-zinc-950 text-white shadow-lg shadow-zinc-300' : 'text-zinc-500'}`}>
+              <Link key={item.path} to={item.path} className={`flex min-h-14 min-w-[76px] flex-col items-center justify-center rounded-sm px-2 text-[10px] font-bold transition-all active:scale-95 ${isActive ? 'bg-zinc-950 text-white shadow-lg shadow-zinc-300' : 'text-zinc-500'}`}>
                 <Icon size={19} className="mb-1" />
                 {item.name}
               </Link>

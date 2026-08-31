@@ -183,3 +183,48 @@ html.lenis, html.lenis body {
   pointer-events: none;
 }
 
+/* Admin design system: extends the public site's warm editorial language. */
+.admin-crm-shell {
+  --admin-canvas: #f4f1eb;
+  --admin-surface: rgba(255, 255, 255, 0.92);
+  --admin-border: rgba(39, 39, 42, 0.1);
+  background:
+    radial-gradient(circle at 86% 0%, rgba(245, 158, 11, 0.08), transparent 28rem),
+    var(--admin-canvas);
+}
+
+.admin-crm-shell .rounded-sm {
+  border-radius: 0.875rem;
+}
+
+.admin-crm-shell input,
+.admin-crm-shell select,
+.admin-crm-shell textarea,
+.admin-crm-shell button,
+.admin-crm-shell a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+.admin-crm-shell input,
+.admin-crm-shell select,
+.admin-crm-shell textarea {
+  accent-color: #f59e0b;
+}
+
+.admin-crm-shell table tbody tr:last-child {
+  border-bottom: 0;
+}
+
+.admin-scrollbar-none {
+  scrollbar-width: none;
+}
+
+.admin-scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .admin-crm-shell .group .opacity-0 {
+    opacity: 1;
+  }
+}
