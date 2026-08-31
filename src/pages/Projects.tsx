@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
 import { optimizeImageUrl } from '../lib/imageUtils';
-import { Loader2 } from 'lucide-react';
+import { ArrowUpRight, Loader2 } from 'lucide-react';
 
 export default function Projects() {
   const [projects, setProjects] = useState<any[]>([]);
@@ -67,7 +67,7 @@ export default function Projects() {
         </p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-2 gap-x-8 lg:gap-x-12 gap-y-16 md:gap-y-24">
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:gap-10">
         {isLoading ? (
           <div className="col-span-1 md:col-span-2 flex justify-center py-24">
             <Loader2 className="animate-spin text-amber-500" size={40} />
@@ -85,8 +85,8 @@ export default function Projects() {
               whileInView: { opacity: 1, y: 0, transition: { duration: 0.8, delay: (idx % 2) * 0.2 } }
             }}
           >
-            <Link to={`/projects/${project.slug}`} className="group block">
-              <div className="relative overflow-hidden mb-6 bg-zinc-100 aspect-video rounded-sm">
+            <Link to={`/projects/${project.slug}`} className="group flex h-full flex-col overflow-hidden rounded-2xl border border-zinc-200 bg-white transition-all duration-500 hover:-translate-y-1 hover:border-amber-300 hover:shadow-xl hover:shadow-zinc-900/5">
+              <div className="relative aspect-video overflow-hidden bg-zinc-100">
                 <img 
                   src={optimizeImageUrl(project.cover_image || '', 600)} 
                   alt={project.title} 
@@ -94,13 +94,27 @@ export default function Projects() {
                   loading="lazy"
                   className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                 />
-              </div>
-              <div className="flex justify-between items-start">
-                <div>
-                  <h3 className="text-lg md:text-xl font-medium text-zinc-900 mb-2 group-hover:text-zinc-600 transition-colors">{project.title}</h3>
-                  <p className="text-sm text-zinc-500">{project.category}</p>
+                <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-zinc-950/60 to-transparent" aria-hidden="true" />
+                <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3">
+                  <span className="rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-zinc-800 backdrop-blur-sm">
+                    {project.category}
+                  </span>
+                  <span className="text-xs font-semibold text-white">{project.year}</span>
                 </div>
-                <span className="text-xs font-medium text-zinc-500">{project.year}</span>
+              </div>
+              <div className="flex flex-1 flex-col p-5 sm:p-6">
+                <div className="flex items-start justify-between gap-5">
+                  <h3 className="font-serif text-xl leading-snug text-zinc-900 transition-colors group-hover:text-amber-700 md:text-2xl">{project.title}</h3>
+                  <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-zinc-300 text-zinc-700 transition-all duration-300 group-hover:border-zinc-950 group-hover:bg-zinc-950 group-hover:text-white">
+                    <ArrowUpRight size={17} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </span>
+                </div>
+                {project.seo_description && (
+                  <p className="mt-4 line-clamp-2 text-sm leading-relaxed text-zinc-500">{project.seo_description}</p>
+                )}
+                <div className="mt-auto pt-6 text-xs font-semibold uppercase tracking-widest text-zinc-500 transition-colors group-hover:text-zinc-900">
+                  Xem case study
+                </div>
               </div>
             </Link>
           </motion.div>

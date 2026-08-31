@@ -190,7 +190,7 @@ export default function Services() {
       {/* Services List Section */}
       <section className="py-16 md:py-24 px-5 md:px-12 bg-white border-y border-zinc-200">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-12 lg:gap-20">
+          <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-8">
             {isLoading ? (
               <div className="col-span-1 md:col-span-2 flex justify-center py-12">
                 <Loader2 className="animate-spin text-amber-500" size={32} />
@@ -206,32 +206,47 @@ export default function Services() {
                 viewport={{ once: true, margin: "-100px" }}
                 className="h-full"
               >
-                <Link to={`/services/${service.slug}`} className="group flex flex-col h-full block">
+                <Link
+                  to={`/services/${service.slug}`}
+                  className="group flex h-full flex-col rounded-2xl border border-zinc-200 bg-zinc-50/60 p-5 transition-all duration-500 hover:-translate-y-1 hover:border-amber-300 hover:bg-white hover:shadow-xl hover:shadow-zinc-900/5 sm:p-7"
+                >
                 {service.cover_image ? (
-                  <div className="w-full aspect-[16/10] rounded-sm bg-zinc-100 mb-8 overflow-hidden group-hover:shadow-xl transition-all relative">
-                    <img src={optimizeImageUrl(service.cover_image, 600)} alt={service.title} className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" />
+                  <div className="relative mb-7 aspect-[16/10] w-full overflow-hidden rounded-xl bg-zinc-100">
+                    <img src={optimizeImageUrl(service.cover_image, 600)} alt={service.title} className="h-full w-full object-cover transition-all duration-700 group-hover:scale-105 md:grayscale md:group-hover:grayscale-0" />
+                    <span className="absolute left-4 top-4 rounded-full bg-white/90 px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-zinc-700 shadow-sm backdrop-blur-sm">
+                      Giải pháp {String(idx + 1).padStart(2, '0')}
+                    </span>
                   </div>
                 ) : (
-                  <div className="mb-6 md:mb-8 w-14 h-14 md:w-20 md:h-20 rounded-full bg-zinc-100 flex items-center justify-center group-hover:bg-amber-100 group-hover:scale-110 transition-all duration-500 ease-out shrink-0">
-                    <IconComponent className="w-7 h-7 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />
+                  <div className="mb-7 flex items-start justify-between">
+                    <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-white ring-1 ring-zinc-200 transition-all duration-500 ease-out group-hover:scale-105 group-hover:bg-amber-100 group-hover:ring-amber-200 md:h-16 md:w-16">
+                      <IconComponent className="h-7 w-7 text-zinc-900 md:h-8 md:w-8" strokeWidth={1.5} />
+                    </div>
+                    <span className="font-mono text-xs text-zinc-400">{String(idx + 1).padStart(2, '0')}</span>
                   </div>
                 )}
-                <h3 className="text-2xl md:text-3xl font-serif text-zinc-900 mb-3 md:mb-4 group-hover:text-amber-600 transition-colors">
+                <h3 className="mb-3 font-serif text-2xl leading-tight text-zinc-900 transition-colors group-hover:text-amber-700 md:text-3xl">
                   {service.title}
                 </h3>
-                <p className="text-sm md:text-base text-zinc-600 leading-relaxed mb-8 flex-1">
+                <p className="mb-7 text-sm leading-relaxed text-zinc-600 md:text-base">
                   {service.description}
                 </p>
                 {service.features && service.features.length > 0 && (
-                  <ul className="space-y-4 mb-8">
-                    {service.features.map((feature: string, fIdx: number) => (
-                      <li key={fIdx} className="flex items-start text-sm md:text-base text-zinc-700">
-                        <CheckCircle2 className="w-5 h-5 text-zinc-300 mr-3 mt-0.5 flex-shrink-0 group-hover:text-amber-500 transition-colors duration-500" />
+                  <ul className="mb-8 space-y-3 border-t border-zinc-200 pt-6">
+                    {service.features.slice(0, 3).map((feature: string, fIdx: number) => (
+                      <li key={fIdx} className="flex items-start text-sm text-zinc-700">
+                        <CheckCircle2 className="mr-3 mt-0.5 h-4 w-4 flex-shrink-0 text-amber-500" />
                         <span>{feature}</span>
                       </li>
                     ))}
                   </ul>
                 )}
+                <div className="mt-auto flex items-center justify-between border-t border-zinc-200 pt-5 text-sm font-semibold text-zinc-900">
+                  <span>Xem giải pháp</span>
+                  <span className="flex h-9 w-9 items-center justify-center rounded-full border border-zinc-300 transition-all duration-300 group-hover:border-zinc-950 group-hover:bg-zinc-950 group-hover:text-white">
+                    <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
+                  </span>
+                </div>
                 </Link>
               </motion.div>
             )})}
