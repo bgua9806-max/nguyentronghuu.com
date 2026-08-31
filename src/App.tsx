@@ -25,6 +25,7 @@ const NotFound = React.lazy(() => import('./pages/NotFound'));
 
 // Lazy-loaded Admin Pages
 const Login = React.lazy(() => import('./pages/admin/Login'));
+const ResetPassword = React.lazy(() => import('./pages/admin/ResetPassword'));
 const AdminLayout = React.lazy(() => import('./layouts/AdminLayout'));
 const Dashboard = React.lazy(() => import('./pages/admin/Dashboard'));
 const BlogManager = React.lazy(() => import('./pages/admin/BlogManager'));
@@ -134,6 +135,7 @@ function Layout() {
       <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-6 h-6 border-2 border-zinc-300 border-t-zinc-900 rounded-full animate-spin" /></div>}>
         <Routes location={location}>
           <Route path="/admin/login" element={<Login />} />
+          <Route path="/admin/reset-password" element={<ResetPassword />} />
           <Route path="/admin" element={<AdminLayout />}>
             <Route index element={<Dashboard />} />
             <Route path="posts" element={<BlogManager />} />

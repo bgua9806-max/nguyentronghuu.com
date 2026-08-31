@@ -132,6 +132,10 @@ export default function Settings() {
   const [bio, setBio] = useState('Chuyên gia xây dựng hệ thống tự động hóa và AI Agent đa nền tảng, giúp doanh nghiệp tối ưu nguồn lực và mở rộng quy mô kinh doanh không giới hạn.');
   const [avatar, setAvatar] = useState('https://cdn.phototourl.com/free/2026-05-06-91632c77-a912-4327-9ae1-09b5b48abb43.png');
   const [isUploading, setIsUploading] = useState(false);
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [showNewPassword, setShowNewPassword] = useState(false);
+  const [isChangingPassword, setIsChangingPassword] = useState(false);
 
   // RBAC states
   const [adminUsers, setAdminUsers] = useState<AdminUser[]>(DEFAULT_ADMIN_USERS);
@@ -395,6 +399,30 @@ export default function Settings() {
       ...rolePermissions,
       [role]: updatedPerms
     });
+  };
+
+  const handleChangePassword = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (newPassword.length < 8) {
+      toast.error('Mật khẩu mới cần có ít nhất 8 ký tự.');
+      return;
+    }
+    if (newPassword !== confirmPassword) {
+      toast.error('Hai mật khẩu chưa trùng khớp.');
+      return;
+    }
+    try {
+      setIsChangingPassword(true);
+      const { error } = await supabase.auth.updateUser({ password: newPassword });
+      if (error) throw error;
+      setNewPassword('');
+      setConfirmPassword('');
+      toast.success('Đã thay đổi mật khẩu đăng nhập.');
+    } catch (error: any) {
+      toast.error('Không thể đổi mật khẩu: ' + (error.message || 'Lỗi xác thực'));
+    } finally {
+      setIsChangingPassword(false);
+    }
   };
 
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -1155,6 +1183,26 @@ export default function Settings() {
           {/* TAB: SECURITY & 2FA */}
           {activeTab === 'security' && (
             <div className="space-y-6 animate-in fade-in duration-300">
+              <form onSubmit={handleChangePassword} className="rounded-sm border border-zinc-200/80 bg-white p-6 shadow-[0_2px_20px_rgba(0,0,0,0.04)] sm:p-8">
+                <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+                  <div className="max-w-md">
+                    <h3 className="font-serif text-xl text-zinc-950">Đổi mật khẩu đăng nhập</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-zinc-500">Mật khẩu mới cần có tối thiểu 8 ký tự. Sau khi đổi, hãy dùng mật khẩu mới cho lần đăng nhập tiếp theo.</p>
+                  </div>
+                  <div className="grid w-full gap-3 sm:grid-cols-2 lg:max-w-2xl">
+                    <div className="relative">
+                      <label htmlFor="settings-new-password" className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-zinc-500">Mật khẩu mới</label>
+                      <input id="settings-new-password" type={showNewPassword ? 'text' : 'password'} autoComplete="new-password" value={newPassword} onChange={event => setNewPassword(event.target.value)} className="min-h-11 w-full rounded-sm border border-zinc-200 bg-zinc-50/60 px-4 pr-11 text-sm outline-none focus:border-amber-500 focus:bg-white" required />
+                      <button type="button" onClick={() => setShowNewPassword(value => !value)} className="absolute bottom-1.5 right-2 flex h-8 w-8 items-center justify-center text-zinc-400 hover:text-zinc-900" aria-label={showNewPassword ? 'Ẩn mật khẩu' : 'Hiện mật khẩu'}>{showNewPassword ? <EyeOff size={16} /> : <Eye size={16} />}</button>
+                    </div>
+                    <div>
+                      <label htmlFor="settings-confirm-password" className="mb-2 block text-[10px] font-bold uppercase tracking-wider text-zinc-500">Nhập lại mật khẩu</label>
+                      <input id="settings-confirm-password" type={showNewPassword ? 'text' : 'password'} autoComplete="new-password" value={confirmPassword} onChange={event => setConfirmPassword(event.target.value)} className="min-h-11 w-full rounded-sm border border-zinc-200 bg-zinc-50/60 px-4 text-sm outline-none focus:border-amber-500 focus:bg-white" required />
+                    </div>
+                    <button disabled={isChangingPassword} className="min-h-11 rounded-full bg-zinc-950 px-5 text-sm font-semibold text-white transition hover:bg-amber-500 hover:text-zinc-950 disabled:opacity-50 sm:col-span-2">{isChangingPassword ? 'Đang cập nhật...' : 'Cập nhật mật khẩu'}</button>
+                  </div>
+                </div>
+              </form>
               <div className="relative overflow-hidden rounded-sm bg-zinc-950 p-6 sm:p-8 text-white shadow-2xl shadow-zinc-900/20">
                 <div className="absolute -right-10 -top-10 h-40 w-40 rounded-full bg-amber-500/10 blur-3xl pointer-events-none" />
                 <div className="relative z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">

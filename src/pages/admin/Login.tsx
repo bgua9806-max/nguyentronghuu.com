@@ -10,6 +10,8 @@ export default function Login() {
   const [password, setPassword] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [isResetMode, setIsResetMode] = useState(false);
+  const [resetSent, setResetSent] = useState(false);
   const navigate = useNavigate();
 
   // Redirect to admin if session already exists
@@ -49,6 +51,27 @@ export default function Login() {
     }
   };
 
+  const handleResetPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email.trim()) {
+      toast.error('Vui lòng nhập email tài khoản quản trị.');
+      return;
+    }
+    try {
+      setIsSubmitting(true);
+      const { error } = await supabase.auth.resetPasswordForEmail(email.trim(), {
+        redirectTo: `${window.location.origin}/admin/reset-password`,
+      });
+      if (error) throw error;
+      setResetSent(true);
+      toast.success('Đã gửi hướng dẫn đặt lại mật khẩu.');
+    } catch (error: any) {
+      toast.error(error.message || 'Không thể gửi email khôi phục mật khẩu.');
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-zinc-950 flex flex-col justify-center items-center px-6 relative overflow-hidden">
       {/* Background blobs for premium glassmorphism vibe */}
@@ -73,8 +96,13 @@ export default function Login() {
             </p>
           </div>
 
-          <form onSubmit={handleLogin} className="w-full space-y-6">
-            <div className="space-y-2">
+          <div className="mb-6 w-full text-center">
+            <h1 className="font-serif text-2xl text-white">{isResetMode ? 'Khôi phục mật khẩu' : 'Đăng nhập quản trị'}</h1>
+            <p className="mt-2 text-sm leading-relaxed text-zinc-500">{isResetMode ? 'Nhập email để nhận liên kết đặt lại mật khẩu.' : 'Sử dụng tài khoản quản trị đã được cấp.'}</p>
+          </div>
+
+          <form onSubmit={isResetMode ? handleResetPassword : handleLogin} className="w-full space-y-6">
+            {!isResetMode && <div className="space-y-2">
               <label htmlFor="admin-email" className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest">Email đăng nhập</label>
               <div className="relative group">
                 <input 
@@ -89,7 +117,7 @@ export default function Login() {
                 />
                 <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-600 group-focus-within:text-white transition-colors" />
               </div>
-            </div>
+            </div>}
 
             <div className="space-y-2">
               <div className="flex justify-between items-center">
@@ -123,10 +151,13 @@ export default function Login() {
                 </>
               ) : (
                 <>
-                  <span className="text-xs uppercase tracking-widest">Đăng nhập</span>
+                  <span className="text-xs uppercase tracking-widest">{isResetMode ? (resetSent ? 'Gửi lại email' : 'Gửi liên kết khôi phục') : 'Đăng nhập'}</span>
                   <ArrowRight size={15} className="transform group-hover:translate-x-0.5 transition-transform" />
                 </>
               )}
+            </button>
+            <button type="button" onClick={() => { setIsResetMode(value => !value); setResetSent(false); }} className="w-full text-center text-xs font-semibold text-zinc-400 transition hover:text-white">
+              {isResetMode ? 'Quay lại đăng nhập' : 'Quên mật khẩu?'}
             </button>
           </form>
         </div>

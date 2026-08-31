@@ -350,7 +350,7 @@ export default function AdminLayout() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.96 }}
                     transition={{ duration: 0.18 }}
-                    className="absolute right-0 mt-3 w-80 sm:w-[420px] rounded-sm bg-white p-5 shadow-2xl border border-zinc-200/80 origin-top-right z-50 animate-in fade-in"
+                    className="absolute right-0 top-full mt-3 flex max-h-[calc(100vh-7rem)] w-[min(420px,calc(100vw-2rem))] flex-col overflow-hidden rounded-sm border border-zinc-200/80 bg-white p-5 shadow-2xl origin-top-right z-50 animate-in fade-in"
                   >
                     {/* Header */}
                     <div className="flex items-center justify-between mb-4 pb-3 border-b border-zinc-100">
@@ -393,7 +393,7 @@ export default function AdminLayout() {
                     </div>
 
                     {/* Notification List */}
-                    <div className="space-y-2.5 max-h-[360px] overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-200 [&::-webkit-scrollbar-thumb]:rounded-full">
+                    <div className="min-h-0 flex-1 space-y-2.5 overflow-y-auto pr-1 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:bg-zinc-200 [&::-webkit-scrollbar-thumb]:rounded-full">
                       {filteredNotifications.length === 0 ? (
                         <div className="py-10 text-center space-y-2">
                           <div className="w-10 h-10 rounded-full bg-zinc-100 flex items-center justify-center mx-auto text-zinc-400">
