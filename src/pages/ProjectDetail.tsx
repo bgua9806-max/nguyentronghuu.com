@@ -77,9 +77,14 @@ export default function ProjectDetail() {
       <SEO 
         title={project.seo_title || project.title} 
         description={project.seo_description || `Dự án: ${project.title} của Nguyễn Trọng Hữu`}
-        type="article"
+        type="project"
         image={project.cover_image}
-        url={window.location.href}
+        url={`https://nguyentronghuu.com/projects/${project.slug}`}
+        breadcrumbs={[
+          { name: 'Trang chủ', url: 'https://nguyentronghuu.com' },
+          { name: 'Dự án', url: 'https://nguyentronghuu.com/projects' },
+          { name: project.title, url: `https://nguyentronghuu.com/projects/${project.slug}` },
+        ]}
       />
 
       <Link 

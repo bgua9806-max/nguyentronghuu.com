@@ -1,156 +1,193 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 
+type PageType = 'website' | 'article' | 'profile' | 'service' | 'project';
+
 interface SEOProps {
   title: string;
   description: string;
   name?: string;
-  type?: string;
+  type?: PageType;
   image?: string;
   url?: string;
+  /** Kept for compatibility with existing CMS fields; Google does not use meta keywords. */
   keywords?: string;
-  /** For article pages: published date in ISO format */
   publishedTime?: string;
-  /** For article pages: modified date in ISO format */
   modifiedTime?: string;
-  /** For article pages: article category */
   articleSection?: string;
-  /** Breadcrumb items: [{name, url}] */
   breadcrumbs?: { name: string; url: string }[];
-  /** Disable indexing for this page */
   noIndex?: boolean;
 }
 
 const SITE_NAME = 'Nguyễn Trọng Hữu';
 const SITE_URL = 'https://nguyentronghuu.com';
-const DEFAULT_KEYWORDS = 'Nguyễn Trọng Hữu, AI Automation, Web Development, Mobile App, giải pháp công nghệ, chuyển đổi số, tư vấn công nghệ, phát triển phần mềm';
+const DEFAULT_IMAGE = `${SITE_URL}/images/hero-portrait.jpg`;
 
-export default function SEO({ 
-  title, 
-  description, 
-  name = SITE_NAME, 
-  type = 'website', 
-  image, 
+function normalizeCanonical(value?: string) {
+  try {
+    const parsed = new URL(value || (typeof window !== 'undefined' ? window.location.pathname : '/'), SITE_URL);
+    const pathname = parsed.pathname === '/' ? '' : parsed.pathname.replace(/\/+$/, '');
+    return `${SITE_URL}${pathname}`;
+  } catch {
+    return SITE_URL;
+  }
+}
+
+function absoluteImage(value?: string) {
+  if (!value) return DEFAULT_IMAGE;
+  if (/^https?:\/\//i.test(value)) return value;
+  return `${SITE_URL}${value.startsWith('/') ? '' : '/'}${value}`;
+}
+
+function withBrand(title: string) {
+  const clean = title.trim();
+  const suffix = ` | ${SITE_NAME}`;
+  if (clean.length <= 68 && clean.toLocaleLowerCase('vi').includes(SITE_NAME.toLocaleLowerCase('vi'))) return clean;
+  const withoutBrand = clean.replace(/\s*[|–-]\s*Nguyễn Trọng Hữu.*$/i, '').trim();
+  const available = 68 - suffix.length;
+  const shortened = withoutBrand.length > available
+    ? withoutBrand.slice(0, available).replace(/\s+\S*$/, '').trim()
+    : withoutBrand;
+  return `${shortened}${suffix}`;
+}
+
+export default function SEO({
+  title,
+  description,
+  name = SITE_NAME,
+  type = 'website',
+  image,
   url,
-  keywords,
   publishedTime,
   modifiedTime,
   articleSection,
   breadcrumbs,
   noIndex = false,
 }: SEOProps) {
-  const fullTitle = `${title} | ${SITE_NAME} - Người xây dựng giải pháp Công nghệ & AI`;
-  const origin = typeof window !== 'undefined' ? window.location.origin : SITE_URL;
-  const currentUrl = url || (typeof window !== 'undefined' ? window.location.href : SITE_URL);
-  const defaultImage = `${origin}/logo.png`;
-  const finalImage = image ? (image.startsWith('http') ? image : `${origin}${image}`) : defaultImage;
-  const finalKeywords = keywords ? `${keywords}, ${DEFAULT_KEYWORDS}` : DEFAULT_KEYWORDS;
+  const fullTitle = withBrand(title);
+  const currentUrl = normalizeCanonical(url);
+  const finalImage = absoluteImage(image);
 
-  // JSON-LD: WebSite with SearchAction (helps Google show a search box in results)
-  const websiteSchema = {
+  const websiteSchema = currentUrl === SITE_URL ? {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
     name: SITE_NAME,
+    alternateName: 'Nguyen Trong Huu',
     url: SITE_URL,
-    description: 'Tư vấn & phát triển hệ thống nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.',
-    potentialAction: {
-      '@type': 'SearchAction',
-      target: `${SITE_URL}/blog?q={search_term_string}`,
-      'query-input': 'required name=search_term_string',
-    },
-  };
-
-  // JSON-LD: Article (only for blog posts)
-  const articleSchema = type === 'article' ? {
-    '@context': 'https://schema.org',
-    '@type': 'Article',
-    headline: title,
-    description: description,
-    image: finalImage,
-    url: currentUrl,
-    datePublished: publishedTime,
-    dateModified: modifiedTime || publishedTime,
-    author: {
-      '@type': 'Person',
-      name: SITE_NAME,
-      url: SITE_URL,
-    },
-    publisher: {
-      '@type': 'Person',
-      name: SITE_NAME,
-      logo: {
-        '@type': 'ImageObject',
-        url: `${SITE_URL}/logo.png`,
-      },
-    },
-    mainEntityOfPage: {
-      '@type': 'WebPage',
-      '@id': currentUrl,
-    },
-    ...(articleSection && { articleSection }),
+    description,
+    inLanguage: 'vi-VN',
   } : null;
 
-  // JSON-LD: BreadcrumbList (helps Google show breadcrumbs in search results)
-  const breadcrumbSchema = breadcrumbs && breadcrumbs.length > 0 ? {
+  const personSchema = currentUrl === SITE_URL ? {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: SITE_NAME,
+    alternateName: 'Nguyen Trong Huu',
+    url: SITE_URL,
+    image: DEFAULT_IMAGE,
+    jobTitle: 'AI & Technology Solutions Builder',
+    knowsAbout: ['AI Automation', 'Web Development', 'Mobile App Development', 'System Architecture', 'Chuyển đổi số'],
+    sameAs: ['https://www.facebook.com/nguyentronghuu1905', 'https://zalo.me/0845555851'],
+  } : null;
+
+  const articleSchema = type === 'article' ? {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: title,
+    description,
+    image: finalImage,
+    url: currentUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': currentUrl },
+    datePublished: publishedTime,
+    dateModified: modifiedTime || publishedTime,
+    articleSection,
+    inLanguage: 'vi-VN',
+    author: { '@type': 'Person', name: SITE_NAME, url: `${SITE_URL}/about` },
+    publisher: { '@type': 'Person', name: SITE_NAME, url: SITE_URL, image: DEFAULT_IMAGE },
+  } : null;
+
+  const serviceSchema = type === 'service' ? {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: title,
+    description,
+    url: currentUrl,
+    image: finalImage,
+    areaServed: { '@type': 'Country', name: 'Việt Nam' },
+    provider: { '@type': 'Person', name: SITE_NAME, url: SITE_URL },
+  } : null;
+
+  const projectSchema = type === 'project' ? {
+    '@context': 'https://schema.org',
+    '@type': 'CreativeWork',
+    name: title,
+    description,
+    url: currentUrl,
+    image: finalImage,
+    creator: { '@type': 'Person', name: SITE_NAME, url: SITE_URL },
+    inLanguage: 'vi-VN',
+  } : null;
+
+  const profileSchema = type === 'profile' ? {
+    '@context': 'https://schema.org',
+    '@type': 'ProfilePage',
+    name: title,
+    description,
+    url: currentUrl,
+    mainEntity: {
+      '@type': 'Person',
+      name: SITE_NAME,
+      alternateName: 'Nguyen Trong Huu',
+      url: SITE_URL,
+      image: DEFAULT_IMAGE,
+      jobTitle: 'AI & Technology Solutions Builder',
+      sameAs: ['https://www.facebook.com/nguyentronghuu1905', 'https://zalo.me/0845555851'],
+    },
+  } : null;
+
+  const breadcrumbSchema = breadcrumbs?.length ? {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: breadcrumbs.map((item, index) => ({
       '@type': 'ListItem',
       position: index + 1,
       name: item.name,
-      item: item.url,
+      item: normalizeCanonical(item.url),
     })),
   } : null;
 
+  const schemas = [websiteSchema, personSchema, articleSchema, serviceSchema, projectSchema, profileSchema, breadcrumbSchema].filter(Boolean);
+
   return (
     <Helmet>
-      {/* Standard metadata tags */}
       <title>{fullTitle}</title>
-      <meta name='description' content={description} />
-      <meta name='keywords' content={finalKeywords} />
-      <meta name='author' content={name} />
-      <meta name='robots' content={noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
-      <link rel='canonical' href={currentUrl} />
+      <meta name="description" content={description} />
+      <meta name="author" content={name} />
+      <meta name="robots" content={noIndex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
+      <link rel="canonical" href={currentUrl} />
+      <html lang="vi" />
 
-      {/* Language */}
-      <meta httpEquiv='content-language' content='vi' />
-      <html lang='vi' />
+      <meta property="og:type" content={type === 'article' ? 'article' : 'website'} />
+      <meta property="og:site_name" content={SITE_NAME} />
+      <meta property="og:locale" content="vi_VN" />
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={description} />
+      <meta property="og:image" content={finalImage} />
+      <meta property="og:url" content={currentUrl} />
+      {publishedTime && <meta property="article:published_time" content={publishedTime} />}
+      {modifiedTime && <meta property="article:modified_time" content={modifiedTime} />}
+      {articleSection && <meta property="article:section" content={articleSection} />}
 
-      {/* Facebook / Open Graph tags */}
-      <meta property='og:type' content={type === 'article' ? 'article' : 'website'} />
-      <meta property='og:site_name' content={SITE_NAME} />
-      <meta property='og:locale' content='vi_VN' />
-      <meta property='og:title' content={fullTitle} />
-      <meta property='og:description' content={description} />
-      <meta property='og:image' content={finalImage} />
-      <meta property='og:image:width' content='1200' />
-      <meta property='og:image:height' content='630' />
-      <meta property='og:url' content={currentUrl} />
-      {publishedTime && <meta property='article:published_time' content={publishedTime} />}
-      {modifiedTime && <meta property='article:modified_time' content={modifiedTime} />}
-      {articleSection && <meta property='article:section' content={articleSection} />}
-      
-      {/* Twitter tags */}
-      <meta name='twitter:creator' content={name} />
-      <meta name='twitter:card' content='summary_large_image' />
-      <meta name='twitter:title' content={fullTitle} />
-      <meta name='twitter:description' content={description} />
-      <meta name='twitter:image' content={finalImage} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={finalImage} />
 
-      {/* JSON-LD Structured Data */}
-      <script type='application/ld+json'>
-        {JSON.stringify(websiteSchema)}
-      </script>
-      {articleSchema && (
-        <script type='application/ld+json'>
-          {JSON.stringify(articleSchema)}
+      {schemas.map((schema, index) => (
+        <script key={index} type="application/ld+json">
+          {JSON.stringify(schema)}
         </script>
-      )}
-      {breadcrumbSchema && (
-        <script type='application/ld+json'>
-          {JSON.stringify(breadcrumbSchema)}
-        </script>
-      )}
+      ))}
     </Helmet>
   );
 }

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, CheckCircle2, Code2, Bot, LineChart, Cpu, Loader2 } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Code2, Bot, LineChart, Cpu, Loader2, FileSpreadsheet, Sparkles, MessageSquareText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
@@ -11,10 +11,49 @@ const iconMap: Record<string, any> = {
   Code2,
   Bot,
   Cpu,
-  LineChart
+  LineChart,
+  FileSpreadsheet,
+  Sparkles,
+  MessageSquareText
 };
 
 const SERVICES = [
+  {
+    id: "zalo-ai-data-sync",
+    icon: <MessageSquareText className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
+    title: "Đồng bộ Zalo & AI Bóc tách Dữ liệu sang Sheets / Web App",
+    description: "Tự động lắng nghe đa nhóm Zalo cá nhân, dùng AI phân tích bóc tách các trường dữ liệu (SĐT, giá, vị trí, nhu cầu) điền thẳng vào Google Sheets và phát triển Web App tra cứu nhanh trong 1 giây.",
+    features: [
+      "Tự động quét tin nhắn 24/7 từ hàng chục nhóm Zalo cá nhân / hội nhóm",
+      "AI GPT-4o / Gemini bóc tách chính xác SĐT, giá tiền, địa điểm, nhu cầu",
+      "Tự động điền & đồng bộ dữ liệu vào Google Sheets theo thời gian thực",
+      "Xây dựng Web App tra cứu chuyên nghiệp, lọc thông minh & gọi điện 1 chạm"
+    ]
+  },
+  {
+    id: "ai-ads-automation",
+    icon: <Sparkles className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
+    title: "Chạy Ads với AI & Tự động hóa Chiến dịch",
+    description: "Lên chiến dịch Ads bằng câu lệnh kết hợp bộ AI Skill chuyên sâu, tối ưu tệp Dataset & Lookalike AI, tự động giám sát sức khỏe chiến dịch và báo cáo định kỳ qua ChatGPT/Telegram.",
+    features: [
+      "Lên chiến dịch & viết hàng loạt biến thể Ad Copy bằng câu lệnh Prompt",
+      "Tối ưu tệp First-party Data, nuôi Pixel & Lookalike AI siêu chuẩn xác",
+      "Hệ thống AI Agent tự động giám sát CPA/ROAS & ngắt camp lỗi 24/7",
+      "Tự động phân tích & báo cáo hiệu quả định kỳ qua ChatGPT API / Telegram"
+    ]
+  },
+  {
+    id: "google-sheets-automation",
+    icon: <FileSpreadsheet className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
+    title: "Tự động hóa Google Sheets & Apps Script",
+    description: "Xây dựng hệ thống tự động hóa quản lý, Mini CRM, đồng bộ Lead Marketing đa kênh và báo cáo tự động trên Google Sheets. Tiết kiệm 90% thời gian nhập liệu thủ công với chi phí tối ưu nhất cho SMEs.",
+    features: [
+      "Tự động gom & chia Lead từ Ads (Facebook, TikTok, Web) theo realtime",
+      "Tự động xuất báo giá, hợp đồng PDF & gửi Email qua Gmail",
+      "Cảnh báo & báo cáo doanh thu, KPI tự động vào Telegram/Zalo",
+      "Xây dựng Mini CRM / ERP quản lý bán hàng, kho & tiến độ dự án"
+    ]
+  },
   {
     id: "web-app",
     icon: <Code2 className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
@@ -114,8 +153,8 @@ export default function Services() {
       className="bg-zinc-50 min-h-screen pb-24"
     >
       <SEO 
-        title="Dịch vụ" 
-        description="Khám phá các dịch vụ & giải pháp công nghệ: Web/App Development, AI Automation, System Architecture và Growth Strategy từ Nguyễn Trọng Hữu." 
+        title="Dịch vụ Web, App & AI Automation"
+        description="Dịch vụ phát triển Web, Mobile App, AI Automation, kiến trúc hệ thống và tư vấn chuyển đổi số theo nhu cầu doanh nghiệp."
         url="https://nguyentronghuu.com/services"
         keywords="dịch vụ công nghệ, thiết kế web, lập trình app, AI Automation, n8n, tư vấn chuyển đổi số"
         breadcrumbs={[
@@ -132,16 +171,16 @@ export default function Services() {
           variants={STAGGER}
           className="max-w-3xl"
         >
-          <motion.h1 variants={STAGGER_ITEM} className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-6">
+          <motion.p variants={STAGGER_ITEM} className="text-xs font-medium text-zinc-500 uppercase tracking-widest mb-6">
             Giải pháp & Dịch vụ
-          </motion.h1>
-          <motion.h2 
+          </motion.p>
+          <motion.h1
             variants={STAGGER_ITEM} 
             className="text-4xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-8"
           >
             Giải quyết bài toán <br className="hidden md:block"/>
             bằng <span className="italic text-zinc-500">công nghệ.</span>
-          </motion.h2>
+          </motion.h1>
           <motion.p variants={STAGGER_ITEM} className="text-base md:text-lg text-zinc-600 max-w-2xl leading-relaxed">
             Mình không chỉ cung cấp dịch vụ, mà mang đến các giải pháp tổng thể được thiết kế riêng biệt để giải quyết trọn vẹn nỗi đau của doanh nghiệp bạn.
           </motion.p>

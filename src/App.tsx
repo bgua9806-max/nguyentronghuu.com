@@ -20,6 +20,7 @@ const BlogList = React.lazy(() => import('./pages/BlogList'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost'));
 const Contact = React.lazy(() => import('./pages/Contact'));
 const MetaAds = React.lazy(() => import('./pages/MetaAds'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
 
 // Lazy-loaded Admin Pages
 const Login = React.lazy(() => import('./pages/admin/Login'));
@@ -327,6 +328,7 @@ function Layout() {
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/meta_ads" element={<MetaAds />} />
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </motion.div>
           </AnimatePresence>

@@ -25,6 +25,7 @@ export default async function handler(req, res) {
     const { data: projects } = await supabase
       .from('projects')
       .select('slug, updated_at, created_at')
+      .eq('status', 'completed')
       .order('created_at', { ascending: false });
 
     // Fetch all services
@@ -35,44 +36,36 @@ export default async function handler(req, res) {
       .order('created_at', { ascending: false });
 
     const baseUrl = 'https://nguyentronghuu.com';
-    const today = new Date().toISOString().split('T')[0];
-
     let xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>${baseUrl}/</loc>
-    <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>${baseUrl}/about</loc>
-    <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>${baseUrl}/projects</loc>
-    <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>${baseUrl}/blog</loc>
-    <lastmod>${today}</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>${baseUrl}/services</loc>
-    <lastmod>${today}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>${baseUrl}/contact</loc>
-    <lastmod>${today}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>`;
@@ -80,7 +73,7 @@ export default async function handler(req, res) {
     // Add all blog posts
     if (posts && posts.length > 0) {
       for (const post of posts) {
-        const lastmod = (post.updated_at || post.created_at || today).split('T')[0];
+        const lastmod = (post.updated_at || post.created_at).split('T')[0];
         xml += `
   <url>
     <loc>${baseUrl}/blog/${post.slug}</loc>
@@ -94,7 +87,7 @@ export default async function handler(req, res) {
     // Add all projects
     if (projects && projects.length > 0) {
       for (const project of projects) {
-        const lastmod = (project.updated_at || project.created_at || today).split('T')[0];
+        const lastmod = (project.updated_at || project.created_at).split('T')[0];
         xml += `
   <url>
     <loc>${baseUrl}/projects/${project.slug}</loc>
@@ -108,7 +101,7 @@ export default async function handler(req, res) {
     // Add all services
     if (services && services.length > 0) {
       for (const service of services) {
-        const lastmod = (service.updated_at || service.created_at || today).split('T')[0];
+        const lastmod = (service.updated_at || service.created_at).split('T')[0];
         xml += `
   <url>
     <loc>${baseUrl}/services/${service.slug}</loc>

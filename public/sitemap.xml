@@ -16,6 +16,11 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://nguyentronghuu.com/services</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://nguyentronghuu.com/blog</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -24,5 +29,10 @@
     <loc>https://nguyentronghuu.com/contact</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://nguyentronghuu.com/meta_ads</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
   </url>
 </urlset>

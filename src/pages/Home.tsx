@@ -43,8 +43,8 @@ export default function Home() {
       transition={{ duration: 0.5 }}
     >
       <SEO 
-        title="Trang chủ" 
-        description="Nguyễn Trọng Hữu - Người xây dựng giải pháp nền tảng Web, Mobile App và hệ thống AI Automation. Tư vấn chuyển đổi số và tối ưu vận hành doanh nghiệp." 
+        title="Nguyễn Trọng Hữu | Giải pháp Web, App & AI Automation"
+        description="Tư vấn và phát triển Web, Mobile App, kiến trúc hệ thống và AI Automation giúp doanh nghiệp tối ưu vận hành và tăng trưởng bền vững."
         url="https://nguyentronghuu.com"
         keywords="Nguyễn Trọng Hữu, tư vấn công nghệ, AI Automation, Web Developer, Mobile App, chuyển đổi số"
       />
@@ -53,13 +53,13 @@ export default function Home() {
         <div className="flex flex-col md:flex-row items-center md:items-start justify-between gap-16 md:gap-8">
           <div className="max-w-2xl md:w-2/3">
             {/* LCP-critical: No animation — renders instantly */}
-            <h1 className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">
+            <p className="text-sm font-medium text-zinc-500 uppercase tracking-widest mb-6">
               Mình là Nguyễn Trọng Hữu
-            </h1>
-            <h2 className="text-3xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8">
+            </p>
+            <h1 className="text-3xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8">
               Giải pháp công nghệ <br className="hidden md:block"/>
               <span className="italic text-zinc-500">tối ưu</span> & trải nghiệm <span className="italic text-zinc-500">vượt trội.</span>
-            </h2>
+            </h1>
             {/* All hero content renders instantly — no JS-based opacity:0 */}
             <p className="text-sm md:text-base text-zinc-600 max-w-xl leading-relaxed mb-10 md:mb-12 animate-fade-in" style={{ animationDelay: '0.1s' }}>
               Người xây dựng giải pháp nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp.

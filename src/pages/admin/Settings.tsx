@@ -610,15 +610,21 @@ export default function Settings() {
 
               {/* 2. MCP AVAILABLE TOOLS TABLE */}
               <div className="rounded-sm border border-zinc-200/80 bg-white p-6 sm:p-8 shadow-[0_2px_20px_rgba(0,0,0,0.04)] space-y-6">
-                <div className="border-b border-zinc-100 pb-4">
-                  <h4 className="font-serif text-lg text-zinc-950">2. Danh Sách Công Cụ MCP Khả Dụng (Active Tools)</h4>
-                  <p className="mt-0.5 text-xs text-zinc-500">Các công cụ mà ChatGPT và AI Agent có thể gọi tự động trên website.</p>
+                <div className="border-b border-zinc-100 pb-4 flex justify-between items-center">
+                  <div>
+                    <h4 className="font-serif text-lg text-zinc-950">2. Danh Sách Công Cụ MCP Khả Dụng (Active Tools)</h4>
+                    <p className="mt-0.5 text-xs text-zinc-500">Các công cụ mà ChatGPT và AI Agent có thể gọi tự động trên website.</p>
+                  </div>
+                  <span className="text-xs font-semibold bg-zinc-100 text-zinc-700 px-2.5 py-1 rounded-sm border border-zinc-200">
+                    6 công cụ đang bật
+                  </span>
                 </div>
 
                 <div className="overflow-x-auto">
                   <table className="w-full text-left text-sm">
                     <thead>
                       <tr className="border-b border-zinc-100 text-[10px] font-bold uppercase tracking-wider text-zinc-400">
+                        <th className="pb-3 font-bold">Phân hệ</th>
                         <th className="pb-3 font-bold">Tên công cụ (Tool Name)</th>
                         <th className="pb-3 font-bold">Mô tả chức năng</th>
                         <th className="pb-3 font-bold">Phương thức</th>
@@ -626,7 +632,9 @@ export default function Settings() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-zinc-50">
+                      {/* BÀI VIẾT */}
                       <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-semibold text-xs text-zinc-900">Bài viết</td>
                         <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
                           <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
                             <PenTool size={12} />
@@ -644,6 +652,7 @@ export default function Settings() {
                         </td>
                       </tr>
                       <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-semibold text-xs text-zinc-900">Bài viết</td>
                         <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
                           <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
                             <Library size={12} />
@@ -660,35 +669,77 @@ export default function Settings() {
                           <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>
                         </td>
                       </tr>
+
+                      {/* DỰ ÁN */}
                       <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-semibold text-xs text-zinc-900">Dự án</td>
                         <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
                           <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
-                            <Edit3 size={12} />
+                            <Library size={12} />
                           </div>
-                          update_post
+                          create_project
                         </td>
                         <td className="py-3.5 text-xs text-zinc-600">
-                          Cập nhật nội dung, bổ sung thông tin hoặc tối ưu lại SEO metadata cho bài viết theo slug.
+                          Tự động tạo hồ sơ dự án case study (khách hàng, năm, tech stack, bối cảnh, kết quả đạt được).
                         </td>
                         <td className="py-3.5">
-                          <span className="font-mono text-[11px] font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-sm border border-amber-200/60">PUT /api/posts</span>
+                          <span className="font-mono text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-200/60">POST /api/projects</span>
                         </td>
                         <td className="py-3.5 text-right">
                           <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>
                         </td>
                       </tr>
                       <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-semibold text-xs text-zinc-900">Dự án</td>
                         <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
                           <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
-                            <Trash2 size={12} />
+                            <Library size={12} />
                           </div>
-                          delete_post
+                          get_projects
                         </td>
                         <td className="py-3.5 text-xs text-zinc-600">
-                          Xóa bài viết khỏi cơ sở dữ liệu theo slug định danh.
+                          Đọc danh sách các dự án case study đã triển khai trên website.
                         </td>
                         <td className="py-3.5">
-                          <span className="font-mono text-[11px] font-bold text-rose-700 bg-rose-50 px-2 py-0.5 rounded-sm border border-rose-200/60">DELETE /api/posts</span>
+                          <span className="font-mono text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-sm border border-blue-200/60">GET /api/projects</span>
+                        </td>
+                        <td className="py-3.5 text-right">
+                          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>
+                        </td>
+                      </tr>
+
+                      {/* DỊCH VỤ */}
+                      <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-semibold text-xs text-zinc-900">Dịch vụ</td>
+                        <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
+                            <Cpu size={12} />
+                          </div>
+                          create_service
+                        </td>
+                        <td className="py-3.5 text-xs text-zinc-600">
+                          Tự động tạo gói dịch vụ giải pháp công nghệ, quy trình triển khai, deliverables và FAQ.
+                        </td>
+                        <td className="py-3.5">
+                          <span className="font-mono text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-sm border border-emerald-200/60">POST /api/services</span>
+                        </td>
+                        <td className="py-3.5 text-right">
+                          <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-zinc-50/50">
+                        <td className="py-3.5 font-semibold text-xs text-zinc-900">Dịch vụ</td>
+                        <td className="py-3.5 font-mono font-bold text-xs text-zinc-950 flex items-center gap-2">
+                          <div className="w-6 h-6 rounded-sm bg-zinc-950 text-white flex items-center justify-center">
+                            <Cpu size={12} />
+                          </div>
+                          get_services
+                        </td>
+                        <td className="py-3.5 text-xs text-zinc-600">
+                          Đọc danh sách các gói dịch vụ giải pháp hiện có trên website.
+                        </td>
+                        <td className="py-3.5">
+                          <span className="font-mono text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-sm border border-blue-200/60">GET /api/services</span>
                         </td>
                         <td className="py-3.5 text-right">
                           <span className="text-xs font-semibold text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-sm border border-emerald-200/60">Khả dụng</span>

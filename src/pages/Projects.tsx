@@ -39,8 +39,8 @@ export default function Projects() {
       className="pt-32 pb-24 md:pt-40 md:pb-32 px-6 md:px-12 xl:px-8 max-w-7xl mx-auto min-h-screen"
     >
       <SEO 
-        title="Dự án" 
-        description="Tuyển tập các dự án nổi bật về công nghệ, hệ thống phần mềm và truyền thông mà Nguyễn Trọng Hữu đã thực hiện." 
+        title="Dự án Web, App & AI Automation"
+        description="Các dự án Web, App, hệ thống phần mềm và tự động hóa AI do Nguyễn Trọng Hữu tư vấn và triển khai."
         url="https://nguyentronghuu.com/projects"
         keywords="dự án công nghệ, portfolio, phần mềm, hệ thống AI, Web App"
         breadcrumbs={[
@@ -55,13 +55,13 @@ export default function Projects() {
         variants={FADE_UP}
         className="mb-16 md:mb-24 max-w-4xl"
       >
-        <h1 className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest mb-6 md:mb-8">
+        <p className="text-xs md:text-sm font-bold text-zinc-500 uppercase tracking-widest mb-6 md:mb-8">
           Tuyển tập Dự án
-        </h1>
-        <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8">
+        </p>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-serif text-zinc-900 leading-[1.1] tracking-tight mb-6 md:mb-8">
           Sản phẩm thực, <br className="hidden md:block" />
           <span className="italic text-zinc-500 font-light">giá trị thực.</span>
-        </h2>
+        </h1>
         <p className="text-base sm:text-lg md:text-xl text-zinc-600 max-w-2xl leading-relaxed">
           Khám phá các dự án tiêu biểu mình đã triển khai, từ hệ thống Web/App phức tạp đến các chiến dịch tự động hóa mang lại hiệu quả đo lường được.
         </p>

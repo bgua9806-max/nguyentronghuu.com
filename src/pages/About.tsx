@@ -140,8 +140,9 @@ export default function About() {
       className="bg-white min-h-screen pb-32"
     >
       <SEO 
-        title="Giới thiệu" 
-        description="Khám phá câu chuyện, triết lý và kinh nghiệm làm việc của Nguyễn Trọng Hữu - Người xây dựng giải pháp Công nghệ & AI Automation." 
+        title="Giới thiệu Nguyễn Trọng Hữu"
+        description="Tìm hiểu kinh nghiệm, năng lực và quy trình làm việc của Nguyễn Trọng Hữu trong phát triển Web, App, hệ thống và AI Automation."
+        type="profile"
         url="https://nguyentronghuu.com/about"
         keywords="giới thiệu Nguyễn Trọng Hữu, kinh nghiệm công nghệ, AI Automation, tư vấn chuyển đổi số"
         breadcrumbs={[

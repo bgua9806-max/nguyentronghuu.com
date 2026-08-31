@@ -40,8 +40,8 @@ export default function BlogList() {
       className="pt-32 pb-24 md:py-32 bg-white px-6 md:px-12 min-h-screen"
     >
       <SEO 
-        title="Bài viết" 
-        description="Đọc các bài viết, phân tích, và góc nhìn về giải pháp công nghệ, AI Automation và Digital Marketing từ Nguyễn Trọng Hữu." 
+        title="Blog Công nghệ & AI Automation"
+        description="Bài viết thực tế về phát triển sản phẩm số, AI Automation, vận hành hệ thống, SEO và Digital Marketing."
         url="https://nguyentronghuu.com/blog"
         keywords="blog công nghệ, AI Automation, Digital Marketing, bài viết, phân tích thị trường"
         breadcrumbs={[

@@ -41,7 +41,7 @@ export default function MetaAds() {
     >
       <SEO 
         title="Meta Ads Analyzer - AI Workflow Skill"
-        description="Bộ skill Meta Ads Analyzer giúp AI làm việc như một trợ lý media buyer."
+        description="Bộ AI workflow giúp audit chiến dịch, phân tích creative, thiết lập tệp và đề xuất tối ưu Meta Ads có hệ thống."
         url="https://nguyentronghuu.com/meta_ads"
       />
 

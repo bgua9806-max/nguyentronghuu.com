@@ -73,8 +73,8 @@ export default function Contact() {
       className="pt-32 pb-24 md:py-32 bg-zinc-900 text-white px-6 md:px-12 min-h-screen flex flex-col justify-center"
     >
       <SEO 
-        title="Liên hệ" 
-        description="Kết nối với Nguyễn Trọng Hữu để hợp tác, thảo luận về giải pháp phần mềm, Web, App và AI Automation cho doanh nghiệp." 
+        title="Liên hệ tư vấn giải pháp công nghệ"
+        description="Liên hệ Nguyễn Trọng Hữu để tư vấn và triển khai Web, App, phần mềm quản trị hoặc AI Automation cho doanh nghiệp."
         url="https://nguyentronghuu.com/contact"
         keywords="liên hệ Nguyễn Trọng Hữu, hợp tác, tư vấn công nghệ, giải pháp AI"
         breadcrumbs={[
