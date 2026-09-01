@@ -157,7 +157,7 @@ function Layout() {
   }
 
   return (
-    <div className={`min-h-screen flex flex-col ${showMobileContactBar ? 'pb-24 md:pb-0' : ''}`}>
+    <div className={`min-h-screen flex flex-col w-full max-w-full overflow-x-hidden ${showMobileContactBar ? 'pb-24 md:pb-0' : ''}`}>
       {/* Navigation */}
       {!isMetaAdsPage && (
         <nav

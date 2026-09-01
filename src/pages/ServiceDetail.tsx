@@ -910,9 +910,9 @@ export default function ServiceDetail() {
           </div>
         </nav>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16">
-            <div className="lg:col-span-8 space-y-10 md:space-y-16">
-                <motion.div id="chi-tiet" variants={STAGGER_ITEM} className="prose md:prose-lg prose-zinc max-w-none scroll-mt-32 text-base md:text-lg text-zinc-700 leading-relaxed prose-headings:scroll-mt-32 prose-headings:font-serif prose-headings:font-normal prose-a:text-amber-600">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 md:gap-12 lg:gap-16 w-full min-w-0 max-w-full">
+            <div className="min-w-0 max-w-full lg:col-span-8 space-y-10 md:space-y-16">
+                <motion.div id="chi-tiet" variants={STAGGER_ITEM} className="w-full min-w-0 max-w-full overflow-hidden prose md:prose-lg prose-zinc max-w-none scroll-mt-32 text-base md:text-lg text-zinc-700 leading-relaxed prose-headings:scroll-mt-32 prose-headings:font-serif prose-headings:font-normal prose-a:text-amber-600">
                   {service.content ? (
                     <div dangerouslySetInnerHTML={{ __html: cleanServiceHtml(service.content) }} />
                   ) : (

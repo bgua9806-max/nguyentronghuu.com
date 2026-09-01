@@ -227,7 +227,7 @@ export default function BlogPost() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.5 }}
-      className="mx-auto min-h-screen max-w-5xl px-6 pb-24 pt-32 md:px-12 md:pb-32 md:pt-40"
+      className="mx-auto min-h-screen max-w-5xl px-4 sm:px-6 pb-24 pt-32 md:px-12 md:pb-32 md:pt-40 w-full overflow-hidden"
     >
       <SEO 
         title={post.seo_title || post.title} 
@@ -295,7 +295,7 @@ export default function BlogPost() {
         </details>
       )}
 
-      <div className={`mb-16 grid gap-12 ${preparedContent.toc.length > 0 ? 'lg:grid-cols-[220px_minmax(0,1fr)]' : ''}`}>
+      <div className={`mb-16 grid w-full min-w-0 max-w-full gap-12 ${preparedContent.toc.length > 0 ? 'lg:grid-cols-[220px_minmax(0,1fr)]' : ''}`}>
         {preparedContent.toc.length > 0 && (
           <aside className="hidden lg:block">
             <nav className="sticky top-32 max-h-[calc(100vh-10rem)] overflow-y-auto border-l border-zinc-200 pl-5" aria-label="Mục lục bài viết">
@@ -308,7 +308,7 @@ export default function BlogPost() {
             </nav>
           </aside>
         )}
-        <div id="article-content" className="prose prose-zinc max-w-none scroll-mt-32 font-serif text-base leading-relaxed text-zinc-700 prose-headings:scroll-mt-32 prose-img:rounded-sm prose-img:shadow-md prose-a:text-amber-600 md:prose-lg md:text-xl">
+        <div id="article-content" className="w-full min-w-0 max-w-full overflow-hidden prose prose-zinc max-w-none scroll-mt-32 font-serif text-base leading-relaxed text-zinc-700 prose-headings:scroll-mt-32 prose-img:rounded-sm prose-img:shadow-md prose-a:text-amber-600 md:prose-lg md:text-xl">
           {post.content ? (
             <div dangerouslySetInnerHTML={{ __html: preparedContent.html }} />
           ) : (
