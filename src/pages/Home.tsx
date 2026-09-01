@@ -4,7 +4,7 @@ import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
 import { STAGGER, STAGGER_ITEM, FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import regeneratedImage from '../assets/images/regenerated_image.webp';
+import homeAiWorkflowPortrait from '../assets/images/home-ai-workflow-portrait.png';
 import { optimizeImageUrl } from '../lib/imageUtils';
 
 export default function Home() {
@@ -149,7 +149,7 @@ export default function Home() {
               <div className="aspect-[4/5] overflow-hidden rounded-md bg-zinc-200 shadow-lg">
                 <img 
                   referrerPolicy="no-referrer"
-                  src={regeneratedImage} 
+                  src={homeAiWorkflowPortrait} 
                   alt="Nguyễn Trọng Hữu" 
                   width="600" height="750"
                   fetchPriority="high"
