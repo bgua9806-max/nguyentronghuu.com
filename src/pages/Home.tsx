@@ -156,16 +156,6 @@ export default function Home() {
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
                 />
               </div>
-              <motion.div 
-                initial={{ opacity: 0, scale: 0.85, x: 20 }}
-                whileInView={{ opacity: 1, scale: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                className="absolute -bottom-6 -right-2 lg:-right-6 bg-white/95 dark:bg-zinc-900/95 backdrop-blur-sm p-4 md:p-5 shadow-lg rounded-sm border border-zinc-100 dark:border-zinc-800 min-w-[160px] h-[81.6px] flex flex-col justify-center"
-              >
-                <p className="text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-1">Kinh nghiệm</p>
-                <p className="font-serif text-2xl md:text-3xl font-bold text-zinc-900 leading-none">5+ Năm</p>
-              </motion.div>
             </motion.div>
             
             <motion.div 
