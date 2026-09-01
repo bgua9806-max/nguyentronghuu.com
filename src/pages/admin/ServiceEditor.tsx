@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { Save, ArrowLeft, Image as ImageIcon, Bold, Italic, List, Link as LinkIcon, Type, Eye, Globe, Copy, Loader2, Code2, Bot, LineChart, Cpu } from 'lucide-react';
+import { Save, ArrowLeft, Image as ImageIcon, Bold, Italic, List, Link as LinkIcon, Type, Eye, Globe, Copy, Loader2, Code2, Bot, LineChart, Cpu, Share2, FileSpreadsheet, Sparkles, MessageSquareText, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
 
@@ -416,10 +416,15 @@ export default function ServiceEditor() {
               <div className="space-y-2">
                 <label className="text-[11px] font-bold uppercase tracking-wider text-zinc-500">Biểu tượng (Icon)</label>
                 <select value={iconName} onChange={(e) => setIconName(e.target.value)} className="w-full rounded-sm border border-zinc-200 bg-zinc-50/50 px-4 py-3 text-sm">
-                  <option value="Code2">Phát triển Web/App</option>
-                  <option value="Bot">AI Automation</option>
-                  <option value="Cpu">Kiến trúc Hệ thống</option>
-                  <option value="LineChart">Marketing & Growth</option>
+                  <option value="Zap">Tự động hóa Ads Agent (Zap)</option>
+                  <option value="Share2">Đăng bài Đa kênh (Share2)</option>
+                  <option value="MessageSquareText">Đồng bộ Zalo AI (MessageSquareText)</option>
+                  <option value="Sparkles">Chạy Ads với AI (Sparkles)</option>
+                  <option value="FileSpreadsheet">Google Sheets Automation (FileSpreadsheet)</option>
+                  <option value="Code2">Phát triển Web/App (Code2)</option>
+                  <option value="Bot">AI Automation (Bot)</option>
+                  <option value="Cpu">Kiến trúc Hệ thống (Cpu)</option>
+                  <option value="LineChart">Marketing & Growth (LineChart)</option>
                 </select>
               </div>
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { ArrowRight, CheckCircle2, Code2, Bot, LineChart, Cpu, Loader2, FileSpreadsheet, Sparkles, MessageSquareText } from 'lucide-react';
+import { ArrowRight, CheckCircle2, Code2, Bot, LineChart, Cpu, Loader2, FileSpreadsheet, Sparkles, MessageSquareText, Share2, Zap } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
@@ -14,10 +14,36 @@ const iconMap: Record<string, any> = {
   LineChart,
   FileSpreadsheet,
   Sparkles,
-  MessageSquareText
+  MessageSquareText,
+  Share2,
+  Zap
 };
 
 const SERVICES = [
+  {
+    id: "chatgpt-ads-agent-automation",
+    icon: <Zap className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
+    title: "Tự Động Hóa Ads với AI Agent Trong ChatGPT",
+    description: "Xây dựng hệ thống AI Agent kết nối trực tiếp tài khoản Ads với ChatGPT. Tự động đọc bài đăng mới trên Fanpage, nhận diện từ khóa đưa vào Campaign theo rule, kéo chỉ số realtime và hỏi đáp điều khiển chiến dịch 100% bằng ngôn ngữ tự nhiên.",
+    features: [
+      "Tự động đọc bài viết mới trên Page, nhận diện từ khóa & đưa vào Campaign theo quy tắc",
+      "Hỏi đáp & điều khiển Ads trực tiếp qua ChatGPT: 'Hôm nay ads thế nào?', 'Nhóm nào nên scale?'",
+      "Kéo trực tiếp chỉ số realtime CTR, CPM, CPC, Lead, ROAS & phát hiện nhóm lãng phí ngân sách",
+      "Đề xuất creative, target, tự động ngắt camp lỗi & báo cáo định kỳ về Telegram / ChatGPT"
+    ]
+  },
+  {
+    id: "multi-channel-auto-posting",
+    icon: <Share2 className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,
+    title: "Setup Hệ thống Tự Động Đăng Bài Đa Kênh",
+    description: "Xây dựng hệ thống tự động hóa phân phối nội dung đa nền tảng (Facebook, TikTok, YouTube Shorts, Reels, Threads, Zalo, LinkedIn). Quản lý tập trung từ Sheets/Notion, AI tối ưu định dạng và đăng tải 24/7.",
+    features: [
+      "Tạo 1 lần - AI tự động phân phối lên Facebook, TikTok, YouTube Shorts, Reels, Threads, Zalo",
+      "Quản lý nội dung tập trung trên Google Sheets, Notion hoặc Web Dashboard",
+      "AI GPT-4o / Gemini tự động viết lại caption, hashtag theo chuẩn từng kênh",
+      "Lên lịch đăng bài thông minh theo khung giờ vàng, cơ chế Anti-ban an toàn"
+    ]
+  },
   {
     id: "zalo-ai-data-sync",
     icon: <MessageSquareText className="w-8 h-8 md:w-10 md:h-10 text-zinc-900" strokeWidth={1.5} />,

@@ -10,7 +10,9 @@ const cleanPostHtml = (value = '') => value
   .replace(/font-family:[^;"]*;?/gi, '')
   .replace(/line-height:[^;"]*;?/gi, '')
   .replace(/font-size:[^;"]*;?/gi, '')
-  .replace(/background-color:[^;"]*;?/gi, '');
+  .replace(/<table([\s\S]*?)<\/table>/gi, (match) => {
+    return `<div class="table-responsive-container">${match}</div>`;
+  });
 
 const headingSlug = (value: string) => value
   .normalize('NFD')
