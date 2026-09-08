@@ -29,18 +29,6 @@
     {
       "source": "/admin/(.*)",
       "destination": "/admin"
-    },
-    {
-      "source": "/blog/(.*)",
-      "destination": "/"
-    },
-    {
-      "source": "/projects/(.*)",
-      "destination": "/"
-    },
-    {
-      "source": "/services/(.*)",
-      "destination": "/"
     }
   ]
 }

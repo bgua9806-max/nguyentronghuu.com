@@ -15,7 +15,9 @@ interface SEOProps {
   publishedTime?: string;
   modifiedTime?: string;
   articleSection?: string;
+  wordCount?: number;
   breadcrumbs?: { name: string; url: string }[];
+  faqs?: { question: string; answer: string }[];
   noIndex?: boolean;
 }
 
@@ -61,7 +63,9 @@ export default function SEO({
   publishedTime,
   modifiedTime,
   articleSection,
+  wordCount,
   breadcrumbs,
+  faqs,
   noIndex = false,
 }: SEOProps) {
   const fullTitle = withBrand(title);
@@ -71,6 +75,7 @@ export default function SEO({
   const websiteSchema = currentUrl === SITE_URL ? {
     '@context': 'https://schema.org',
     '@type': 'WebSite',
+    '@id': `${SITE_URL}/#website`,
     name: SITE_NAME,
     alternateName: 'Nguyen Trong Huu',
     url: SITE_URL,
@@ -81,13 +86,16 @@ export default function SEO({
   const personSchema = currentUrl === SITE_URL ? {
     '@context': 'https://schema.org',
     '@type': 'Person',
+    '@id': `${SITE_URL}/#person`,
     name: SITE_NAME,
     alternateName: 'Nguyen Trong Huu',
     url: SITE_URL,
     image: DEFAULT_IMAGE,
     jobTitle: 'AI & Technology Solutions Builder',
     knowsAbout: ['AI Automation', 'Web Development', 'Mobile App Development', 'System Architecture', 'Chuyển đổi số'],
-    sameAs: ['https://www.facebook.com/nguyentronghuu1905', 'https://zalo.me/0845555851'],
+    email: 'mailto:nguyentronghuu1905@gmail.com',
+    telephone: '+84845555851',
+    sameAs: ['https://www.facebook.com/nguyen.trong.huu.838820/', 'https://zalo.me/0845555851'],
   } : null;
 
   const articleSchema = type === 'article' ? {
@@ -101,9 +109,10 @@ export default function SEO({
     datePublished: publishedTime,
     dateModified: modifiedTime || publishedTime,
     articleSection,
+    wordCount,
     inLanguage: 'vi-VN',
-    author: { '@type': 'Person', name: SITE_NAME, url: `${SITE_URL}/about` },
-    publisher: { '@type': 'Person', name: SITE_NAME, url: SITE_URL, image: DEFAULT_IMAGE },
+    author: { '@id': `${SITE_URL}/#person` },
+    publisher: { '@id': `${SITE_URL}/#person` },
   } : null;
 
   const serviceSchema = type === 'service' ? {
@@ -113,8 +122,9 @@ export default function SEO({
     description,
     url: currentUrl,
     image: finalImage,
+    serviceType: title,
     areaServed: { '@type': 'Country', name: 'Việt Nam' },
-    provider: { '@type': 'Person', name: SITE_NAME, url: SITE_URL },
+    provider: { '@id': `${SITE_URL}/#person` },
   } : null;
 
   const projectSchema = type === 'project' ? {
@@ -124,7 +134,7 @@ export default function SEO({
     description,
     url: currentUrl,
     image: finalImage,
-    creator: { '@type': 'Person', name: SITE_NAME, url: SITE_URL },
+    creator: { '@id': `${SITE_URL}/#person` },
     inLanguage: 'vi-VN',
   } : null;
 
@@ -136,12 +146,15 @@ export default function SEO({
     url: currentUrl,
     mainEntity: {
       '@type': 'Person',
+      '@id': `${SITE_URL}/#person`,
       name: SITE_NAME,
       alternateName: 'Nguyen Trong Huu',
       url: SITE_URL,
       image: DEFAULT_IMAGE,
       jobTitle: 'AI & Technology Solutions Builder',
-      sameAs: ['https://www.facebook.com/nguyentronghuu1905', 'https://zalo.me/0845555851'],
+      email: 'mailto:nguyentronghuu1905@gmail.com',
+      telephone: '+84845555851',
+      sameAs: ['https://www.facebook.com/nguyen.trong.huu.838820/', 'https://zalo.me/0845555851'],
     },
   } : null;
 
@@ -156,7 +169,21 @@ export default function SEO({
     })),
   } : null;
 
-  const schemas = [websiteSchema, personSchema, articleSchema, serviceSchema, projectSchema, profileSchema, breadcrumbSchema].filter(Boolean);
+  const faqSchema = faqs?.length ? {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${currentUrl}#faq`,
+    mainEntity: faqs.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: item.answer,
+      },
+    })),
+  } : null;
+
+  const schemas = [websiteSchema, personSchema, articleSchema, serviceSchema, projectSchema, profileSchema, breadcrumbSchema, faqSchema].filter(Boolean);
 
   return (
     <Helmet>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowLeft } from 'lucide-react';
 import SEO from '../components/SEO';
 
-type LegalVariant = 'privacy' | 'terms';
+type LegalVariant = 'privacy' | 'terms' | 'editorial';
 
 interface LegalPageProps {
   variant: LegalVariant;
@@ -94,6 +94,48 @@ const pages = {
         ]
       }
     ]
+  },
+  editorial: {
+    eyebrow: 'Minh bạch nội dung',
+    title: 'Nguyên tắc biên tập & công bố thông tin',
+    description: 'Cách nội dung, số liệu, ví dụ và case study trên nguyentronghuu.com được biên soạn, kiểm tra và cập nhật.',
+    path: '/editorial-policy',
+    sections: [
+      {
+        title: 'Tác giả và trách nhiệm nội dung',
+        paragraphs: [
+          'Nội dung chuyên môn trên website được xuất bản dưới tên Nguyễn Trọng Hữu. Trang tác giả cung cấp thông tin về kinh nghiệm, lĩnh vực làm việc và phương thức liên hệ để người đọc có thể xác minh.',
+          'Mỗi bài viết hiển thị ngày xuất bản và ngày cập nhật khi có thay đổi trong hệ thống quản trị nội dung.'
+        ]
+      },
+      {
+        title: 'Nguồn và dữ liệu',
+        paragraphs: [
+          'Khi sử dụng thông tin, tài liệu hoặc số liệu từ bên ngoài, bài viết ưu tiên liên kết đến nguồn gốc hoặc tài liệu chính thức. Nhận định dựa trên kinh nghiệm triển khai được trình bày như kinh nghiệm hoặc quan điểm, không thay thế dữ liệu độc lập.',
+          'Số liệu dự án chỉ được công bố khi có phạm vi đo lường đủ rõ và được phép chia sẻ. Thông tin nhận diện khách hàng có thể được ẩn hoặc khái quát để bảo vệ tính bảo mật.'
+        ]
+      },
+      {
+        title: 'AI và tự động hóa trong biên tập',
+        paragraphs: [
+          'Công cụ AI có thể được dùng để hỗ trợ nghiên cứu, lập dàn ý hoặc rà soát cách diễn đạt. Tác giả chịu trách nhiệm kiểm tra nội dung, tính phù hợp và quyết định xuất bản cuối cùng.',
+          'Nội dung không được xuất bản chỉ nhằm tạo số lượng hoặc thao túng thứ hạng tìm kiếm.'
+        ]
+      },
+      {
+        title: 'Sửa lỗi và cập nhật',
+        paragraphs: [
+          'Nội dung được rà soát khi công nghệ, nền tảng hoặc quy định liên quan thay đổi. Những cập nhật quan trọng được phản ánh qua ngày cập nhật trên bài viết.',
+          'Nếu phát hiện thông tin chưa chính xác, người đọc có thể gửi URL và nội dung cần kiểm tra qua email. Phản hồi sẽ được xem xét dựa trên nguồn và bằng chứng kèm theo.'
+        ]
+      },
+      {
+        title: 'Giới hạn của nội dung',
+        paragraphs: [
+          'Bài viết mang tính chia sẻ kiến thức và kinh nghiệm chung. Khuyến nghị cụ thể cho doanh nghiệp chỉ được đưa ra sau khi hiểu mục tiêu, dữ liệu, ngân sách, hệ thống và rủi ro thực tế.'
+        ]
+      }
+    ]
   }
 } as const;
 
@@ -130,7 +172,7 @@ export default function LegalPage({ variant }: LegalPageProps) {
           <p className="mb-5 text-xs font-bold uppercase tracking-widest text-zinc-500">{page.eyebrow}</p>
           <h1 className="font-serif text-4xl leading-tight text-zinc-900 md:text-6xl">{page.title}</h1>
           <p className="mt-6 max-w-2xl text-base leading-relaxed text-zinc-600 md:text-lg">{page.description}</p>
-          <p className="mt-5 text-xs text-zinc-500">Cập nhật lần cuối: 31/08/2026</p>
+          <p className="mt-5 text-xs text-zinc-500">Cập nhật lần cuối: {variant === 'editorial' ? '08/09/2026' : '31/08/2026'}</p>
         </header>
 
         <div className="space-y-12">

@@ -1,10 +1,14 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { getServiceFaqs } from '../src/data/serviceFaqs.js';
 
 const SITE_URL = 'https://nguyentronghuu.com';
 const SITE_NAME = 'Nguyễn Trọng Hữu';
 const DEFAULT_IMAGE = `${SITE_URL}/images/hero-portrait.jpg`;
 const DIST_DIR = path.resolve('dist');
+const CONTACT_EMAIL = 'nguyentronghuu1905@gmail.com';
+const CONTACT_PHONE = '0845555851';
+const FACEBOOK_URL = 'https://www.facebook.com/nguyen.trong.huu.838820/';
 
 const escapeHtml = (value = '') => String(value)
   .replaceAll('&', '&amp;')
@@ -26,6 +30,25 @@ const truncate = (value, max = 160) => {
   if (clean.length <= max) return clean;
   return `${clean.slice(0, max - 1).replace(/\s+\S*$/, '')}…`;
 };
+
+const sanitizeContentHtml = (value = '') => String(value)
+  .replace(/<script[\s\S]*?<\/script>/gi, '')
+  .replace(/<style[\s\S]*?<\/style>/gi, '')
+  .replace(/<iframe[\s\S]*?<\/iframe>/gi, '')
+  .replace(/\son[a-z]+\s*=\s*(["'])[\s\S]*?\1/gi, '')
+  .replace(/\s(?:href|src)\s*=\s*(["'])\s*javascript:[\s\S]*?\1/gi, '')
+  .replace(/\\n/g, '\n');
+
+const faqSchema = (url, faqs) => faqs?.length ? {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  '@id': `${url}#faq`,
+  mainEntity: faqs.map((item) => ({
+    '@type': 'Question',
+    name: item.question,
+    acceptedAnswer: { '@type': 'Answer', text: item.answer },
+  })),
+} : null;
 
 const absoluteUrl = (value) => {
   if (!value) return DEFAULT_IMAGE;
@@ -76,9 +99,10 @@ const routeSchema = (page) => {
       datePublished: page.publishedTime,
       dateModified: page.modifiedTime || page.publishedTime,
       articleSection: page.section,
+      wordCount: stripHtml(page.content).split(/\s+/).filter(Boolean).length,
       inLanguage: 'vi-VN',
-      author: { '@type': 'Person', name: SITE_NAME, url: `${SITE_URL}/about` },
-      publisher: { '@type': 'Person', name: SITE_NAME, url: SITE_URL, image: DEFAULT_IMAGE },
+      author: { '@id': `${SITE_URL}/#person` },
+      publisher: { '@id': `${SITE_URL}/#person` },
     };
   }
 
@@ -90,8 +114,9 @@ const routeSchema = (page) => {
       description: page.description,
       url,
       image,
+      serviceType: page.rawTitle || page.title,
       areaServed: { '@type': 'Country', name: 'Việt Nam' },
-      provider: { '@type': 'Person', name: SITE_NAME, url: SITE_URL },
+      provider: { '@id': `${SITE_URL}/#person` },
     };
   }
 
@@ -103,7 +128,7 @@ const routeSchema = (page) => {
       description: page.description,
       url,
       image,
-      creator: { '@type': 'Person', name: SITE_NAME, url: SITE_URL },
+      creator: { '@id': `${SITE_URL}/#person` },
       inLanguage: 'vi-VN',
     };
   }
@@ -117,12 +142,15 @@ const routeSchema = (page) => {
       url,
       mainEntity: {
         '@type': 'Person',
+        '@id': `${SITE_URL}/#person`,
         name: SITE_NAME,
         alternateName: 'Nguyen Trong Huu',
         url: SITE_URL,
         image: DEFAULT_IMAGE,
         jobTitle: 'AI & Technology Solutions Builder',
-        sameAs: ['https://www.facebook.com/nguyentronghuu1905', 'https://zalo.me/0845555851'],
+        email: `mailto:${CONTACT_EMAIL}`,
+        telephone: '+84845555851',
+        sameAs: [FACEBOOK_URL, `https://zalo.me/${CONTACT_PHONE}`],
       },
     };
   }
@@ -132,6 +160,7 @@ const routeSchema = (page) => {
       {
         '@context': 'https://schema.org',
         '@type': 'WebSite',
+        '@id': `${SITE_URL}/#website`,
         name: SITE_NAME,
         alternateName: 'Nguyen Trong Huu',
         url: SITE_URL,
@@ -141,13 +170,16 @@ const routeSchema = (page) => {
       {
         '@context': 'https://schema.org',
         '@type': 'Person',
+        '@id': `${SITE_URL}/#person`,
         name: SITE_NAME,
         alternateName: 'Nguyen Trong Huu',
         url: SITE_URL,
         image: DEFAULT_IMAGE,
         jobTitle: 'AI & Technology Solutions Builder',
         knowsAbout: ['AI Automation', 'Web Development', 'Mobile App Development', 'System Architecture', 'Chuyển đổi số'],
-        sameAs: ['https://www.facebook.com/nguyentronghuu1905', 'https://zalo.me/0845555851'],
+        email: `mailto:${CONTACT_EMAIL}`,
+        telephone: '+84845555851',
+        sameAs: [FACEBOOK_URL, `https://zalo.me/${CONTACT_PHONE}`],
       },
     ];
   }
@@ -169,7 +201,7 @@ const buildHead = (page) => {
   const robots = page.noIndex
     ? 'noindex, nofollow'
     : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1';
-  const schemas = [routeSchema(page), breadcrumbSchema(page.breadcrumbs)]
+  const schemas = [routeSchema(page), breadcrumbSchema(page.breadcrumbs), faqSchema(url, page.faqs)]
     .flat()
     .filter(Boolean);
 
@@ -202,20 +234,66 @@ const cleanBaseHead = (html) => html
   .replace(/\s*<link\s+rel=["']canonical["'][^>]*>/gi, '')
   .replace(/\s*<script\s+type=["']application\/ld\+json["'][^>]*>[\s\S]*?<\/script>/gi, '');
 
-const renderPage = (baseHtml, page) => {
+const renderCards = (items, label) => {
+  const sectionId = `section-${String(label).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`;
+  return items.length ? `
+  <section aria-labelledby="${sectionId}">
+    <h2 id="${sectionId}">${escapeHtml(label)}</h2>
+    <ul>${items.map((item) => `<li><a href="${canonicalUrl(item.route)}">${escapeHtml(item.rawTitle || item.title)}</a>${item.description ? ` — ${escapeHtml(item.description)}` : ''}</li>`).join('')}</ul>
+  </section>` : '';
+};
+
+const staticPageCopy = (route) => ({
+  '/': `<h2>Giải pháp tập trung vào hiệu quả vận hành</h2><p>Nguyễn Trọng Hữu tư vấn, thiết kế và triển khai website, ứng dụng, kiến trúc hệ thống và quy trình AI Automation cho doanh nghiệp Việt Nam. Mỗi giải pháp bắt đầu từ mục tiêu kinh doanh, dữ liệu và quy trình thực tế thay vì chạy theo công nghệ.</p><h2>Năng lực chính</h2><ul><li>Phát triển Web và Mobile App có khả năng mở rộng.</li><li>Tự động hóa quy trình bằng AI, n8n, Make, Google Apps Script và API.</li><li>Thiết kế kiến trúc hệ thống, dữ liệu, tracking và báo cáo.</li><li>Tư vấn chuyển đổi số, Digital Marketing và tối ưu tăng trưởng.</li></ul>`,
+  '/about': `<h2>Kinh nghiệm và cách làm việc</h2><p>Nguyễn Trọng Hữu là người xây dựng giải pháp công nghệ và AI Automation, kết hợp kinh nghiệm phát triển sản phẩm số, kiến trúc hệ thống, dữ liệu và Digital Marketing. Trọng tâm công việc là biến bài toán vận hành phức tạp thành quy trình rõ ràng, có thể đo lường và bàn giao.</p><h2>Quy trình triển khai</h2><ol><li>Khảo sát mục tiêu, dữ liệu và quy trình hiện tại.</li><li>Phân tích điểm nghẽn và đề xuất kiến trúc phù hợp.</li><li>Triển khai, kiểm thử bằng dữ liệu thực tế và tối ưu.</li><li>Bàn giao tài liệu, đào tạo và thống nhất phạm vi hỗ trợ.</li></ol><h2>Lĩnh vực chuyên môn</h2><p>AI Automation, Web Development, Mobile App Development, System Architecture, Google Apps Script, n8n, Make, Supabase, PostgreSQL, SEO, CRO và Marketing Automation.</p>`,
+  '/services': `<h2>Dịch vụ tư vấn và triển khai</h2><p>Các dịch vụ được thiết kế theo nhu cầu, dữ liệu, ngân sách và năng lực vận hành của từng doanh nghiệp. Phạm vi có thể bao gồm khảo sát, thiết kế giải pháp, phát triển, tích hợp API, kiểm thử, tài liệu và đào tạo bàn giao.</p>`,
+  '/projects': `<h2>Dự án và kinh nghiệm triển khai</h2><p>Danh mục tập hợp các dự án Web, ứng dụng, hệ thống phần mềm và tự động hóa. Mỗi dự án trình bày phạm vi, bài toán, giải pháp và kết quả khi dữ liệu được phép công bố.</p>`,
+  '/blog': `<h2>Kiến thức từ quá trình triển khai</h2><p>Blog chia sẻ hướng dẫn, phân tích và kinh nghiệm về AI Automation, phát triển sản phẩm số, kiến trúc hệ thống, SEO, dữ liệu và Digital Marketing.</p>`,
+  '/contact': `<h2>Thông tin liên hệ</h2><p>Email: <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a>. Điện thoại và Zalo: <a href="tel:${CONTACT_PHONE}">${CONTACT_PHONE}</a>. Khi liên hệ, bạn nên mô tả mục tiêu, quy trình hiện tại, nguồn dữ liệu và kết quả mong muốn để nhận đề xuất sát nhu cầu.</p>`,
+  '/privacy': '<h2>Phạm vi áp dụng</h2><p>Thông tin gửi qua biểu mẫu được sử dụng để phản hồi yêu cầu tư vấn, trao đổi về dự án và cải thiện trải nghiệm website. Dữ liệu không được bán cho bên thứ ba.</p>',
+  '/terms': '<h2>Nguyên tắc sử dụng</h2><p>Nội dung trên website phục vụ mục đích cung cấp thông tin và tham khảo. Phạm vi, chi phí, tiến độ và trách nhiệm của mỗi dự án chỉ có hiệu lực khi được hai bên thống nhất cụ thể.</p>',
+  '/editorial-policy': '<h2>Tác giả và trách nhiệm nội dung</h2><p>Nội dung chuyên môn được xuất bản dưới tên Nguyễn Trọng Hữu. Khi sử dụng số liệu hoặc tài liệu bên ngoài, bài viết ưu tiên liên kết nguồn gốc; nhận định từ quá trình triển khai được trình bày như kinh nghiệm hoặc quan điểm.</p><h2>AI trong biên tập</h2><p>Công cụ AI có thể hỗ trợ nghiên cứu, lập dàn ý hoặc rà soát cách diễn đạt. Tác giả chịu trách nhiệm kiểm tra và quyết định xuất bản cuối cùng.</p><h2>Sửa lỗi và cập nhật</h2><p>Người đọc có thể gửi URL và nội dung cần kiểm tra qua email. Bài viết hiển thị ngày cập nhật khi có thay đổi trong hệ thống quản trị.</p>',
+  '/meta_ads': '<h2>Phân tích quảng cáo có hệ thống</h2><p>Meta Ads Analyzer hỗ trợ chuẩn hóa quy trình audit chiến dịch, phân tích chỉ số và creative, xác định giả thuyết tối ưu và tạo báo cáo có cấu trúc. Kết quả cần được kiểm chứng bằng dữ liệu tài khoản và mục tiêu kinh doanh thực tế.</p>',
+}[route] || '');
+
+const renderSeoContent = (page, allPages) => {
   const heading = page.rawTitle || page.title;
-  const fallback = `<!-- SEO fallback for non-JavaScript crawlers -->
-    <noscript>
-      <main style="max-width:760px;margin:80px auto;padding:24px;font-family:Arial,sans-serif;line-height:1.6">
-        <h1>${escapeHtml(heading)}</h1>
-        <p>${escapeHtml(page.description)}</p>
-        ${page.route !== '/' ? `<p><a href="${SITE_URL}">Nguyễn Trọng Hữu</a></p>` : ''}
-      </main>
-    </noscript>`;
+  if (page.noIndex) return `<main class="seo-static-shell"><h1>${escapeHtml(heading)}</h1><p>${escapeHtml(page.description)}</p></main>`;
+
+  const published = page.publishedTime ? `<time datetime="${escapeHtml(page.publishedTime)}">Xuất bản: ${escapeHtml(String(page.publishedTime).slice(0, 10))}</time>` : '';
+  const modified = page.modifiedTime ? `<time datetime="${escapeHtml(page.modifiedTime)}">Cập nhật: ${escapeHtml(String(page.modifiedTime).slice(0, 10))}</time>` : '';
+  const byline = page.kind === 'article' ? `<p>Viết bởi <a rel="author" href="${SITE_URL}/about">${SITE_NAME}</a>. ${published} ${modified}</p>` : '';
+  const body = page.content ? sanitizeContentHtml(page.content) : staticPageCopy(page.route);
+  const transparencyNote = page.kind === 'article'
+    ? `<aside><strong>Thông tin biên tập:</strong> ${SITE_NAME} chịu trách nhiệm biên tập nội dung này. <a href="${SITE_URL}/editorial-policy">Xem nguyên tắc biên tập và sử dụng nguồn</a>.</aside>`
+    : page.kind === 'project'
+      ? `<aside><strong>Phạm vi công bố:</strong> Tên khách hàng hoặc dữ liệu nhạy cảm có thể được khái quát; kết quả định lượng chỉ áp dụng trong phạm vi và thời gian được nêu. <a href="${SITE_URL}/editorial-policy">Xem nguyên tắc công bố</a>.</aside>`
+      : '';
+  const faqs = page.faqs?.length ? `<section aria-labelledby="faq-title"><h2 id="faq-title">Câu hỏi thường gặp</h2>${page.faqs.map((item) => `<details><summary>${escapeHtml(item.question)}</summary><p>${escapeHtml(item.answer)}</p></details>`).join('')}</section>` : '';
+  const childPrefix = page.route === '/' ? null : `${page.route}/`;
+  const children = childPrefix ? allPages.filter((item) => item.route.startsWith(childPrefix) && item.route !== page.route) : [];
+  const homeGroups = page.route === '/' ? [
+    renderCards(allPages.filter((item) => item.kind === 'service').slice(0, 8), 'Dịch vụ nổi bật'),
+    renderCards(allPages.filter((item) => item.kind === 'project').slice(0, 6), 'Dự án mới'),
+    renderCards(allPages.filter((item) => item.kind === 'article').slice(0, 6), 'Bài viết mới'),
+  ].join('') : '';
+  const listing = renderCards(children, page.route === '/blog' ? 'Bài viết' : page.route === '/services' ? 'Danh sách dịch vụ' : page.route === '/projects' ? 'Danh sách dự án' : 'Nội dung liên quan');
+
+  return `<main class="seo-static-shell" data-prerendered="true">
+    <nav aria-label="Điều hướng chính"><a href="${SITE_URL}">Trang chủ</a> · <a href="${SITE_URL}/about">Giới thiệu</a> · <a href="${SITE_URL}/services">Dịch vụ</a> · <a href="${SITE_URL}/projects">Dự án</a> · <a href="${SITE_URL}/blog">Bài viết</a> · <a href="${SITE_URL}/contact">Liên hệ</a></nav>
+    <article><header><h1>${escapeHtml(heading)}</h1><p>${escapeHtml(page.description)}</p>${byline}</header>${body}${transparencyNote}</article>
+    ${faqs}${listing}${homeGroups}
+    <footer><p>Nguyễn Trọng Hữu · <a href="mailto:${CONTACT_EMAIL}">${CONTACT_EMAIL}</a> · <a href="tel:${CONTACT_PHONE}">${CONTACT_PHONE}</a></p></footer>
+  </main>`;
+};
+
+const renderPage = (baseHtml, page, allPages) => {
+  const staticContent = renderSeoContent(page, allPages);
 
   return cleanBaseHead(baseHtml)
     .replace('</head>', `${buildHead(page)}\n  </head>`)
-    .replace(/<!-- Noscript fallback for search engine crawlers -->[\s\S]*?<\/noscript>/i, fallback);
+    .replace(/<!-- Noscript fallback for search engine crawlers -->[\s\S]*?<\/noscript>/i, '')
+    .replace('<div id="root"></div>', `<div id="root">${staticContent}</div>`);
 };
 
 const staticPages = [
@@ -276,6 +354,14 @@ const staticPages = [
     breadcrumbs: [{ name: 'Trang chủ', url: SITE_URL }, { name: 'Điều khoản sử dụng', url: `${SITE_URL}/terms` }],
   },
   {
+    route: '/editorial-policy',
+    title: 'Nguyên tắc biên tập & công bố thông tin',
+    rawTitle: 'Nguyên tắc biên tập & công bố thông tin',
+    description: 'Cách nội dung, số liệu, ví dụ và case study trên nguyentronghuu.com được biên soạn, kiểm tra và cập nhật.',
+    lastmod: '2026-09-08',
+    breadcrumbs: [{ name: 'Trang chủ', url: SITE_URL }, { name: 'Nguyên tắc biên tập', url: `${SITE_URL}/editorial-policy` }],
+  },
+  {
     route: '/meta_ads',
     title: 'Meta Ads Analyzer – AI Workflow Skill',
     rawTitle: 'Meta Ads Analyzer',
@@ -311,7 +397,7 @@ const readEnv = async () => {
 const fetchTable = async (env, table, query) => {
   const baseUrl = process.env.VITE_SUPABASE_URL || env.VITE_SUPABASE_URL;
   const anonKey = process.env.VITE_SUPABASE_ANON_KEY || env.VITE_SUPABASE_ANON_KEY;
-  if (!baseUrl || !anonKey) return [];
+  if (!baseUrl || !anonKey) throw new Error('Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY');
 
   const response = await fetch(`${baseUrl}/rest/v1/${table}?${query}`, {
     headers: { apikey: anonKey, Authorization: `Bearer ${anonKey}` },
@@ -324,9 +410,9 @@ const dynamicPages = async () => {
   const env = await readEnv();
   try {
     const [posts, projects, services] = await Promise.all([
-      fetchTable(env, 'posts', 'select=slug,title,seo_title,seo_description,excerpt,cover_image,category,created_at,updated_at&status=eq.published&order=created_at.desc'),
-      fetchTable(env, 'projects', 'select=slug,title,seo_title,seo_description,cover_image,category,created_at,updated_at&status=eq.completed&order=created_at.desc'),
-      fetchTable(env, 'services', 'select=slug,title,seo_title,seo_description,description,cover_image,created_at,updated_at&status=eq.published&order=created_at.desc'),
+      fetchTable(env, 'posts', 'select=slug,title,seo_title,seo_description,excerpt,content,cover_image,category,created_at,updated_at&status=eq.published&order=created_at.desc'),
+      fetchTable(env, 'projects', 'select=slug,title,seo_title,seo_description,content,cover_image,category,client,year,link,created_at,updated_at&status=eq.completed&order=created_at.desc'),
+      fetchTable(env, 'services', 'select=slug,title,seo_title,seo_description,description,content,cover_image,created_at,updated_at&status=eq.published&order=created_at.desc'),
     ]);
 
     const postPages = posts.map((item) => ({
@@ -337,6 +423,7 @@ const dynamicPages = async () => {
       image: item.cover_image,
       kind: 'article',
       section: item.category,
+      content: item.content,
       publishedTime: item.created_at,
       modifiedTime: item.updated_at || item.created_at,
       lastmod: item.updated_at || item.created_at,
@@ -354,6 +441,10 @@ const dynamicPages = async () => {
       description: truncate(item.seo_description || `Dự án ${item.title} do Nguyễn Trọng Hữu triển khai.`),
       image: item.cover_image,
       kind: 'project',
+      content: item.content,
+      client: item.client,
+      year: item.year,
+      link: item.link,
       lastmod: item.updated_at || item.created_at,
       breadcrumbs: [
         { name: 'Trang chủ', url: SITE_URL },
@@ -369,6 +460,8 @@ const dynamicPages = async () => {
       description: truncate(item.seo_description || item.description || `Dịch vụ ${item.title} cho doanh nghiệp.`),
       image: item.cover_image,
       kind: 'service',
+      content: item.content,
+      faqs: getServiceFaqs(item.slug),
       lastmod: item.updated_at || item.created_at,
       breadcrumbs: [
         { name: 'Trang chủ', url: SITE_URL },
@@ -379,17 +472,16 @@ const dynamicPages = async () => {
 
     return [...postPages, ...projectPages, ...servicePages];
   } catch (error) {
-    console.warn(`SEO prerender skipped remote content (${error.message}). Static routes were still generated.`);
-    return [];
+    throw new Error(`SEO prerender could not load published CMS content: ${error.message}`);
   }
 };
 
 const outputPath = (route) => route === '/' ? path.join(DIST_DIR, 'index.html') : path.join(DIST_DIR, `${route.slice(1)}.html`);
 
-const writeRoute = async (baseHtml, page) => {
+const writeRoute = async (baseHtml, page, allPages) => {
   const target = outputPath(page.route);
   await mkdir(path.dirname(target), { recursive: true });
-  await writeFile(target, renderPage(baseHtml, page), 'utf8');
+  await writeFile(target, renderPage(baseHtml, page, allPages), 'utf8');
 };
 
 const makeSitemap = (pages) => {
@@ -398,6 +490,16 @@ const makeSitemap = (pages) => {
     return `  <url><loc>${canonicalUrl(page.route)}</loc>${lastmod}</url>`;
   });
   return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls.join('\n')}\n</urlset>\n`;
+};
+
+const makeLlmsTxt = (pages) => {
+  const groups = [
+    ['Dịch vụ', pages.filter((page) => page.kind === 'service')],
+    ['Dự án', pages.filter((page) => page.kind === 'project')],
+    ['Bài viết', pages.filter((page) => page.kind === 'article')],
+  ];
+  const sections = groups.map(([label, items]) => `## ${label}\n${items.map((page) => `- [${page.rawTitle || page.title}](${canonicalUrl(page.route)}): ${page.description}`).join('\n')}`).join('\n\n');
+  return `# ${SITE_NAME}\n\n> Tư vấn và triển khai Web, App, kiến trúc hệ thống và AI Automation cho doanh nghiệp Việt Nam.\n\nThông tin chính thức: ${SITE_URL}/about\nLiên hệ: ${SITE_URL}/contact\n\n${sections}\n`;
 };
 
 const baseHtml = await readFile(path.join(DIST_DIR, 'index.html'), 'utf8');
@@ -410,6 +512,8 @@ const fallbackService = {
   description: 'Xây dựng hệ thống tự động hóa vận hành, quản lý đơn hàng, lead và báo cáo bằng Google Apps Script và Google Sheets cho doanh nghiệp.',
   image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1600&auto=format&fit=crop',
   kind: 'service',
+  content: '<h2>Tự động hóa Google Sheets và Apps Script là gì?</h2><p>Đây là dịch vụ thiết kế hệ thống vận hành trên Google Sheets, kết hợp Apps Script, webhook và API để tự động thu thập dữ liệu, xử lý nghiệp vụ, gửi thông báo và tạo báo cáo cho doanh nghiệp.</p><h2>Phù hợp với ai?</h2><p>Giải pháp phù hợp với doanh nghiệp vừa và nhỏ đang quản lý lead, đơn hàng, báo cáo hoặc quy trình nội bộ bằng bảng tính và muốn giảm thao tác nhập liệu thủ công.</p>',
+  faqs: getServiceFaqs('google-sheets-automation'),
   breadcrumbs: [
     { name: 'Trang chủ', url: SITE_URL },
     { name: 'Dịch vụ', url: `${SITE_URL}/services` },
@@ -420,7 +524,7 @@ const fallbackService = {
 const publicPages = [...staticPages, ...remotePages];
 if (!publicPages.some((page) => page.route === fallbackService.route)) publicPages.push(fallbackService);
 
-for (const page of [...publicPages, ...adminRoutes]) await writeRoute(baseHtml, page);
+for (const page of [...publicPages, ...adminRoutes]) await writeRoute(baseHtml, page, publicPages);
 
 const notFoundPage = {
   route: '/404',
@@ -429,8 +533,9 @@ const notFoundPage = {
   description: 'Trang bạn đang tìm không tồn tại hoặc đã được di chuyển.',
   noIndex: true,
 };
-await writeFile(path.join(DIST_DIR, '404.html'), renderPage(baseHtml, notFoundPage), 'utf8');
+await writeFile(path.join(DIST_DIR, '404.html'), renderPage(baseHtml, notFoundPage, publicPages), 'utf8');
 await writeFile(path.join(DIST_DIR, 'sitemap.xml'), makeSitemap(publicPages), 'utf8');
+await writeFile(path.join(DIST_DIR, 'llms.txt'), makeLlmsTxt(publicPages), 'utf8');
 await writeFile(path.join(DIST_DIR, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin/\nDisallow: /api/\n\nSitemap: ${SITE_URL}/sitemap.xml\n`, 'utf8');
 
 console.log(`Generated SEO HTML for ${publicPages.length} public routes and ${adminRoutes.length} admin routes.`);

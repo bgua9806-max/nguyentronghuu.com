@@ -239,6 +239,7 @@ export default function BlogPost() {
         publishedTime={post.created_at}
         modifiedTime={post.updated_at || post.created_at}
         articleSection={post.category}
+        wordCount={preparedContent.html.replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length}
         breadcrumbs={[
           { name: 'Trang chủ', url: 'https://nguyentronghuu.com' },
           { name: 'Bài viết', url: 'https://nguyentronghuu.com/blog' },
@@ -319,6 +320,10 @@ export default function BlogPost() {
 
       {/* Interactions Section */}
       <section className="ml-auto max-w-3xl border-t border-zinc-200 pt-10">
+        <aside className="mb-10 rounded-xl border border-zinc-200 bg-zinc-50 p-5 text-sm leading-relaxed text-zinc-600" aria-label="Thông tin biên tập">
+          <strong className="text-zinc-900">Về nội dung này:</strong> Bài viết do Nguyễn Trọng Hữu chịu trách nhiệm biên tập. Ngày xuất bản và cập nhật được hiển thị ở đầu bài; nguồn bên ngoài, khi được sử dụng, được liên kết trong nội dung.{' '}
+          <Link to="/editorial-policy" className="font-semibold text-amber-700 underline underline-offset-4">Xem nguyên tắc biên tập</Link>.
+        </aside>
         <div className="flex items-center justify-between mb-12">
           <div className="flex space-x-4">
             <button 

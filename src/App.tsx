@@ -344,6 +344,7 @@ function Layout() {
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/privacy" element={<LegalPage variant="privacy" />} />
                 <Route path="/terms" element={<LegalPage variant="terms" />} />
+                <Route path="/editorial-policy" element={<LegalPage variant="editorial" />} />
                 <Route path="/meta_ads" element={<MetaAds />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
@@ -399,6 +400,7 @@ function Layout() {
                 <ul className="space-y-3 text-sm text-zinc-600">
                   <li><Link to="/terms" className="hover:text-zinc-900 transition-colors">Điều khoản sử dụng</Link></li>
                   <li><Link to="/privacy" className="hover:text-zinc-900 transition-colors">Chính sách bảo mật</Link></li>
+                  <li><Link to="/editorial-policy" className="hover:text-zinc-900 transition-colors">Nguyên tắc biên tập</Link></li>
                 </ul>
               </div>
 

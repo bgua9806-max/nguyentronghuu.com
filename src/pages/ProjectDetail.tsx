@@ -145,6 +145,10 @@ export default function ProjectDetail() {
                     <p className="italic text-zinc-500">Đang cập nhật chi tiết dự án...</p>
                   )}
                 </motion.div>
+                <aside className="rounded-xl border border-zinc-200 bg-zinc-50 p-5 text-sm leading-relaxed text-zinc-600">
+                  <strong className="text-zinc-900">Phạm vi công bố:</strong> Nội dung case study mô tả phần thông tin được phép chia sẻ. Tên khách hàng hoặc dữ liệu nhạy cảm có thể được khái quát; kết quả định lượng chỉ nên được hiểu trong phạm vi và thời gian nêu trong dự án.{' '}
+                  <Link to="/editorial-policy" className="font-semibold text-amber-700 underline underline-offset-4">Xem nguyên tắc công bố</Link>.
+                </aside>
             </div>
         </div>
 

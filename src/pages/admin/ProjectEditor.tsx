@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Save, ArrowLeft, Image as ImageIcon, Bold, Italic, List, Link as LinkIcon, Type, Eye, Globe, Hash, Sparkles, ArrowDownRight, X, ExternalLink, Calendar, Copy, Briefcase, Loader2 } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
+import { notifyIndexNow } from '../../lib/indexNow';
 
 export default function ProjectEditor() {
   const navigate = useNavigate();
@@ -314,17 +315,8 @@ export default function ProjectEditor() {
         throw error;
       }
       
-      // Tự động ping Google Indexing API nếu trạng thái là completed
       if (status === 'completed') {
-        try {
-          fetch('/api/request-indexing', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ url: `https://nguyentronghuu.com/projects/${finalSlug}` })
-          }).catch(err => console.error('Lỗi khi gọi Indexing API:', err));
-        } catch (e) {
-          console.error(e);
-        }
+        void notifyIndexNow(`https://nguyentronghuu.com/projects/${finalSlug}`);
       }
       
       toast.success(id ? 'Đã cập nhật dự án' : 'Đã tạo dự án mới');

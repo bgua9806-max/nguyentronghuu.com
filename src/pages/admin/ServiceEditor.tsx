@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { Save, ArrowLeft, Image as ImageIcon, Bold, Italic, List, Link as LinkIcon, Type, Eye, Globe, Copy, Loader2, Code2, Bot, LineChart, Cpu, Share2, FileSpreadsheet, Sparkles, MessageSquareText, Zap } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { supabase } from '../../lib/supabase';
+import { notifyIndexNow } from '../../lib/indexNow';
 
 export default function ServiceEditor() {
   const navigate = useNavigate();
@@ -306,6 +307,10 @@ export default function ServiceEditor() {
       if (error) {
         if (error.code === '23505') throw new Error('Đường dẫn (slug) đã tồn tại.');
         throw error;
+      }
+
+      if (status === 'published') {
+        void notifyIndexNow(`https://nguyentronghuu.com/services/${finalSlug}`);
       }
       
       toast.success(id ? 'Đã cập nhật dịch vụ' : 'Đã tạo dịch vụ mới');

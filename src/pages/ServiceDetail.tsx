@@ -5,6 +5,7 @@ import { ArrowLeft, ArrowRight, Share2, Loader2, Code2, Bot, Cpu, LineChart, Fil
 import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
+import { getServiceFaqs } from '../data/serviceFaqs';
 
 const iconMap: Record<string, any> = {
   Code2,
@@ -32,25 +33,6 @@ const cleanServiceHtml = (value = '') => {
 
   return html;
 };
-
-const SERVICE_FAQS = [
-  {
-    question: 'Chi phí triển khai được xác định như thế nào?',
-    answer: 'Chi phí phụ thuộc vào phạm vi tính năng, mức độ tích hợp và hiện trạng hệ thống. Sau buổi trao đổi yêu cầu, bạn sẽ nhận được đề xuất phạm vi và chi phí tương ứng trước khi quyết định.'
-  },
-  {
-    question: 'Thời gian thực hiện dự án khoảng bao lâu?',
-    answer: 'Thời gian được xác định sau khi làm rõ mục tiêu, dữ liệu đầu vào và các bên liên quan. Lộ trình thực hiện cùng các mốc bàn giao sẽ được thống nhất trong đề xuất dự án.'
-  },
-  {
-    question: 'Doanh nghiệp cần chuẩn bị gì trước buổi tư vấn?',
-    answer: 'Bạn nên chuẩn bị bài toán đang gặp phải, quy trình hiện tại, công cụ hoặc nguồn dữ liệu đang sử dụng và kết quả mong muốn. Những thông tin này giúp buổi trao đổi đi thẳng vào giải pháp.'
-  },
-  {
-    question: 'Sau khi bàn giao có hỗ trợ vận hành không?',
-    answer: 'Phạm vi hướng dẫn, bảo hành và hỗ trợ sau bàn giao sẽ được ghi rõ trong đề xuất hoặc thỏa thuận triển khai để phù hợp với nhu cầu vận hành thực tế.'
-  }
-];
 
 const FALLBACK_SERVICES: Record<string, any> = {
   "chatgpt-ads-agent-automation": {
@@ -814,6 +796,7 @@ export default function ServiceDetail() {
   };
 
   const IconComponent = iconMap[service.icon_name] || Cpu;
+  const serviceFaqs = getServiceFaqs(service.slug);
 
   return (
     <motion.article 
@@ -834,6 +817,7 @@ export default function ServiceDetail() {
           { name: 'Dịch vụ', url: 'https://nguyentronghuu.com/services' },
           { name: service.title, url: `https://nguyentronghuu.com/services/${service.slug}` },
         ]}
+        faqs={serviceFaqs}
       />
 
       <header className="mb-8 md:mb-12 flex items-center">
@@ -951,7 +935,7 @@ export default function ServiceDetail() {
           <p className="mb-4 text-xs font-bold uppercase tracking-widest text-zinc-500">Thông tin cần biết</p>
           <h2 id="faq-title" className="mb-8 max-w-2xl font-serif text-3xl leading-tight text-zinc-900 md:text-5xl">Câu hỏi thường gặp</h2>
           <div className="divide-y divide-zinc-200 border-y border-zinc-200">
-            {SERVICE_FAQS.map((item) => (
+            {serviceFaqs.map((item) => (
               <details key={item.question} className="group">
                 <summary className="flex cursor-pointer list-none items-center justify-between gap-6 py-5 text-left font-semibold text-zinc-900 marker:content-none md:py-6">
                   <span>{item.question}</span>

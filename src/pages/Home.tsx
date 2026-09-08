@@ -4,7 +4,7 @@ import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
 import { STAGGER, STAGGER_ITEM, FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
-import homeAiWorkflowPortrait from '../assets/images/home-ai-workflow-portrait.png';
+import homeAiWorkflowPortrait from '../assets/images/home-ai-workflow-portrait.webp';
 import { optimizeImageUrl } from '../lib/imageUtils';
 
 export default function Home() {
@@ -106,6 +106,7 @@ export default function Home() {
                 alt="Nguyễn Trọng Hữu - Chuyên gia tư vấn và phát triển giải pháp Web, App, AI"
                 width="340" height="453"
                 fetchPriority="high"
+                decoding="async"
                 className="w-full h-full object-cover" 
               />
             </div>
@@ -152,7 +153,9 @@ export default function Home() {
                   src={homeAiWorkflowPortrait} 
                   alt="Nguyễn Trọng Hữu" 
                   width="600" height="750"
-                  fetchPriority="high"
+                  loading="lazy"
+                  fetchPriority="low"
+                  decoding="async"
                   className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700 hover:scale-105"
                 />
               </div>
