@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
+import { ArrowUpRight, ArrowRight, Loader2, Play, Pause, Volume2, VolumeX, Maximize2, Sparkles, Video, ExternalLink } from 'lucide-react';
 import { STAGGER, STAGGER_ITEM, FADE_UP } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -10,6 +10,62 @@ import { optimizeImageUrl } from '../lib/imageUtils';
 export default function Home() {
   const [latestPosts, setLatestPosts] = useState<any[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(video);
+
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
+    };
+  }, []);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
+  };
+
+  const toggleFullscreen = () => {
+    if (!videoRef.current) return;
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    } else {
+      videoRef.current.requestFullscreen().catch(() => {});
+    }
+  };
 
   useEffect(() => {
     const fetchLatestPosts = async () => {
@@ -196,6 +252,178 @@ export default function Home() {
                 </Link>
               </motion.div>
             </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Featured Live Showcase Section: FourLand CRM 3D */}
+      <section className="py-24 md:py-32 bg-zinc-950 text-white relative overflow-hidden px-6 md:px-12">
+        {/* Ambient Glows */}
+        <div className="pointer-events-none absolute -left-40 top-1/4 h-96 w-96 rounded-full bg-amber-500/10 blur-3xl" aria-hidden="true" />
+        <div className="pointer-events-none absolute -right-40 bottom-1/4 h-96 w-96 rounded-full bg-blue-500/10 blur-3xl" aria-hidden="true" />
+        
+        <div className="max-w-6xl mx-auto relative">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 md:mb-16">
+            <motion.div
+              initial="initial"
+              whileInView="whileInView"
+              variants={FADE_UP}
+              className="max-w-2xl"
+            >
+              <div className="inline-flex items-center gap-2 rounded-full border border-amber-500/30 bg-amber-500/10 px-3.5 py-1 text-xs font-semibold uppercase tracking-widest text-amber-400 mb-5">
+                <span className="h-2 w-2 rounded-full bg-amber-400 animate-pulse" />
+                Dự Án Nổi Bật · Live Showcase
+              </div>
+              <h2 className="text-3xl sm:text-4xl md:text-5xl font-serif leading-tight text-white mb-4">
+                FourLand CRM 3D
+              </h2>
+              <p className="text-base sm:text-lg text-zinc-400 leading-relaxed">
+                Hệ thống quản trị Bất động sản trực quan & Khớp nhu cầu thông minh thế hệ mới, thiết kế theo tư duy định hướng hành động cho sale kết hợp AI và Vibe Coding.
+              </p>
+            </motion.div>
+
+            <motion.div
+              initial="initial"
+              whileInView="whileInView"
+              variants={FADE_UP}
+              className="flex items-center gap-4"
+            >
+              <Link 
+                to="/projects/fourland-crm-3d" 
+                className="group inline-flex items-center gap-2 rounded-full bg-amber-500 px-6 py-3 text-sm font-semibold text-zinc-950 transition-all hover:bg-amber-400 hover:shadow-lg hover:shadow-amber-500/20"
+              >
+                <span>Xem Case Study Chi Tiết</span>
+                <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+              </Link>
+            </motion.div>
+          </div>
+
+          {/* Browser Mockup with Video Demo */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl shadow-zinc-950/80 mb-12"
+          >
+            {/* Window Top Bar */}
+            <div className="flex items-center justify-between border-b border-zinc-800/80 bg-zinc-900/90 px-4 py-3">
+              <div className="flex items-center space-x-2">
+                <span className="h-3 w-3 rounded-full bg-red-500/80 inline-block" />
+                <span className="h-3 w-3 rounded-full bg-yellow-500/80 inline-block" />
+                <span className="h-3 w-3 rounded-full bg-emerald-500/80 inline-block" />
+              </div>
+              <div className="hidden sm:flex items-center gap-2 rounded-md bg-zinc-950/60 px-4 py-1 text-xs text-zinc-400 border border-zinc-800">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                <span>app.fourland.vn · 3D Real Estate CRM Space</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <a
+                  href="https://youtu.be/D4aL51eg7k0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
+                >
+                  <Video size={13} className="text-red-500" />
+                  <span>Mở YouTube</span>
+                  <ExternalLink size={11} />
+                </a>
+              </div>
+            </div>
+
+            {/* Native HTML5 Clean Video Player with Zero YouTube Logo & Scroll Autoplay */}
+            <div className="relative aspect-video w-full bg-zinc-950 group overflow-hidden">
+              <video
+                ref={videoRef}
+                src="/videos/fourland-crm-3d.mp4"
+                poster="https://img.youtube.com/vi/D4aL51eg7k0/maxresdefault.jpg"
+                muted={isMuted}
+                loop
+                playsInline
+                preload="metadata"
+                className="h-full w-full object-cover"
+              />
+
+              {/* Minimalist Floating Controls */}
+              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent flex items-center justify-between opacity-90 transition-opacity group-hover:opacity-100">
+                <div className="flex items-center gap-2">
+                  <span className={`flex h-2.5 w-2.5 rounded-full ${isPlaying ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                  <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                    {isPlaying ? 'Tự động phát khi cuộn' : 'Tạm dừng'}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  {/* Play / Pause Toggle */}
+                  <button
+                    type="button"
+                    onClick={togglePlay}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10"
+                    title={isPlaying ? "Tạm dừng" : "Phát"}
+                  >
+                    {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5 fill-white" />}
+                  </button>
+
+                  {/* Mute / Unmute Toggle */}
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10 text-xs font-medium"
+                    title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
+                  >
+                    {isMuted ? (
+                      <>
+                        <VolumeX size={16} className="text-amber-400" />
+                        <span className="hidden sm:inline text-zinc-300">Bật tiếng</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 size={16} className="text-emerald-400" />
+                        <span className="hidden sm:inline text-zinc-300">Đang bật tiếng</span>
+                      </>
+                    )}
+                  </button>
+
+                  {/* Fullscreen Button */}
+                  <button
+                    type="button"
+                    onClick={toggleFullscreen}
+                    className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10"
+                    title="Toàn màn hình"
+                  >
+                    <Maximize2 size={15} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Feature Highlights Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
+              <div className="text-amber-400 font-serif text-lg mb-2">📞 Hôm nay gọi ai?</div>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Tự động lọc khách hàng đến hạn chăm sóc, khách vừa để lại tương tác hoặc có tín hiệu mua.
+              </p>
+            </div>
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
+              <div className="text-amber-400 font-serif text-lg mb-2">🎯 Giới thiệu căn nào?</div>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Thuật toán matching tự động khớp tiêu chí tài chính, vị trí, hướng nhà với kho bđs trong 1 click.
+              </p>
+            </div>
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
+              <div className="text-amber-400 font-serif text-lg mb-2">⏳ Deal nào đang đứng?</div>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Pipeline trực quan cảnh báo các giao dịch bị nghẽn ở bước cọc, hợp đồng hay thủ tục vay.
+              </p>
+            </div>
+            <div className="rounded-xl border border-zinc-800/80 bg-zinc-900/60 p-5 backdrop-blur-sm">
+              <div className="text-amber-400 font-serif text-lg mb-2">💰 Phí nào chưa thu?</div>
+              <p className="text-xs text-zinc-400 leading-relaxed">
+                Quản lý chi tiết biểu phí môi giới, hoa hồng phân chia và tiến độ từng đợt thu tiền minh bạch.
+              </p>
+            </div>
           </div>
         </div>
       </section>

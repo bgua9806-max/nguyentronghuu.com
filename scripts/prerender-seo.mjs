@@ -293,7 +293,7 @@ const renderPage = (baseHtml, page, allPages) => {
   return cleanBaseHead(baseHtml)
     .replace('</head>', `${buildHead(page)}\n  </head>`)
     .replace(/<!-- Noscript fallback for search engine crawlers -->[\s\S]*?<\/noscript>/i, '')
-    .replace('<div id="root"></div>', `<div id="root">${staticContent}</div>`);
+    .replace('<div id="root"></div>', `<div id="root"><div id="app-loading" aria-hidden="true"><div class="app-loader"><div class="app-loader-ring"></div><div class="app-loader-dot"></div></div></div>${staticContent}</div>`);
 };
 
 const staticPages = [

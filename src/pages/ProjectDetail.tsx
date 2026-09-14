@@ -1,10 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { STAGGER, STAGGER_ITEM } from '../data';
-import { ArrowLeft, Share2, Loader2 } from 'lucide-react';
+import { ArrowLeft, Share2, Loader2, Play, Pause, Volume2, VolumeX, Maximize2, ExternalLink, Video } from 'lucide-react';
 import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
+
+const getYouTubeId = (url?: string): string | null => {
+  if (!url) return null;
+  const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+  return match ? match[1] : null;
+};
 
 export default function ProjectDetail() {
   const { slug } = useParams();
@@ -13,6 +19,63 @@ export default function ProjectDetail() {
   const [isLoading, setIsLoading] = useState(true);
   const [shareText, setShareText] = useState("Chia sẻ dự án");
   const [relatedProjects, setRelatedProjects] = useState<any[]>([]);
+  const [isPlayingVideo, setIsPlayingVideo] = useState(false);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    video.addEventListener('play', handlePlay);
+    video.addEventListener('pause', handlePause);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          video.play().catch(() => {});
+        } else {
+          video.pause();
+        }
+      },
+      { threshold: 0.25 }
+    );
+
+    observer.observe(video);
+
+    return () => {
+      observer.disconnect();
+      video.removeEventListener('play', handlePlay);
+      video.removeEventListener('pause', handlePause);
+    };
+  }, [project]);
+
+  const togglePlay = () => {
+    if (!videoRef.current) return;
+    if (isPlaying) {
+      videoRef.current.pause();
+    } else {
+      videoRef.current.play().catch(() => {});
+    }
+  };
+
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+    videoRef.current.muted = !isMuted;
+    setIsMuted(!isMuted);
+  };
+
+  const toggleFullscreen = () => {
+    if (!videoRef.current) return;
+    if (document.fullscreenElement) {
+      document.exitFullscreen().catch(() => {});
+    } else {
+      videoRef.current.requestFullscreen().catch(() => {});
+    }
+  };
 
   useEffect(() => {
     const fetchProject = async () => {
@@ -66,6 +129,8 @@ export default function ProjectDetail() {
     setTimeout(() => setShareText("Chia sẻ dự án"), 2000);
   };
 
+  const youtubeId = getYouTubeId(project.link);
+
   return (
     <motion.article 
       initial={{ opacity: 0, y: 20 }}
@@ -106,6 +171,12 @@ export default function ProjectDetail() {
               {project.category}
             </span>
             <span className="text-sm font-medium text-zinc-500">{project.year}</span>
+            {youtubeId && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 border border-red-200">
+                <Video size={13} className="text-red-600" />
+                <span>Video Demo Walkthrough</span>
+              </span>
+            )}
           </div>
           <h1 className="text-2xl md:text-5xl lg:text-6xl xl:text-7xl font-serif text-zinc-900 mb-6 md:mb-8 leading-tight">
             {project.title}
@@ -117,8 +188,112 @@ export default function ProjectDetail() {
           )}
         </motion.div>
 
-        <motion.div variants={STAGGER_ITEM} className="w-full flex justify-center bg-zinc-50 mb-16 md:mb-24 rounded-sm">
-            <img src={project.cover_image || 'https://via.placeholder.com/1200x600'} alt={project.title} width="1200" height="675" className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
+        {/* Hero Media: Native HTML5 Clean Video (Zero YouTube Logo & Scroll Autoplay) or YouTube or Cover Image */}
+        <motion.div variants={STAGGER_ITEM} className="w-full mb-16 md:mb-24">
+          {slug === 'fourland-crm-3d' ? (
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-950 shadow-2xl group">
+              <video
+                ref={videoRef}
+                src="/videos/fourland-crm-3d.mp4"
+                poster="https://img.youtube.com/vi/D4aL51eg7k0/maxresdefault.jpg"
+                muted={isMuted}
+                loop
+                playsInline
+                preload="metadata"
+                className="h-full w-full object-cover"
+              />
+
+              {/* Minimalist Floating Controls */}
+              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent flex items-center justify-between opacity-90 transition-opacity group-hover:opacity-100">
+                <div className="flex items-center gap-2">
+                  <span className={`flex h-2.5 w-2.5 rounded-full ${isPlaying ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                  <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                    {isPlaying ? 'Tự động phát khi cuộn tới' : 'Tạm dừng'}
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={togglePlay}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10"
+                    title={isPlaying ? "Tạm dừng" : "Phát"}
+                  >
+                    {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5 fill-white" />}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10 text-xs font-medium"
+                    title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
+                  >
+                    {isMuted ? (
+                      <>
+                        <VolumeX size={16} className="text-amber-400" />
+                        <span className="hidden sm:inline text-zinc-300">Bật tiếng</span>
+                      </>
+                    ) : (
+                      <>
+                        <Volume2 size={16} className="text-emerald-400" />
+                        <span className="hidden sm:inline text-zinc-300">Đang bật tiếng</span>
+                      </>
+                    )}
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={toggleFullscreen}
+                    className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10"
+                    title="Toàn màn hình"
+                  >
+                    <Maximize2 size={15} />
+                  </button>
+                </div>
+              </div>
+            </div>
+          ) : youtubeId ? (
+            <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-950 shadow-2xl">
+              {isPlayingVideo ? (
+                <iframe
+                  src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+                  title={project.title}
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="h-full w-full border-0"
+                />
+              ) : (
+                <div className="group relative h-full w-full cursor-pointer" onClick={() => setIsPlayingVideo(true)}>
+                  <img
+                    src={project.cover_image || `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
+                    alt={project.title}
+                    width="1280"
+                    height="720"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/30 to-transparent transition-opacity group-hover:opacity-75" />
+                  
+                  {/* Play Button Overlay */}
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center">
+                    <button
+                      type="button"
+                      aria-label="Phát video demo"
+                      className="flex h-20 w-20 items-center justify-center rounded-full bg-amber-500 text-zinc-950 shadow-2xl shadow-amber-500/50 transition-all duration-300 group-hover:scale-110 group-hover:bg-amber-400 focus:outline-none"
+                    >
+                      <Play size={32} className="ml-1 fill-zinc-950" />
+                    </button>
+                    <div className="rounded-full bg-zinc-950/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md border border-white/10">
+                      Bấm để xem Video Demo thực tế (2:57)
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="w-full flex justify-center bg-zinc-50 rounded-sm">
+              <img src={project.cover_image || 'https://via.placeholder.com/1200x600'} alt={project.title} width="1200" height="675" className="w-full h-auto max-h-[70vh] object-contain rounded-sm" />
+            </div>
+          )}
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
@@ -129,10 +304,36 @@ export default function ProjectDetail() {
                         <p className="text-zinc-600">{project.client}</p>
                     </div>
                 )}
+                {project.year && (
+                    <div>
+                        <h4 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2">Năm thực hiện</h4>
+                        <p className="text-zinc-600">{project.year}</p>
+                    </div>
+                )}
+                {Array.isArray(project.tech_stack) && project.tech_stack.length > 0 && (
+                    <div>
+                        <h4 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2">Công nghệ & Phương pháp</h4>
+                        <div className="flex flex-wrap gap-1.5">
+                          {project.tech_stack.map((tech: string, i: number) => (
+                            <span key={i} className="inline-block rounded-md bg-zinc-100 px-2.5 py-1 text-xs font-medium text-zinc-700">
+                              {tech}
+                            </span>
+                          ))}
+                        </div>
+                    </div>
+                )}
                 {project.link && (
                     <div>
                         <h4 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2">Sản phẩm / Link</h4>
-                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="text-amber-600 hover:text-amber-700 underline underline-offset-4">Xem dự án thực tế</a>
+                        <a 
+                          href={project.link} 
+                          target="_blank" 
+                          rel="noopener noreferrer" 
+                          className="inline-flex items-center gap-1.5 text-amber-600 hover:text-amber-700 font-semibold underline underline-offset-4"
+                        >
+                          <span>{youtubeId ? 'Xem trực tiếp trên YouTube' : 'Xem dự án thực tế'}</span>
+                          <ExternalLink size={14} />
+                        </a>
                     </div>
                 )}
             </div>

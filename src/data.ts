@@ -147,6 +147,23 @@ export const BLOG_POSTS = [
 
 export const PROJECTS_DATA = [
   {
+    id: 11,
+    title: "FourLand CRM 3D: Hệ thống Quản trị BĐS Trực quan",
+    category: "Web App / PropTech / 3D CRM",
+    img: "https://img.youtube.com/vi/D4aL51eg7k0/maxresdefault.jpg",
+    year: "2026",
+    description: "Hệ thống quản lý khách hàng và giỏ hàng bất động sản trực quan thế hệ mới, định hướng hành động cho sale, không gian 3D, tự khớp khách và căn thông minh.",
+    client: "FourLand PropTech / Innovation",
+    challenge: "CRM bất động sản truyền thống cồng kềnh, chỉ để lưu trữ thụ động khiến sale tốn nhiều thời gian tra cứu căn, dễ bỏ quên khách chăm sóc và khó kiểm soát phí môi giới.",
+    solution: "Xây dựng Web App định hướng hành động giải quyết 4 câu hỏi: Hôm nay gọi ai? Ghép căn nào? Deal nào kẹt? Phí nào chưa thu? Kết hợp không gian 3D trực quan, thuật toán matching tự động và phân quyền đa cấp bằng phương pháp AI + Vibe Coding.",
+    results: [
+      "Giải quyết triệt để 4 câu hỏi hành động then chốt cho đội ngũ môi giới mỗi ngày.",
+      "Tự động khớp nhu cầu khách hàng với kho căn hộ sẵn có trong 1 click.",
+      "Không gian CRM 3D hiển thị sa bàn và trạng thái căn trực quan sinh động.",
+      "Hoàn thiện hệ thống phân quyền 3 cấp (Admin, Nhân viên, Chỉ xem) và quản trị phiên an toàn."
+    ]
+  },
+  {
     id: 1,
     title: "Chiến dịch Thời trang Mùa Hè",
     category: "E-Commerce / Social Media",

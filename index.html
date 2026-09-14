@@ -21,6 +21,73 @@
 
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Immediate Theme & JS Detection to prevent FOUC (Flash of Unstyled Content) -->
+    <script>
+      (function() {
+        try {
+          document.documentElement.classList.add('js');
+          var saved = localStorage.getItem('theme');
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          if (saved === 'dark' || (!saved && prefersDark)) {
+            document.documentElement.classList.add('dark');
+          } else {
+            document.documentElement.classList.remove('dark');
+          }
+        } catch (e) {}
+      })();
+    </script>
+
+    <!-- Critical CSS for Instant App Shell & FOUC Prevention -->
+    <style>
+      /* When JS is active, hide raw SEO pre-render shell to eliminate FOUC */
+      html.js .seo-static-shell {
+        display: none !important;
+      }
+
+      /* Premium loading shell active only until React mounts */
+      #app-loading {
+        display: none;
+      }
+      html.js #app-loading {
+        display: flex;
+        position: fixed;
+        inset: 0;
+        z-index: 99999;
+        align-items: center;
+        justify-content: center;
+        background-color: #fafafa;
+      }
+      html.js.dark #app-loading {
+        background-color: #09090b;
+      }
+      .app-loader {
+        position: relative;
+        width: 42px;
+        height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .app-loader-ring {
+        position: absolute;
+        inset: 0;
+        border-radius: 50%;
+        border: 2.5px solid rgba(245, 158, 11, 0.15);
+        border-top-color: #f59e0b;
+        animation: app-spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+      }
+      .app-loader-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background-color: #f59e0b;
+        box-shadow: 0 0 10px rgba(245, 158, 11, 0.5);
+      }
+      @keyframes app-spin {
+        to { transform: rotate(360deg); }
+      }
+    </style>
     <title>Nguyễn Trọng Hữu - Người xây dựng giải pháp Công nghệ & AI</title>
     <meta name="description" content="Tư vấn & phát triển hệ thống nền tảng Web/App và tự động hóa AI, đồng hành chuyển đổi số và tối ưu vận hành doanh nghiệp." />
     <meta name="author" content="Nguyễn Trọng Hữu" />
@@ -65,7 +132,7 @@
 
     <!-- Theme Color (for mobile browsers) -->
     <meta name="theme-color" content="#18181b" />
-    <meta name="color-scheme" content="light" />
+    <meta name="color-scheme" content="light dark" />
 
     <!-- Structured Data / JSON-LD: Person (enhanced) -->
     <script type="application/ld+json">
