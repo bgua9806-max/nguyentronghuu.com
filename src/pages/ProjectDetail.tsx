@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
-import { STAGGER, STAGGER_ITEM } from '../data';
+import { STAGGER, STAGGER_ITEM, PROJECTS_DATA } from '../data';
 import { ArrowLeft, Share2, Loader2, Play, Pause, Volume2, VolumeX, Maximize2, ExternalLink, Video } from 'lucide-react';
 import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -86,22 +86,54 @@ export default function ProjectDetail() {
           .eq('slug', slug)
           .single();
           
-        if (error) throw error;
-        setProject(data);
-
-        // Fetch related projects
-        const { data: relatedData } = await supabase
-          .from('projects')
-          .select('*')
-          .eq('status', 'completed')
-          .neq('id', data.id)
-          .limit(2)
-          .order('created_at', { ascending: false });
-          
-        setRelatedProjects(relatedData || []);
+        if (!error && data) {
+          setProject(data);
+          const { data: relatedData } = await supabase
+            .from('projects')
+            .select('*')
+            .eq('status', 'completed')
+            .neq('id', data.id)
+            .limit(2)
+            .order('created_at', { ascending: false });
+          setRelatedProjects(relatedData || []);
+        } else {
+          const staticProject = PROJECTS_DATA.find(p => p.slug === slug);
+          if (staticProject) {
+            setProject({
+              ...staticProject,
+              cover_image: staticProject.img,
+              seo_title: `${staticProject.title} | Nguyễn Trọng Hữu`,
+              seo_description: staticProject.description,
+              tech_stack: staticProject.tech_stack || [],
+              content: staticProject.content || ''
+            });
+            setRelatedProjects(PROJECTS_DATA.filter(p => p.slug !== slug).slice(0, 2).map(p => ({
+              ...p,
+              cover_image: p.img
+            })));
+          } else {
+            throw error || new Error('Project not found');
+          }
+        }
       } catch (error) {
         console.error('Error fetching project:', error);
-        navigate('/projects');
+        const staticProject = PROJECTS_DATA.find(p => p.slug === slug);
+        if (staticProject) {
+          setProject({
+            ...staticProject,
+            cover_image: staticProject.img,
+            seo_title: `${staticProject.title} | Nguyễn Trọng Hữu`,
+            seo_description: staticProject.description,
+            tech_stack: staticProject.tech_stack || [],
+            content: staticProject.content || ''
+          });
+          setRelatedProjects(PROJECTS_DATA.filter(p => p.slug !== slug).slice(0, 2).map(p => ({
+            ...p,
+            cover_image: p.img
+          })));
+        } else {
+          navigate('/projects');
+        }
       } finally {
         setIsLoading(false);
       }

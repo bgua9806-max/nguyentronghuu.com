@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { FADE_UP } from '../data';
+import { FADE_UP, PROJECTS_DATA } from '../data';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
@@ -20,9 +20,25 @@ export default function Projects() {
           .order('created_at', { ascending: false });
           
         if (error) throw error;
-        setProjects(data || []);
+        const dbProjects = data || [];
+        const combined = [...dbProjects];
+        PROJECTS_DATA.forEach(p => {
+          if (!combined.some(item => item.slug === p.slug || item.title === p.title)) {
+            combined.unshift({
+              ...p,
+              cover_image: p.img,
+              status: 'completed'
+            });
+          }
+        });
+        setProjects(combined);
       } catch (error) {
         console.error('Error fetching projects:', error);
+        setProjects(PROJECTS_DATA.map(p => ({
+          ...p,
+          cover_image: p.img,
+          status: 'completed'
+        })));
       } finally {
         setIsLoading(false);
       }

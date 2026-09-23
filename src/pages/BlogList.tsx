@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { FADE_UP } from '../data';
+import { FADE_UP, BLOG_POSTS } from '../data';
 import { ArrowUpRight, ArrowRight, Loader2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
@@ -21,9 +21,27 @@ export default function BlogList() {
           .order('created_at', { ascending: false });
           
         if (error) throw error;
-        setPosts(data || []);
+        const dbPosts = data || [];
+        const combined = [...dbPosts];
+        BLOG_POSTS.forEach(p => {
+          if (!combined.some(item => item.slug === p.slug || item.title === p.title)) {
+            combined.unshift({
+              ...p,
+              cover_image: p.img,
+              status: 'published',
+              created_at: new Date().toISOString()
+            });
+          }
+        });
+        setPosts(combined);
       } catch (error) {
         console.error('Error fetching posts:', error);
+        setPosts(BLOG_POSTS.map(p => ({
+          ...p,
+          cover_image: p.img,
+          status: 'published',
+          created_at: new Date().toISOString()
+        })));
       } finally {
         setIsLoading(false);
       }

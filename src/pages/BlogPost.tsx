@@ -4,6 +4,7 @@ import { ArrowLeft, ThumbsUp, Share2, MessageCircle, Send, Loader2 } from 'lucid
 import { Link, useParams, Navigate, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import { supabase } from '../lib/supabase';
+import { BLOG_POSTS } from '../data';
 
 const cleanPostHtml = (value = '') => value
   .replace(/\\n/g, '\n')
@@ -70,50 +71,93 @@ export default function BlogPost() {
           .eq('slug', slug)
           .single();
           
-        if (error) throw error;
-        setPost(data);
-        setLikes(data.likes || 0);
+        if (!error && data) {
+          setPost(data);
+          setLikes(data.likes || 0);
 
-        // Tăng số lượt xem bài viết (Views)
-        const sessionKey = `viewed_${slug}`;
-        if (!sessionStorage.getItem(sessionKey)) {
-          sessionStorage.setItem(sessionKey, 'true');
-          try {
-            // 1. Thử gọi hàm RPC Postgres
-            const { error: rpcError } = await supabase.rpc('increment_post_views', { post_slug: slug });
-            if (rpcError) {
-              // 2. Fallback sang lệnh update trực tiếp
-              await supabase
-                .from('posts')
-                .update({ views: ((data.views || 0) + 1) })
-                .eq('id', data.id);
+          // Tăng số lượt xem bài viết (Views)
+          const sessionKey = `viewed_${slug}`;
+          if (!sessionStorage.getItem(sessionKey)) {
+            sessionStorage.setItem(sessionKey, 'true');
+            try {
+              // 1. Thử gọi hàm RPC Postgres
+              const { error: rpcError } = await supabase.rpc('increment_post_views', { post_slug: slug });
+              if (rpcError) {
+                // 2. Fallback sang lệnh update trực tiếp
+                await supabase
+                  .from('posts')
+                  .update({ views: ((data.views || 0) + 1) })
+                  .eq('id', data.id);
+              }
+            } catch (vErr) {
+              console.warn('Could not increment views:', vErr);
             }
-          } catch (vErr) {
-            console.warn('Could not increment views:', vErr);
+          }
+
+          // Lấy danh sách bình luận
+          const { data: commentsData } = await supabase
+            .from('comments')
+            .select('*')
+            .eq('post_id', data.id)
+            .order('created_at', { ascending: false });
+            
+          setComments(commentsData || []);
+          // Lấy bài viết gợi ý (cùng trạng thái published, loại trừ bài hiện tại)
+          const { data: relatedData } = await supabase
+            .from('posts')
+            .select('*')
+            .eq('status', 'published')
+            .neq('id', data.id)
+            .limit(3)
+            .order('created_at', { ascending: false });
+          
+          setRelatedPosts(relatedData || []);
+        } else {
+          const staticPost = BLOG_POSTS.find(p => p.slug === slug || String(p.id) === slug);
+          if (staticPost) {
+            setPost({
+              ...staticPost,
+              cover_image: staticPost.img,
+              created_at: new Date().toISOString(),
+              status: 'published',
+              views: 142,
+              likes: 24,
+              seo_title: `${staticPost.title} | Nguyễn Trọng Hữu`,
+              seo_description: staticPost.excerpt || staticPost.title
+            });
+            setLikes(24);
+            setRelatedPosts(BLOG_POSTS.filter(p => p.slug !== slug).slice(0, 3).map(p => ({
+              ...p,
+              cover_image: p.img,
+              created_at: new Date().toISOString()
+            })));
+          } else {
+            throw error || new Error('Post not found');
           }
         }
-
-        // Lấy danh sách bình luận
-        const { data: commentsData } = await supabase
-          .from('comments')
-          .select('*')
-          .eq('post_id', data.id)
-          .order('created_at', { ascending: false });
-          
-        setComments(commentsData || []);
-        // Lấy bài viết gợi ý (cùng trạng thái published, loại trừ bài hiện tại)
-        const { data: relatedData } = await supabase
-          .from('posts')
-          .select('*')
-          .eq('status', 'published')
-          .neq('id', data.id)
-          .limit(3)
-          .order('created_at', { ascending: false });
-        
-        setRelatedPosts(relatedData || []);
       } catch (error) {
         console.error('Error fetching post:', error);
-        navigate('/blog');
+        const staticPost = BLOG_POSTS.find(p => p.slug === slug || String(p.id) === slug);
+        if (staticPost) {
+          setPost({
+            ...staticPost,
+            cover_image: staticPost.img,
+            created_at: new Date().toISOString(),
+            status: 'published',
+            views: 142,
+            likes: 24,
+            seo_title: `${staticPost.title} | Nguyễn Trọng Hữu`,
+            seo_description: staticPost.excerpt || staticPost.title
+          });
+          setLikes(24);
+          setRelatedPosts(BLOG_POSTS.filter(p => p.slug !== slug).slice(0, 3).map(p => ({
+            ...p,
+            cover_image: p.img,
+            created_at: new Date().toISOString()
+          })));
+        } else {
+          navigate('/blog');
+        }
       } finally {
         setIsLoading(false);
       }
