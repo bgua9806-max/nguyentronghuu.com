@@ -204,8 +204,8 @@ export default function ProjectDetail() {
             </span>
             <span className="text-sm font-medium text-zinc-500">{project.year}</span>
             {youtubeId && (
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-600 border border-red-200">
-                <Video size={13} className="text-red-600" />
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-zinc-100 px-3 py-1 text-xs font-semibold text-zinc-800 border border-zinc-200">
+                <Video size={13} className="text-amber-600" />
                 <span>Video Demo Walkthrough</span>
               </span>
             )}
@@ -223,103 +223,159 @@ export default function ProjectDetail() {
         {/* Hero Media: Native HTML5 Clean Video (Zero YouTube Logo & Scroll Autoplay) or YouTube or Cover Image */}
         <motion.div variants={STAGGER_ITEM} className="w-full mb-16 md:mb-24">
           {slug === 'fourland-crm-3d' ? (
-            <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-950 shadow-2xl group">
-              <video
-                ref={videoRef}
-                src="/videos/fourland-crm-3d.mp4"
-                poster="https://img.youtube.com/vi/D4aL51eg7k0/maxresdefault.jpg"
-                muted={isMuted}
-                loop
-                playsInline
-                preload="metadata"
-                className="h-full w-full object-cover"
-              />
-
-              {/* Minimalist Floating Controls */}
-              <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent flex items-center justify-between opacity-90 transition-opacity group-hover:opacity-100">
-                <div className="flex items-center gap-2">
-                  <span className={`flex h-2.5 w-2.5 rounded-full ${isPlaying ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
-                  <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-zinc-300">
-                    {isPlaying ? 'Tự động phát khi cuộn tới' : 'Tạm dừng'}
-                  </span>
+            <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl shadow-zinc-950/80 group">
+              {/* Window Top Bar */}
+              <div className="flex items-center justify-between border-b border-zinc-800/80 bg-zinc-900/90 px-4 py-3">
+                <div className="flex items-center space-x-2">
+                  <span className="h-3 w-3 rounded-full bg-red-500/80 inline-block" />
+                  <span className="h-3 w-3 rounded-full bg-yellow-500/80 inline-block" />
+                  <span className="h-3 w-3 rounded-full bg-emerald-500/80 inline-block" />
                 </div>
-
-                <div className="flex items-center gap-2">
-                  <button
-                    type="button"
-                    onClick={togglePlay}
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10"
-                    title={isPlaying ? "Tạm dừng" : "Phát"}
+                <div className="hidden sm:flex items-center gap-2 rounded-md bg-zinc-950/60 px-4 py-1 text-xs text-zinc-400 border border-zinc-800">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  <span>app.fourland.vn · 3D Real Estate CRM Space</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <a
+                    href="https://youtu.be/D4aL51eg7k0"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
                   >
-                    {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5 fill-white" />}
-                  </button>
+                    <Video size={13} className="text-red-500" />
+                    <span>Mở YouTube</span>
+                    <ExternalLink size={11} />
+                  </a>
+                </div>
+              </div>
 
-                  <button
-                    type="button"
-                    onClick={toggleMute}
-                    className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10 text-xs font-medium"
-                    title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
-                  >
-                    {isMuted ? (
-                      <>
-                        <VolumeX size={16} className="text-amber-400" />
-                        <span className="hidden sm:inline text-zinc-300">Bật tiếng</span>
-                      </>
-                    ) : (
-                      <>
-                        <Volume2 size={16} className="text-emerald-400" />
-                        <span className="hidden sm:inline text-zinc-300">Đang bật tiếng</span>
-                      </>
-                    )}
-                  </button>
+              <div className="relative aspect-video w-full bg-zinc-950">
+                <video
+                  ref={videoRef}
+                  src="/videos/fourland-crm-3d.mp4"
+                  poster="https://img.youtube.com/vi/D4aL51eg7k0/maxresdefault.jpg"
+                  muted={isMuted}
+                  loop
+                  playsInline
+                  preload="metadata"
+                  className="h-full w-full object-cover"
+                />
 
-                  <button
-                    type="button"
-                    onClick={toggleFullscreen}
-                    className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10"
-                    title="Toàn màn hình"
-                  >
-                    <Maximize2 size={15} />
-                  </button>
+                {/* Minimalist Floating Controls */}
+                <div className="absolute inset-x-0 bottom-0 p-4 sm:p-6 bg-gradient-to-t from-zinc-950/90 via-zinc-950/40 to-transparent flex items-center justify-between opacity-90 transition-opacity group-hover:opacity-100">
+                  <div className="flex items-center gap-2">
+                    <span className={`flex h-2.5 w-2.5 rounded-full ${isPlaying ? 'bg-emerald-500 animate-pulse' : 'bg-amber-500'}`} />
+                    <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-zinc-300">
+                      {isPlaying ? 'Tự động phát khi cuộn tới' : 'Tạm dừng'}
+                    </span>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={togglePlay}
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10"
+                      title={isPlaying ? "Tạm dừng" : "Phát"}
+                    >
+                      {isPlaying ? <Pause size={16} /> : <Play size={16} className="ml-0.5 fill-white" />}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={toggleMute}
+                      className="flex items-center gap-1.5 h-9 px-3 rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10 text-xs font-medium"
+                      title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
+                    >
+                      {isMuted ? (
+                        <>
+                          <VolumeX size={16} className="text-amber-400" />
+                          <span className="hidden sm:inline text-zinc-300">Bật tiếng</span>
+                        </>
+                      ) : (
+                        <>
+                          <Volume2 size={16} className="text-emerald-400" />
+                          <span className="hidden sm:inline text-zinc-300">Đang bật tiếng</span>
+                        </>
+                      )}
+                    </button>
+
+                    <button
+                      type="button"
+                      onClick={toggleFullscreen}
+                      className="hidden sm:flex h-9 w-9 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-md transition-all hover:bg-white/20 hover:scale-105 border border-white/10"
+                      title="Toàn màn hình"
+                    >
+                      <Maximize2 size={15} />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
           ) : youtubeId ? (
-            <div className="relative aspect-video w-full overflow-hidden rounded-2xl border border-zinc-200 bg-zinc-950 shadow-2xl">
-              {isPlayingVideo ? (
-                <iframe
-                  src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
-                  title={project.title}
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
-                  className="h-full w-full border-0"
-                />
-              ) : (
-                <div className="group relative h-full w-full cursor-pointer" onClick={() => setIsPlayingVideo(true)}>
-                  <img
-                    src={project.cover_image || `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
-                    alt={project.title}
-                    width="1280"
-                    height="720"
-                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+            <div className="overflow-hidden rounded-2xl border border-zinc-800 bg-zinc-900 shadow-2xl shadow-zinc-950/80">
+              {/* Window Top Bar */}
+              <div className="flex items-center justify-between border-b border-zinc-800/80 bg-zinc-900/90 px-4 py-3">
+                <div className="flex items-center space-x-2">
+                  <span className="h-3 w-3 rounded-full bg-red-500/80 inline-block" />
+                  <span className="h-3 w-3 rounded-full bg-yellow-500/80 inline-block" />
+                  <span className="h-3 w-3 rounded-full bg-emerald-500/80 inline-block" />
+                </div>
+                <div className="hidden sm:flex items-center gap-2 rounded-md bg-zinc-950/60 px-4 py-1 text-xs text-zinc-400 border border-zinc-800">
+                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
+                  <span>{slug === 'worktree-x' ? 'worktree.nguyentronghuu.com · Enterprise Workspace' : `${project.slug}.demo`}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <a
+                    href={`https://youtu.be/${youtubeId}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-1.5 text-xs text-zinc-400 hover:text-white transition-colors"
+                  >
+                    <Video size={13} className="text-red-500" />
+                    <span>Mở YouTube</span>
+                    <ExternalLink size={11} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Player Container */}
+              <div className="relative aspect-video w-full bg-zinc-950 overflow-hidden">
+                {isPlayingVideo ? (
+                  <iframe
+                    src={`https://www.youtube-nocookie.com/embed/${youtubeId}?autoplay=1&rel=0`}
+                    title={project.title}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                    className="h-full w-full border-0"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/30 to-transparent transition-opacity group-hover:opacity-75" />
-                  
-                  {/* Play Button Overlay */}
-                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 text-center">
-                    <button
-                      type="button"
-                      aria-label="Phát video demo"
-                      className="flex h-20 w-20 items-center justify-center rounded-full bg-amber-500 text-zinc-950 shadow-2xl shadow-amber-500/50 transition-all duration-300 group-hover:scale-110 group-hover:bg-amber-400 focus:outline-none"
-                    >
-                      <Play size={32} className="ml-1 fill-zinc-950" />
-                    </button>
-                    <div className="rounded-full bg-zinc-950/80 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-white backdrop-blur-md border border-white/10">
-                      Bấm để xem Video Demo thực tế (2:57)
+                ) : (
+                  <div className="group relative h-full w-full cursor-pointer" onClick={() => setIsPlayingVideo(true)}>
+                    <img
+                      src={project.cover_image || `https://img.youtube.com/vi/${youtubeId}/maxresdefault.jpg`}
+                      alt={project.title}
+                      width="1280"
+                      height="720"
+                      className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105 opacity-90 group-hover:opacity-100"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/80 via-zinc-950/20 to-transparent transition-opacity group-hover:opacity-60" />
+                    
+                    {/* Sleek Minimalist Luxury Play Button */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 p-4 text-center">
+                      <button
+                        type="button"
+                        aria-label="Phát video demo"
+                        className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-md border border-white/30 shadow-2xl transition-all duration-300 group-hover:scale-110 group-hover:bg-amber-500 group-hover:text-zinc-950 group-hover:border-amber-400 focus:outline-none"
+                      >
+                        <Play size={26} className="ml-1 fill-current transition-transform duration-300 group-hover:scale-105" />
+                      </button>
+                      <div className="inline-flex items-center gap-2 rounded-full bg-zinc-950/80 px-4 py-1.5 text-xs font-medium tracking-wide text-zinc-200 backdrop-blur-md border border-white/10 shadow-lg">
+                        <span className="h-1.5 w-1.5 rounded-full bg-amber-400 animate-pulse" />
+                        <span>Xem Video Demo Walkthrough</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
+              </div>
             </div>
           ) : (
             <div className="w-full flex justify-center bg-zinc-50 rounded-sm">
@@ -354,18 +410,33 @@ export default function ProjectDetail() {
                         </div>
                     </div>
                 )}
-                {project.link && (
+                {(project.link || slug === 'worktree-x') && (
                     <div>
                         <h4 className="text-xs font-bold text-zinc-900 uppercase tracking-widest mb-2">Sản phẩm / Link</h4>
-                        <a 
-                          href={project.link} 
-                          target="_blank" 
-                          rel="noopener noreferrer" 
-                          className="inline-flex items-center gap-1.5 text-amber-600 hover:text-amber-700 font-semibold underline underline-offset-4"
-                        >
-                          <span>{youtubeId ? 'Xem trực tiếp trên YouTube' : 'Xem dự án thực tế'}</span>
-                          <ExternalLink size={14} />
-                        </a>
+                        <div className="flex flex-col gap-2">
+                          {slug === 'worktree-x' && (
+                            <a 
+                              href="https://worktree.nguyentronghuu.com" 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="inline-flex items-center gap-1.5 text-zinc-900 hover:text-amber-600 font-semibold underline underline-offset-4 text-sm"
+                            >
+                              <span>Website trải nghiệm thực tế</span>
+                              <ExternalLink size={13} />
+                            </a>
+                          )}
+                          {project.link && (
+                            <a 
+                              href={project.link} 
+                              target="_blank" 
+                              rel="noopener noreferrer" 
+                              className="inline-flex items-center gap-1.5 text-amber-600 hover:text-amber-700 font-semibold underline underline-offset-4 text-sm"
+                            >
+                              <span>{youtubeId ? 'Xem trực tiếp trên YouTube' : 'Xem dự án thực tế'}</span>
+                              <ExternalLink size={13} />
+                            </a>
+                          )}
+                        </div>
                     </div>
                 )}
             </div>
