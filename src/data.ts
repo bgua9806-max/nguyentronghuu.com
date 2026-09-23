@@ -300,13 +300,6 @@ export const PROJECTS_DATA = [
     ],
     content: `<p class="lead"><strong>WorkTree X</strong> là hệ sinh thái điều hành công việc và quản trị tổ chức đa doanh nghiệp (Multi-Tenant SaaS), được thiết kế để giải quyết triệt để bài toán thông tin phân mảnh, thiếu kiểm soát tiến độ và phân quyền lỏng lẻo trong các doanh nghiệp hiện đại.</p>
 
-<div style="background: #18181b; border-radius: 12px; padding: 1.5rem; margin: 2rem 0; color: #fff; text-align: center;">
-  <p style="color: #a1a1aa; margin-bottom: 0.75rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">Đường dẫn trải nghiệm thực tế</p>
-  <a href="https://worktree.nguyentronghuu.com" target="_blank" rel="noopener noreferrer" style="color: #f59e0b; font-size: 1.25rem; font-weight: 700; text-decoration: underline;">
-    🌐 worktree.nguyentronghuu.com
-  </a>
-</div>
-
 <figure style="margin: 2.5rem 0; text-align: center;">
   <img src="/images/worktree-overview.png" alt="Giao diện Tổng quan Dashboard WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
   <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Hình 1: Màn hình Tổng quan Dashboard WorkTree X với hệ thống KPI, nhịp độ hoàn thành Donut và danh sách tiêu điểm công việc.</figcaption>

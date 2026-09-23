@@ -42,14 +42,7 @@ VALUES (
   'completed',
   '<p class="lead"><strong>WorkTree X</strong> là hệ sinh thái điều hành công việc và quản trị tổ chức đa doanh nghiệp (Multi-Tenant SaaS), được thiết kế để giải quyết triệt để bài toán thông tin phân mảnh, thiếu kiểm soát tiến độ và phân quyền lỏng lẻo trong các doanh nghiệp hiện đại.</p>
 
-<div style="background: #18181b; border-radius: 12px; padding: 1.5rem; margin: 2rem 0; color: #fff; text-align: center;">
-  <p style="color: #a1a1aa; margin-bottom: 0.75rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;">Đường dẫn trải nghiệm thực tế</p>
-  <a href="https://worktree.nguyentronghuu.com" target="_blank" rel="noopener noreferrer" style="color: #f59e0b; font-size: 1.25rem; font-weight: 700; text-decoration: underline;">
-    🌐 worktree.nguyentronghuu.com
-  </a>
-</div>
-
-<h3>1. Bối cảnh & Thách thức: Khi công việc bị "thất lạc" giữa các ứng dụng</h3>
+  <h3>1. Bối cảnh & Thách thức: Khi công việc bị "thất lạc" giữa các ứng dụng</h3>
 <p>Trong quá trình vận hành, hầu hết các đội ngũ đều trải qua giai đoạn chuyển giao đầy rủi ro: trao đổi công việc trên Zalo/Telegram, ghi chú hạn chót trong bảng tính Excel, gửi file đính kèm qua Google Drive và báo cáo tiến độ bằng những cuộc họp miệng.</p>
 <p>Hệ quả là:</p>
 <ul>
