@@ -160,20 +160,22 @@ export const BLOG_POSTS = [
 </ul>
 <p>Đó chính là lý do <strong>WorkTree X</strong> ra đời: một nền tảng điều hành công việc và quản trị tổ chức đa cấp trên một không gian thống nhất, kết hợp giữa tốc độ phản hồi tức thì và kiến trúc đám mây an toàn, bảo mật cao.</p>
 
+<figure style="margin: 2.5rem 0; text-align: center;">
+  <img src="/images/worktree-overview.png" alt="Giao diện Tổng quan Dashboard WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
+  <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Tổng quan Dashboard WorkTree X: Trực quan hóa số liệu công việc, tiến độ theo đơn vị và nhịp độ hoàn thành của toàn công ty.</figcaption>
+</figure>
+
 <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e4e4e7;" />
 
 <h2>1. Cốt lõi khác biệt: Cây tổ chức đa tầng & Phân quyền theo Scope</h2>
 <p>Hầu hết các công cụ quản lý dự án trên thị trường (như Trello, Asana cơ bản) đều thiết kế theo dạng danh sách phẳng (Flat structure). Nhưng doanh nghiệp thực tế không vận hành như vậy. Trong một công ty luôn có các khối, phòng ban chức năng, dự án liên phòng ban và các đội nhóm chuyên trách.</p>
 <p><strong>WorkTree X mô phỏng chính xác cấu trúc thực tế đó qua Cây tổ chức (Hierarchical Organization Tree):</strong></p>
-<div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 1.25rem; margin: 1.5rem 0; font-family: monospace; font-size: 0.95rem; color: #1e293b;">
-  🏢 Công ty (Company)<br />
-  &nbsp;&nbsp;└── 📁 Khối Vận hành (Department)<br />
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📁 Phòng Marketing (Department)<br />
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├── 🚀 Chiến dịch Q4 (Project)<br />
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;├── 👥 Team Content (Team)<br />
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;│&nbsp;&nbsp;&nbsp;&nbsp;└── 👥 Team Ads (Team)<br />
-  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;└── 📂 Tài liệu & Kho Media (Folder)
-</div>
+
+<figure style="margin: 2.5rem 0; text-align: center;">
+  <img src="/images/worktree-org-tree.png" alt="Cây tổ chức đa tầng NTH GROUP" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
+  <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Cây tổ chức mở rộng: Cho phép định hình phòng ban, dự án và nhóm chuyên trách theo đúng sơ đồ vận hành thực tế.</figcaption>
+</figure>
+
 <p>Khi chọn một nhánh bất kỳ trên cây tổ chức, toàn bộ màn hình làm việc sẽ tự động lọc đúng dữ liệu thuộc phạm vi đó. Quan trọng hơn, cây tổ chức là nền móng cho <strong>cơ chế phân quyền theo phạm vi (Scope-Based Authorization)</strong> với 4 vai trò ma trận:</p>
 <table style="width: 100%; border-collapse: collapse; margin: 1.5rem 0;">
   <thead>
@@ -220,6 +222,16 @@ export const BLOG_POSTS = [
   <li><strong>Tải công việc (Workload):</strong> Đối soát số giờ làm việc của từng nhân sự, tự động cảnh báo đỏ khi có người bị quá tải (>100% công suất) để điều phối kịp thời.</li>
   <li><strong>Cây đơn vị con (Children / Folders):</strong> Điều hướng dạng thư mục trực quan giúp tiếp cận cấu trúc phòng ban nhanh chóng.</li>
 </ol>
+
+<figure style="margin: 2.5rem 0; text-align: center;">
+  <img src="/images/worktree-list-view.png" alt="Chế độ Danh sách List View WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
+  <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Chế độ Danh sách: Thể hiện chi tiết tình trạng, độ ưu tiên, hạn chót và thanh tiến độ hoàn thành của từng đầu việc.</figcaption>
+</figure>
+
+<figure style="margin: 2.5rem 0; text-align: center;">
+  <img src="/images/worktree-kanban.png" alt="Bảng Kanban Board WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
+  <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Bảng Kanban tương tác: Cho phép kéo thả trực quan các task qua từng giai đoạn xử lý công việc.</figcaption>
+</figure>
 
 <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e4e4e7;" />
 
@@ -290,6 +302,11 @@ export const PROJECTS_DATA = [
   </a>
 </div>
 
+<figure style="margin: 2.5rem 0; text-align: center;">
+  <img src="/images/worktree-overview.png" alt="Giao diện Tổng quan Dashboard WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
+  <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Hình 1: Màn hình Tổng quan Dashboard WorkTree X với hệ thống KPI, nhịp độ hoàn thành Donut và danh sách tiêu điểm công việc.</figcaption>
+</figure>
+
 <h3>1. Bối cảnh & Thách thức: Khi công việc bị "thất lạc" giữa các ứng dụng</h3>
 <p>Trong quá trình vận hành, hầu hết các đội ngũ đều trải qua giai đoạn chuyển giao đầy rủi ro: trao đổi công việc trên Zalo/Telegram, ghi chú hạn chót trong bảng tính Excel, gửi file đính kèm qua Google Drive và báo cáo tiến độ bằng những cuộc họp miệng.</p>
 <p>Hệ quả là:</p>
@@ -306,6 +323,11 @@ export const PROJECTS_DATA = [
 <h4>A. Cây tổ chức đa tầng (Hierarchical Organization Tree)</h4>
 <p>Không dùng mô hình phẳng thông thường, WorkTree X tổ chức không gian làm việc theo đúng sơ đồ tổ chức thực tế: <strong>Công ty → Khối / Phòng ban → Dự án → Đội nhóm → Thư mục con</strong>. Người dùng chỉ cần nhấp vào một nhánh để màn hình tự động thu hẹp phạm vi công việc tương ứng.</p>
 
+<figure style="margin: 2.5rem 0; text-align: center;">
+  <img src="/images/worktree-org-tree.png" alt="Cây tổ chức đa tầng WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
+  <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Hình 2: Cây tổ chức đa tầng (NTH GROUP) phân cấp rõ ràng giữa Khối phòng ban, Dự án và Đội nhóm chuyên trách.</figcaption>
+</figure>
+
 <h4>B. Ma trận phân quyền 4 vai trò theo Scope</h4>
 <p>Hệ thống định nghĩa 4 vai trò rõ ràng: <code>Admin</code> (Quản trị tối cao), <code>Manager</code> (Điều hành đơn vị), <code>Member</code> (Xử lý công việc được giao) và <code>Viewer</code> (Chỉ xem báo cáo). Quyền hạn gắn liền với vị trí trong cây tổ chức, giúp bảo mật dữ liệu tuyệt đối giữa các phòng ban.</p>
 
@@ -318,6 +340,16 @@ export const PROJECTS_DATA = [
   <li><strong>Workload:</strong> Ma trận giờ làm việc giúp cân bằng tải công việc, chống quá tải nhân sự.</li>
   <li><strong>Calendar & List:</strong> Lịch tháng hạn chót và bảng danh sách chi tiết có bộ lọc đa tầng.</li>
 </ul>
+
+<figure style="margin: 2.5rem 0; text-align: center;">
+  <img src="/images/worktree-list-view.png" alt="Giao diện Danh sách công việc WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
+  <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Hình 3: Chế độ xem Danh sách chi tiết (List View) với bảng phân công công việc, người phụ trách, độ ưu tiên, deadline và thanh tiến độ.</figcaption>
+</figure>
+
+<figure style="margin: 2.5rem 0; text-align: center;">
+  <img src="/images/worktree-kanban.png" alt="Bảng Kanban kéo thả WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
+  <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Hình 4: Bảng Kanban kéo thả phân loại công việc qua 4 cột: Chưa làm, Đang làm, Chờ duyệt và Hoàn thành.</figcaption>
+</figure>
 
 <h4>D. Công nghệ Cloud-First & Đồng bộ Realtime</h4>
 <p>Hệ thống vận hành trên nền tảng Supabase Postgres với chính sách Row Level Security (RLS) bảo vệ từng bản ghi. Kênh WebSocket Realtime đảm bảo mọi thao tác của thành viên được cập nhật ngay tức khắc lên màn hình của cả nhóm.</p>
