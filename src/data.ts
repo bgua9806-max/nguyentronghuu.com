@@ -165,6 +165,11 @@ export const BLOG_POSTS = [
   <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Tổng quan Dashboard WorkTree X: Trực quan hóa số liệu công việc, tiến độ theo đơn vị và nhịp độ hoàn thành của toàn công ty.</figcaption>
 </figure>
 
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin: 2.5rem 0; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15); border: 1px solid #e4e4e7;">
+  <iframe src="https://www.youtube-nocookie.com/embed/9cgNMok1IQc?rel=0" title="Video Demo Walkthrough WorkTree X" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+<p style="text-align: center; font-size: 0.875rem; color: #71717a; margin-top: -1.5rem; margin-bottom: 2rem; font-style: italic;">Video: Giới thiệu và demo chi tiết tính năng điều hành công việc trên WorkTree X.</p>
+
 <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e4e4e7;" />
 
 <h2>1. Cốt lõi khác biệt: Cây tổ chức đa tầng & Phân quyền theo Scope</h2>
@@ -275,7 +280,7 @@ export const PROJECTS_DATA = [
     year: "2026",
     description: "Không gian điều hành công việc, quản lý dự án & phân quyền đa cấp theo cây tổ chức, tích hợp 7 chế độ xem trực quan, đồng bộ Realtime và kiến trúc bảo mật Multi-Tenant chuẩn SaaS.",
     client: "WorkTree X Platform / Enterprise Cloud",
-    link: "https://worktree.nguyentronghuu.com",
+    link: "https://youtu.be/9cgNMok1IQc",
     challenge: "Các doanh nghiệp đang phát triển thường gặp bế tắc khi công việc bị phân mảnh trên nhiều kênh chat và bảng tính rời rạc. Trong khi đó, các công cụ quản lý dự án truyền thống thường có cấu trúc phẳng, thiếu khả năng phân quyền sâu theo phòng ban/dự án, chi phí bản quyền SaaS đắt đỏ và không đảm bảo kiểm soát chủ quyền dữ liệu.",
     solution: "Thiết kế và phát triển WorkTree X theo tư duy quản trị đa tầng (Hierarchical Organization Tree) kết hợp ma trận phân quyền 4 vai trò (Admin, Manager, Member, Viewer) theo đúng phạm vi hoạt động (Scope). Xây dựng hệ thống 7 chế độ xem đa chiều (Overview, Kanban, Gantt Timeline, Workload, Calendar, List, Children Tree), cơ chế đồng bộ WebSocket Realtime và hạ tầng Multi-Tenant bảo mật Row Level Security (RLS) trên Supabase Cloud.",
     results: [

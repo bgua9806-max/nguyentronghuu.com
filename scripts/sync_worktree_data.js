@@ -18,7 +18,7 @@ const projectData = {
   slug: 'worktree-x',
   client: 'WorkTree X Platform / Enterprise Cloud',
   year: '2026',
-  link: 'https://worktree.nguyentronghuu.com',
+  link: 'https://youtu.be/9cgNMok1IQc',
   category: 'Web App / Multi-Tenant SaaS / Enterprise Workspace',
   cover_image: '/images/worktree-cover.png',
   tech_stack: [
@@ -124,6 +124,11 @@ const postData = {
   <img src="/images/worktree-overview.png" alt="Giao diện Tổng quan Dashboard WorkTree X" style="width: 100%; border-radius: 12px; border: 1px solid #e4e4e7; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.08);" />
   <figcaption style="margin-top: 0.75rem; font-size: 0.875rem; color: #71717a; font-style: italic;">Tổng quan Dashboard WorkTree X: Trực quan hóa số liệu công việc, tiến độ theo đơn vị và nhịp độ hoàn thành của toàn công ty.</figcaption>
 </figure>
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin: 2.5rem 0; box-shadow: 0 10px 30px -5px rgba(0,0,0,0.15); border: 1px solid #e4e4e7;">
+  <iframe src="https://www.youtube-nocookie.com/embed/9cgNMok1IQc?rel=0" title="Video Demo Walkthrough WorkTree X" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+</div>
+<p style="text-align: center; font-size: 0.875rem; color: #71717a; margin-top: -1.5rem; margin-bottom: 2rem; font-style: italic;">Video: Giới thiệu và demo chi tiết tính năng điều hành công việc trên WorkTree X.</p>
 
 <hr style="margin: 2rem 0; border: none; border-top: 1px solid #e4e4e7;" />
 
